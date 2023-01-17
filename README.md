@@ -3,8 +3,65 @@ Make HTTP request from inside WebAssembly
 
 (Wannabe-awesome) list of approaches to make outbound HTTP(S) requests from inside WebAssembly.
 
-Browser WASM runtime and V8-based runtimes like Node.js and Deno
--------------------------
+### Contents
+<table>
+<tr>
+<th>Language</th>
+<th>Browsers and V8-based runtimes</th>
+<th>Standalone / server-side / WASI runtimes</th>
+</tr>
+<tr>
+<td>Golang / TinyGo</td>
+<td>
+
+["net/http", "wasm-fetch"](#golang)
+
+</td>
+<td>
+
+[Capsule](#golang--tinygo-)
+
+</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>
+
+_Possible, but why?_
+
+</td>
+<td>
+
+[WasmEdge-QuickJs](#javascript)
+
+</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>
+
+[RustPython, Pyodide, ...](#python)
+
+</td>
+<td></td>
+</tr>
+<tr>
+<td>Rust</td>
+<td>
+
+[wasm-bindgen](#rust)
+
+</td>
+<td>
+
+[reqwest, http_req](#rust-wasi)
+
+</td>
+</tr>
+</table>
+
+Browser WASM runtimes and V8-based runtimes like Node.js and Deno
+-----------------------------------------------------------------
 
 ### Golang
 
@@ -14,7 +71,9 @@ Browser WASM runtime and V8-based runtimes like Node.js and Deno
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
 <tr><td>
-Golang
+
+[Golang](https://go.dev/)
+
 </td>
 <td>
 
@@ -48,6 +107,50 @@ resp, err := http.Get("https://httpbin.org/anything")
 
 </td>
 </tr>
+
+<tr><td>
+
+[marwan.io/wasm-fetch](https://pkg.go.dev/marwan.io/wasm-fetch)
+
+<sub>Save 4 MB of wasm binary size</sub>
+
+</td>
+<td>
+
+```go
+import "marwan.io/wasm-fetch"
+
+resp, err := fetch.Fetch("https://httpbin.org/anything", 
+    &fetch.Opts{})
+
+if err == nil {
+	println(string(resp.Body))
+}
+```
+
+</td>
+<td>
+
+[Example](https://github.com/marwan-at-work/wasm-fetch/tree/e4e5f93254680e5f64e37a500e2f3a73c374907f#example)
+
+</td>
+<td>
+
+[Doc](https://pkg.go.dev/marwan.io/wasm-fetch#section-documentation)
+
+</td>
+<td></td>
+<td>Browser and
+
+[Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-webassembly-with-nodejs)
+
+</td>
+<td>
+
+Direct [JS `fetch` Interop](https://github.com/marwan-at-work/wasm-fetch/blob/e4e5f93254680e5f64e37a500e2f3a73c374907f/fetch.go#L127)
+
+</td>
+</tr>
 </table>
 
 ### Python
@@ -66,14 +169,15 @@ resp, err := http.Get("https://httpbin.org/anything")
 ```python
 from browser import fetch
 
-fetch("https://httpbin.org/anything")
+fetch('https://httpbin.org/anything').then(
+    lambda resp: print((resp)))
 ```
 
 </td>
 
 <td>
 
-[Sample code](https://github.com/RustPython/RustPython/blob/0.1.0/wasm/example/src/main.py#L9)
+[Example](https://github.com/RustPython/RustPython/blob/0.1.0/wasm/example/src/main.py#L9)
 
 </td>
 <td></td>
@@ -153,7 +257,7 @@ response = requests.get("https://httpbin.org/anything")
 </td>
 <td>
 
-[Sample](https://github.com/koenvo/pyodide-http#usage)
+[Example](https://github.com/koenvo/pyodide-http#usage)
 
 </td>
 <td>
@@ -194,7 +298,8 @@ using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) 
 
 ```rust
 let window = web_sys::window().unwrap();
-let resp_val = JsFuture::from(window.fetch_with_str("https://httpbin.org/anything")).await?;
+let resp_val = JsFuture::from(
+  window.fetch_with_str("https://httpbin.org/anything")).await?;
 ```
 
 </td>
@@ -297,7 +402,8 @@ res, err := hf.Http("https://httpbin.org/anything", "GET", nil, "")
 <td>
 
 ```js
-let res = await fetch('https://httpbin.org/anything')
+// no SSL support yet
+let res = await fetch('http://httpbin.org/anything')
 ```
 
 </td>
@@ -308,7 +414,7 @@ let res = await fetch('https://httpbin.org/anything')
 </td>
 <td>
 
-
+[Doc](https://wasmedge.org/book/en/write_wasm/js/networking.html#fetch-client)
 
 </td>
 <td>
@@ -323,14 +429,15 @@ let res = await fetch('https://httpbin.org/anything')
 
 [Raw socket write](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/modules/http.js#L205)
 to [`WasiTcpConn`](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/internal_module/wasi_net_module.rs#L187)
-which is [binding](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/event_loop/wasi_sock.rs#L606)
+which is [`С` binding](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/event_loop/wasi_sock.rs#L606)
 to
-[Wasmedge's implementation of WASI Socket](https://github.com/second-state/wasmedge_wasi_socket)
+Wasmedge's implementation of WASI Socket
 
 </td>
 </tr>
 </table>
 
+<a id="rust-wasi"></a>
 ### Rust
 
 <table>
@@ -338,6 +445,44 @@ to
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[second-state/http_req](https://github.com/second-state/http_req)
+
+</td>
+<td>
+
+```rust
+let mut writer = Vec::new();
+let res = request::get("https://httpbin.org/anything", 
+    &mut writer).unwrap();
+```
+
+</td>
+<td>
+
+[Example](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/examples/get_https.rs#L5)
+
+</td>
+<td>
+
+[Doc](https://wasmedge.org/book/en/write_wasm/rust/networking-https.html)
+
+</td>
+<td></td>
+<td>
+
+[WasmEdge](https://wasmedge.org/)
+
+</td>
+<td>
+
+C level [wrapper](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/src/sslwrapper.rs#L10) over [`wasmedge_httpsreq` plugin](https://github.com/WasmEdge/WasmEdge/tree/master/plugins/wasmedge_httpsreq) (`libwasmedgePluginHttpsReq.so` as usual). And
+[wasmedge_wasi_socket](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/src/request.rs#L20) for non-SSL.
+
+</td>
+</tr>
 <tr><td>
 
 Any code based on WasmEdge's forks of [tokio-rs](https://github.com/WasmEdge/tokio)
@@ -348,8 +493,8 @@ is [expected to work in Wasmedge runtime](https://github.com/tokio-rs/tokio/issu
 <td>
 
 ```rust
-# using fork https://github.com/WasmEdge/reqwest
-let res = reqwest::get("https://httpbin.org/anything").await?;
+# using fork https://github.com/WasmEdge/reqwest , no SSL yet
+let res = reqwest::get("http://httpbin.org/anything").await?;
 ```
 
 </td>
@@ -360,12 +505,10 @@ let res = reqwest::get("https://httpbin.org/anything").await?;
 </td>
 <td>
 
-
-
-</td>
-<td>
+[Doc](https://wasmedge.org/book/en/write_wasm/rust/networking.html)
 
 </td>
+<td></td>
 <td>
 
 [WasmEdge](https://wasmedge.org/)
@@ -373,7 +516,7 @@ let res = reqwest::get("https://httpbin.org/anything").await?;
 </td>
 <td>
 
-[Wasmedge's implementation of WASI Socket](https://github.com/second-state/wasmedge_wasi_socket)
+[WasmEdge's implementation of WASI Socket](https://github.com/second-state/wasmedge_wasi_socket)
 
 </td>
 </tr>
