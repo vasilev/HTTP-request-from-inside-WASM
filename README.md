@@ -19,7 +19,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Capsule](#golang--tinygo-)
+[Capsule, Spin](#golang-wasi)
 
 </td>
 </tr>
@@ -49,7 +49,7 @@ _Possible, but why?_
 <td>Rust</td>
 <td>
 
-[wasm-bindgen](#rust)
+[wasm-bindgen, ehttp, gloo_net, reqwasm](#rust)
 
 </td>
 <td>
@@ -290,6 +290,7 @@ using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) 
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
 <tr><td>
+<a id="wasm-bindgen"></a>
 
 [wasm-bindgen](https://rustwasm.github.io/docs/wasm-bindgen/)
 
@@ -333,12 +334,133 @@ and [Deno](https://rustwasm.github.io/wasm-bindgen/reference/deployment.html?hig
 
 </td>
 </tr>
+<tr>
+<td>
+
+[ehttp](https://crates.io/crates/ehttp)
+
+</td>
+<td>
+
+```rust
+let request = ehttp::Request::get("https://httpbin.org/anything");
+ehttp::fetch(request, move |result: ehttp::Result<ehttp::Response>| {
+    println!("Text: {:?}", result.unwrap().text());
+});
+```
+
+</td>
+<td>
+
+[Example](https://github.com/emilk/ehttp/blob/0.2.0/example_eframe/src/lib.rs#L55)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/ehttp/0.2.0/ehttp/)
+
+</td>
+<td>
+
+[Demo](https://emilk.github.io/ehttp/index.html)
+
+</td>
+<td>Browser, Node.js, and Deno.
+
+Also  [native](https://github.com/emilk/ehttp/blob/0.2.0/ehttp/src/native.rs#L17)
+
+</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/emilk/ehttp/blob/0.2.0/ehttp/src/web.rs#L42) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
+<a id="gloo_net"></a>
+
+[Gloo](https://gloo-rs.web.app/)'s [gloo-net](https://crates.io/crates/gloo-net)
+
+</td>
+<td>
+
+```rust
+use gloo_net::http::Request;
+
+let resp = Request::get("https://httpbin.org/anything").send()
+    .await.unwrap();
+```
+
+</td>
+<td>
+
+* [yew's demo](https://github.com/yewstack/yew/blob/yew-v0.20.0/examples/async_clock/src/services.rs#L31)
+* [Test](https://github.com/rustwasm/gloo/blob/0.8.0/crates/net/tests/http.rs#L11)
+* [yew's tutorial](https://yew.rs/docs/tutorial#fetching-data-using-external-rest-api)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/gloo-net/latest/gloo_net/http/index.html)
+
+</td>
+<td>
+
+[Demo](https://examples.yew.rs/async_clock/)
+
+<sub>[source](https://github.com/yewstack/yew/blob/yew-v0.20.0/examples/async_clock/src/services.rs#L31)</sub>
+
+</td>
+<td>Browser, Node.js, and Deno</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/rustwasm/gloo/blob/6617d0ee0c552e3ba31e112591e33b98274739f6/crates/net/src/http/mod.rs#L261) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[reqwasm](https://crates.io/crates/reqwasm)
+
+</td>
+<td>
+
+```rust
+use reqwasm::http::Request;
+
+let resp = Request::get("https://httpbin.org/anything").send()
+    .await.unwrap();
+```
+
+</td>
+<td>
+
+[Example](https://github.com/security-union/yew-weather/blob/5ddd9490bc9047fc27caccdb5fc776966fceaebc/src/main.rs#L68)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/reqwasm/0.5.0/reqwasm/http/index.html)
+
+</td>
+<td></td>
+<td>Browser, Node.js, and Deno</td>
+<td>
+
+[Wrapper](https://github.com/hamza1311/reqwasm/blob/0.5.0/src/lib.rs#L6) for [gloo_net](#gloo_net)
+
+</td>
+</tr>
+
 </table>
 
 
 Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl containers, FaaS, etc
 --------------------------------------------------------------------------------------------
 
+<a id="golang-wasi"></a>
 ### Golang (Tinygo)
 
 <table>
@@ -382,6 +504,48 @@ res, err := hf.Http("https://httpbin.org/anything", "GET", nil, "")
 <td>
 
 [wazero's Host Functions feature](https://github.com/bots-garden/capsule/blob/v0.3.0/capsule-launcher/hostfunctions/http.go#L47)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Spin](https://developer.fermyon.com/spin/)
+
+</td>
+<td>
+
+```go
+import (
+    spinhttp "github.com/fermyon/spin/sdk/go/http"
+)
+
+resp, err := spinhttp.Get("https://httpbin.org/anything")
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/examples/http-tinygo-outbound-http/main.go#L14)
+* [Example 2](https://github.com/fermyon/spin-kitchensink/blob/855f9477f9090b9cb54e2454b158ef9515f54644/go-outbound-http/main.go#L16)
+
+</td>
+<td>
+
+[Doc](https://developer.fermyon.com/spin/go-components#sending-outbound-http-requests)
+
+</td>
+<td></td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/)
+
+</td>
+<td>
+
+[C level](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/sdk/go/http/outbound_internals.go#L66) 
+[binding](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/sdk/go/http/wasi-outbound-http.c#L95) to  
+Wasmtime's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
 
 </td>
 </tr>
@@ -429,7 +593,7 @@ let res = await fetch('http://httpbin.org/anything')
 
 [Raw socket write](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/modules/http.js#L205)
 to [`WasiTcpConn`](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/internal_module/wasi_net_module.rs#L187)
-which is [`С` binding](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/event_loop/wasi_sock.rs#L606)
+which is [`C` binding](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/event_loop/wasi_sock.rs#L606)
 to
 Wasmedge's implementation of WASI Socket
 
@@ -493,7 +657,7 @@ is [expected to work in Wasmedge runtime](https://github.com/tokio-rs/tokio/issu
 <td>
 
 ```rust
-# using fork https://github.com/WasmEdge/reqwest , no SSL yet
+// using fork https://github.com/WasmEdge/reqwest , no SSL yet
 let res = reqwest::get("http://httpbin.org/anything").await?;
 ```
 
