@@ -11,6 +11,15 @@ Make HTTP request from inside WebAssembly
 <th>Standalone / server-side / WASI runtimes</th>
 </tr>
 <tr>
+<td>C++</td>
+<td>
+
+[xxhr](#cpp)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Golang / TinyGo</td>
 <td>
 
@@ -37,6 +46,15 @@ _Possible, but why?_
 </td>
 </tr>
 <tr>
+<td>Perl</td>
+<td>
+
+[WebPerl](#perl)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Python</td>
 <td>
 
@@ -46,10 +64,19 @@ _Possible, but why?_
 <td></td>
 </tr>
 <tr>
+<td>Ruby</td>
+<td>
+
+[ruby.wasm](#ruby)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, ehttp, gloo_net, reqwasm](#rust)
+[wasm-bindgen, ehttp, gloo_net, httpc, reqwasm, surf](#rust)
 
 </td>
 <td>
@@ -62,6 +89,57 @@ _Possible, but why?_
 
 Browser WASM runtimes and V8-based runtimes like Node.js and Deno
 -----------------------------------------------------------------
+
+<a id="cpp"></a>
+### C++
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[nxxm/xxhr](https://nxxm.github.io/xxhr/)
+
+</td>
+<td>
+
+```cpp
+#include <xxhr/xxhr.hpp>
+
+using namespace xxhr;
+ 
+GET( "https://httpbin.org/anything"s, 
+  on_response = [](auto res) { std::cout << res.text; }
+);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/nxxm/xxhr/blob/v1.0.2/examples/getting_started.cpp#L14)
+
+</td>
+<td>
+
+[Doc](https://nxxm.github.io/xxhr/html/getting-started-cpp.html)
+
+</td>
+<td></td>
+<td>
+
+Browser, [Node.js](https://www.npmjs.com/package/xmlhttprequest), and [Deno](https://deno.land/x/xhr)
+
+</td>
+<td>
+
+[JS `XMLHttpRequest` Interop](https://github.com/nxxm/xxhr/blob/v1.0.2/xxhr/impl/session-emscripten.hpp#L273)
+
+</td>
+</tr>
+</table>
 
 ### Golang
 
@@ -96,9 +174,9 @@ resp, err := http.Get("https://httpbin.org/anything")
 
 </td>
 <td></td>
-<td>Browser and 
+<td>
 
-[Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-webassembly-with-nodejs)
+Browser and [Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-webassembly-with-nodejs)
 
 </td>
 <td>
@@ -140,14 +218,66 @@ if err == nil {
 
 </td>
 <td></td>
-<td>Browser and
+<td>
 
-[Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-webassembly-with-nodejs)
+Browser and [Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-webassembly-with-nodejs)
 
 </td>
 <td>
 
 Direct [JS `fetch` Interop](https://github.com/marwan-at-work/wasm-fetch/blob/e4e5f93254680e5f64e37a500e2f3a73c374907f/fetch.go#L127)
+
+</td>
+</tr>
+</table>
+
+### Perl
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[WebPerl](https://webperl.zero-g.net/)
+
+</td>
+<td>
+
+```perl
+use WebPerl qw/js js_new sub_once/;
+
+my $xhr = js_new('XMLHttpRequest');
+$xhr->addEventListener('load', sub_once {
+    print 'Done: '.$xhr->{responseText};
+});
+$xhr->open('GET', 'https://httpbin.org/anything', 0);
+$xhr->send();
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/haukex/webperl/blob/16bc09d89a8a42d8cf68b434b126bd0f916192dc/experiments/use_http.html#L40)
+* [Example 2](https://github.com/haukex/webperl/blob/16bc09d89a8a42d8cf68b434b126bd0f916192dc/experiments/gui_basic/web/web.pl#L37)
+
+</td>
+<td>
+
+[Forum post](https://www.perlmonks.org/?node_id=1225420)
+
+</td>
+<td>
+
+* [Demo](https://webperl.zero-g.net/democode/perleditor.html#%7B%22cmdline%22%3A%22perl%20script.pl%22%2C%22script%22%3A%22use%20WebPerl%20qw%2Fjs%20js_new%20sub_once%2F%3B%5Cn%5Cnmy%20%24xhr%20%3D%20js_new('XMLHttpRequest')%3B%5Cn%24xhr-%3EaddEventListener('load'%2C%20sub_once%20%7B%5Cn%20%20%20%20print%20'Done%3A%20'.%24xhr-%3E%7BresponseText%7D%3B%5Cn%7D)%3B%5Cn%24xhr-%3Eopen('GET'%2C%20'https%3A%2F%2Fhttpbin.org%2Fanything'%2C%200)%3B%5Cn%24xhr-%3Esend()%3B%22%2C%22script_fn%22%3A%22script.pl%22%2C%22mergeStdOutErr%22%3Atrue%7D)
+* [Playground](https://webperl.zero-g.net/democode/index.html)
+
+</td>
+<td>Browser, Node.js, and Deno</td>
+<td>
+
+Manual JS `XMLHttpRequest` interop using [`WebPerl.pm`](https://github.com/haukex/emperl5/blob/webperl_v0.09-beta/ext/WebPerl/lib/WebPerl.pm#L74) module.
 
 </td>
 </tr>
@@ -187,7 +317,12 @@ fetch('https://httpbin.org/anything').then(
 
 <sub>[source of demo](https://github.com/RustPython/RustPython/blob/0.1.0/wasm/demo/snippets/fetch.py#L6)</sub>
 
-</td><td>Browser</td><td>
+</td>
+<td>
+
+Browser, [Node.js](https://gitter.im/rustpython/Lobby?at=600063a5d5f4bf2965e74e2f), and maybe Deno
+
+</td><td>
 
 [JS `fetch` Interop](https://github.com/RustPython/RustPython/blob/0.1.0/wasm/lib/src/browser_module.rs#L104)
 
@@ -277,6 +412,61 @@ JS [`fetch`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_str
 [`XMLHttpRequest`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_core.py#L77) Interop
 using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) scope.
 
+
+</td>
+</tr>
+</table>
+
+### Ruby
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[ruby.wasm](https://ruby.github.io/ruby.wasm/)
+
+</td>
+<td>
+
+```ruby
+require 'js'
+
+resp = JS.global.fetch('https://httpbin.org/anything').await
+puts resp.text.await
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/keyasuda/bormashino/blob/29f15349bda4415f6febeab66a1f6417cd42a0d0/test-app/src/app.rb#L42) from _bormashino_
+* [Example 2](https://github.com/kou/ruby-wasm-duckdb/blob/54e8d408d38fa269020b132fb3b270881909550d/duckdb.rb#L34) from _ruby-wasm-duckdb_
+* [Example 3](https://github.com/kateinoigakukun/irb.wasm/blob/1d6696ea1c6fa5206b7e6a0eab3468c409545c8c/src/terminals/xterm.ts#L148) from _irb.wasm_
+* [Example 4](https://github.com/kateinoigakukun/irb.wasm/blob/1d6696ea1c6fa5206b7e6a0eab3468c409545c8c/src/ruby/rubygems_compat.rb#L24) from _irb.wasm_
+
+</td>
+<td>
+
+[Doc](https://ruby.github.io/ruby.wasm/JS.html)
+
+</td>
+<td>
+
+* [TryRuby Demo](https://try.ruby-lang.org/playground/#code=+require+'js'%0A+promise+%3D+JS.global.call%28%3Afetch%2C+'https%3A%2F%2Fhttpbin.org%2Fanything'%29%0A+promise.call%28%3Athen%2C%0A+++-%3E%28r%29+%7B+p2%3D+r.call%28%3Atext%29%3B+p2.call%28%3Athen%2C+%0A+++++-%3E%28t%29+%7B+puts+%22text%3D%23%7Bt%7D%22+%7D+%29%7D+%0A+%29&engine=cruby-3.3.0dev)
+* [irb-wasm Playground](https://irb-wasm.vercel.app/)
+
+</td>
+<td>
+
+[Browser](https://github.com/ruby/ruby.wasm/blob/ruby-head-wasm-wasi-0.5.0/packages/npm-packages/ruby-head-wasm-wasi/README.md#quick-start-for-browser), [Node.js](https://github.com/ruby/ruby.wasm/blob/ruby-head-wasm-wasi-0.5.0/packages/npm-packages/ruby-head-wasm-wasi/README.md#quick-start-for-nodejs), and maybe Deno
+
+</td>
+<td>
+
+Direct [JS `fetch` Interop](https://github.com/ruby/ruby.wasm/blob/293e7c20ff2a1db51cd1de3c88feb627b37dd95e/ext/js/lib/js.rb#L141)
 
 </td>
 </tr>
@@ -378,6 +568,45 @@ Also  [native](https://github.com/emilk/ehttp/blob/0.2.0/ehttp/src/native.rs#L17
 </tr>
 <tr>
 <td>
+
+[httpc](https://crates.io/crates/httpc)
+
+</td>
+<td>
+
+```rust
+let uri = Uri::from_static("https://httpbin.org/anything");
+let req = Request::get(uri).body(None).unwrap();
+let client = web_sys::window();
+let resp = client.issue(req).await.unwrap();
+println!("{}", resp.body());
+```
+
+</td>
+<td>
+
+[Test](https://github.com/d-e-s-o/httpc/blob/766936027513ea02fc3eb0aca8af81a8d9452b67/tests/request.rs#L120)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/crate/httpc/)
+
+</td>
+<td></td>
+<td>Browser, Node.js, and Deno.
+
+Also  [native](https://github.com/d-e-s-o/httpc/blob/766936027513ea02fc3eb0aca8af81a8d9452b67/src/native.rs#L38)
+
+</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/d-e-s-o/httpc/blob/766936027513ea02fc3eb0aca8af81a8d9452b67/src/wasm.rs#L107) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
 <a id="gloo_net"></a>
 
 [Gloo](https://gloo-rs.web.app/)'s [gloo-net](https://crates.io/crates/gloo-net)
@@ -453,12 +682,48 @@ let resp = Request::get("https://httpbin.org/anything").send()
 
 </td>
 </tr>
+<tr>
+<td>
+
+[surf](https://crates.io/crates/surf)
+
+</td>
+<td>
+
+```rust
+let mut resp = surf::get("https://httpbin.org/anything").await?;
+println!("{}", resp.body_string().await?);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/http-rs/surf/blob/v2.3.2/examples/hello_world.rs#L6)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/surf)
+
+</td>
+<td></td>
+<td>Browser, Node.js, and Deno
+
+Also [native](https://github.com/http-rs/surf/blob/v2.3.2/src/lib.rs#L83)
+</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/http-rs/http-client/blob/v6.5.3/src/wasm.rs#L226) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+
 
 </table>
 
 
-Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl containers, FaaS, etc
---------------------------------------------------------------------------------------------
+Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl containers, FaaS, Edge Computing, etc
+------------------------------------------------------------------------------------------------------------
 
 <a id="golang-wasi"></a>
 ### Golang (Tinygo)
@@ -612,12 +877,14 @@ Wasmedge's implementation of WASI Socket
 <tr>
 <td>
 
-[second-state/http_req](https://github.com/second-state/http_req)
+[http_req_wasi](https://crates.io/crates/http_req_wasi)
 
 </td>
 <td>
 
 ```rust
+use http_req::request;
+
 let mut writer = Vec::new();
 let res = request::get("https://httpbin.org/anything", 
     &mut writer).unwrap();
