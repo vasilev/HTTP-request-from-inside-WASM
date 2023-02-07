@@ -1,7 +1,7 @@
 Make HTTP request from inside WebAssembly
 =========================================
 
-(Wannabe-awesome) list of approaches to make outbound HTTP(S) requests from inside WebAssembly.
+(Wannabe-awesome) list of approaches (recipes, frameworks, http client libraries, etc) to make outbound HTTP(S) requests from inside WebAssembly.
 
 ### Contents
 <table>
@@ -9,6 +9,19 @@ Make HTTP request from inside WebAssembly
 <th>Language</th>
 <th>Browsers and V8-based runtimes</th>
 <th>Standalone / server-side / WASI runtimes</th>
+</tr>
+<tr>
+<td>C#</td>
+<td>
+
+[Blazor](#csharp)
+
+</td>
+<td>
+
+[Spin SDK for .NET](#csharp-wasi)
+
+</td>
 </tr>
 <tr>
 <td>C++</td>
@@ -28,7 +41,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Capsule, Spin](#golang-wasi)
+[Capsule, Spin SDK for Go](#golang-wasi)
 
 </td>
 </tr>
@@ -46,6 +59,15 @@ _Possible, but why?_
 </td>
 </tr>
 <tr>
+<td>PHP</td>
+<td>
+
+[PIB aka php-wasm](#php)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Perl</td>
 <td>
 
@@ -58,7 +80,16 @@ _Possible, but why?_
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, ...](#python)
+[RustPython, Pyodide, pyodide-http](#python)
+
+</td>
+<td></td>
+</tr>
+<tr>
+<td>R</td>
+<td>
+
+[webR](#rlang)
 
 </td>
 <td></td>
@@ -81,7 +112,7 @@ _Possible, but why?_
 </td>
 <td>
 
-[reqwest, http_req](#rust-wasi)
+[reqwest, http_req, Spin SDK for Rust](#rust-wasi)
 
 </td>
 </tr>
@@ -89,6 +120,58 @@ _Possible, but why?_
 
 Browser WASM runtimes and V8-based runtimes like Node.js and Deno
 -----------------------------------------------------------------
+
+<a id="csharp"></a>
+### C#
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor)
+
+</td>
+<td>
+
+```csharp
+@using System.Net.Http.Json
+@inject HttpClient HttpClient
+
+@code {
+var data = await HttpClient.GetFromJsonAsync<JsonElement>("https://httpbin.org/anything");
+}
+```
+
+</td>
+<td>
+
+[Example](https://github.com/cornflourblue/blazor-webassembly-http-get-request-examples/blob/dc43c77c738076a7f56805bc664bf269a6cdedbf/Components/GetRequestDynamicResponse.razor#L16)
+
+</td>
+<td>
+
+* [Tutorial](https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api?view=aspnetcore-7.0)
+* [Doc](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.json?view=net-7.0)
+
+</td>
+<td>
+
+[Demo](https://cornflourblue.github.io/blazor-webassembly-http-get-request-examples/) _by JasonWatmore_
+<sub>[Demo source](https://github.com/cornflourblue/blazor-webassembly-http-get-request-examples/tree/master/Components)</sub>
+
+</td>
+<td>Browser, also server-side</td>
+<td>
+
+[JS `fetch` interop](https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api?view=aspnetcore-7.0&pivots=webassembly#httpclient-and-httprequestmessage-with-fetch-api-request-options)
+
+</td>
+</tr>
+</table>
 
 <a id="cpp"></a>
 ### C++
@@ -130,7 +213,7 @@ GET( "https://httpbin.org/anything"s,
 <td></td>
 <td>
 
-Browser, [Node.js](https://www.npmjs.com/package/xmlhttprequest), and [Deno](https://deno.land/x/xhr)
+Browser, [Node.js](https://www.npmjs.com/package/xmlhttprequest-ssl), and [Deno](https://deno.land/x/xhr)
 
 </td>
 <td>
@@ -226,6 +309,58 @@ Browser and [Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-we
 <td>
 
 Direct [JS `fetch` Interop](https://github.com/marwan-at-work/wasm-fetch/blob/e4e5f93254680e5f64e37a500e2f3a73c374907f/fetch.go#L127)
+
+</td>
+</tr>
+</table>
+
+### PHP
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[PIB: PHP in Browser aka php-wasm](https://github.com/seanmorris/php-wasm/)
+
+</td>
+<td>
+
+```php
+$js=<<<JSCODE
+var xhr=new XMLHttpRequest();
+xhr.open('GET', 'https://httpbin.org/anything', 0);
+xhr.send();
+
+xhr.responseText;
+JSCODE;
+
+var_dump(vrzno_eval($js));
+```
+
+</td>
+<td>
+
+[Example](https://github.com/WordPress/wordpress-playground/blob/bb148069e37d8b7f3314a3e675abb316f7749e4e/src/wordpress-playground/mu-plugins/includes/requests_transport_fetch.php#L68)
+
+</td>
+<td>
+
+[Doc](https://github.com/seanmorris/vrzno#usage)
+
+</td>
+<td>
+
+* [Demo](https://seanmorris.github.io/php-wasm/?autorun=0&persist=0&single-expression=0&code=%253C%253Fphp%250A%2524js%253D%253C%253C%253CJSCODE%250Avar%2520xhr%253Dnew%2520XMLHttpRequest%28%29%253B%250Axhr.open%28%27GET%27%252C%2520%27https%253A%252F%252Fhttpbin.org%252Fanything%27%252C%25200%29%253B%250Axhr.send%28%29%253B%250A%250Axhr.responseText%253B%250AJSCODE%253B%250A%250Avar_dump%28vrzno_eval%28%2524js%29%29%253B%250A)
+* [Playground](https://seanmorris.github.io/php-wasm/)
+
+</td>
+<td>Browser, Node.js, and maybe Deno</td>
+<td>
+
+Manual JS `XMLHttpRequest` interop using [`vrzno`](https://github.com/seanmorris/vrzno/blob/228514316299f8d1dbc8abcff51523ed37929f1f/vrzno.c#L36) PHP extension.
 
 </td>
 </tr>
@@ -412,6 +547,51 @@ JS [`fetch`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_str
 [`XMLHttpRequest`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_core.py#L77) Interop
 using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) scope.
 
+
+</td>
+</tr>
+</table>
+
+<a id="rlang"></a>
+### R
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[webR](https://github.com/georgestagg/webR)
+
+</td>
+<td>
+
+```rlang
+df <- read.csv("https://httpbin.org/anything")
+print(df)
+// All works: read.table() variants, download.file(), scan(), url(), etc
+```
+
+</td>
+<td></td>
+<td>
+
+[Doc](https://cran.r-project.org/doc/manuals/r-release/R-data.html)
+
+</td>
+<td>
+
+[Playground](https://webr.gwstagg.co.uk/)
+
+</td>
+<td>Browser and Node</td>
+<td>
+
+Implemented [`xhr` transport](https://github.com/georgestagg/webR/blob/2ed96ed1db6a54209db6677b4358bb59c5d2f67a/patches/R-4.1.3/emscripten-xhr-download.diff#L102) which uses
+JS `XMLHttpRequest` interop by [calling](https://github.com/georgestagg/webR/blob/2ed96ed1db6a54209db6677b4358bb59c5d2f67a/patches/R-4.1.3/emscripten-xhr-download.diff#L184) [web worker](https://github.com/georgestagg/webR/blob/2ed96ed1db6a54209db6677b4358bb59c5d2f67a/src/webR/webr-worker.ts#L278) 
+using Emscripten APIs.
 
 </td>
 </tr>
@@ -725,6 +905,57 @@ Also [native](https://github.com/http-rs/surf/blob/v2.3.2/src/lib.rs#L83)
 Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl containers, FaaS, Edge Computing, etc
 ------------------------------------------------------------------------------------------------------------
 
+<a id="csharp-wasi"></a>
+### C#
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Spin SDK for .NET](https://github.com/fermyon/spin-dotnet-sdk)
+
+</td>
+<td>
+
+```csharp
+using Fermyon.Spin.Sdk;
+using System.Net;
+
+var req = new HttpRequest { Url = "https://httpbin.org/anything" };
+var resp = HttpOutbound.Send(req);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/fermyon/spin-dotnet-sdk/blob/0b320bad3c661bb2d3af5950f1b76af8f7fb655d/samples/hello-world/Handler.cs#L43)
+
+</td>
+<td>
+
+[Doc](https://github.com/fermyon/spin-dotnet-sdk#making-outbound-http-requests)
+
+</td>
+<td></td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/)
+
+</td>
+<td>
+
+[C level](https://github.com/fermyon/spin-dotnet-sdk/blob/0b320bad3c661bb2d3af5950f1b76af8f7fb655d/src/native/wasi-outbound-http.c#L95) 
+[binding](https://github.com/fermyon/spin-dotnet-sdk/blob/0b320bad3c661bb2d3af5950f1b76af8f7fb655d/src/HttpInterop.cs#L269) to  
+Wasmtime's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+
+</td>
+</tr>
+</table>
+
 <a id="golang-wasi"></a>
 ### Golang (Tinygo)
 
@@ -775,7 +1006,7 @@ res, err := hf.Http("https://httpbin.org/anything", "GET", nil, "")
 <tr>
 <td>
 
-[Spin](https://developer.fermyon.com/spin/)
+[(Tiny)Go SDK for Spin](https://developer.fermyon.com/spin/go-components)
 
 </td>
 <td>
@@ -912,6 +1143,46 @@ let res = request::get("https://httpbin.org/anything",
 C level [wrapper](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/src/sslwrapper.rs#L10) over [`wasmedge_httpsreq` plugin](https://github.com/WasmEdge/WasmEdge/tree/master/plugins/wasmedge_httpsreq) (`libwasmedgePluginHttpsReq.so` as usual). And
 [wasmedge_wasi_socket](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/src/request.rs#L20) for non-SSL.
 
+</td>
+</tr>
+<tr>
+<td>
+
+[Spin SDK for Rust](https://github.com/fermyon/spin/tree/v0.8.0/sdk/rust)
+
+</td>
+<td>
+
+```rust
+let mut res = spin_sdk::http::send(
+  http::Request::builder()
+  .method("GET")
+  .uri("https://httpbin.org/anything")
+  .body(None)?,
+)?;
+```
+
+</td>
+<td>
+
+[Example](https://github.com/fermyon/spin/blob/v0.8.0/examples/http-rust-outbound-http/src/lib.rs#L10)
+
+</td>
+<td>
+
+[Doc](https://github.com/fermyon/spin/tree/v0.8.0/sdk/rust#making-outbound-http-requests)
+
+</td>
+<td></td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/)
+
+</td>
+<td>
+
+[Calling](https://github.com/fermyon/spin/blob/v0.8.0/sdk/rust/src/outbound_http.rs#L43) [imported](https://github.com/fermyon/spin/blob/v0.8.0/crates/trigger/src/lib.rs#L100)
+Wasmtime's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
 </td>
 </tr>
 <tr><td>
