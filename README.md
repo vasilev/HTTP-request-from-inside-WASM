@@ -14,7 +14,7 @@ Make HTTP request from inside WebAssembly
 <td>C#</td>
 <td>
 
-[Blazor](#csharp)
+[Blazor, Uno Platform](#csharp)
 
 </td>
 <td>
@@ -30,7 +30,11 @@ Make HTTP request from inside WebAssembly
 [xxhr](#cpp)
 
 </td>
-<td></td>
+<td>
+
+[httpclient_wasmedge_socket](#cpp-wasi)
+
+</td>
 </tr>
 <tr>
 <td>Golang / TinyGo</td>
@@ -107,7 +111,7 @@ _Possible, but why?_
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, ehttp, gloo_net, httpc, reqwasm, surf](#rust)
+[wasm-bindgen, ehttp, gloo_net, httpc, reqwasm, seed, surf](#rust)
 
 </td>
 <td>
@@ -142,7 +146,8 @@ Browser WASM runtimes and V8-based runtimes like Node.js and Deno
 @inject HttpClient HttpClient
 
 @code {
-var data = await HttpClient.GetFromJsonAsync<JsonElement>("https://httpbin.org/anything");
+var data = await HttpClient.GetFromJsonAsync<JsonElement>(
+  "https://httpbin.org/anything");
 }
 ```
 
@@ -164,10 +169,65 @@ var data = await HttpClient.GetFromJsonAsync<JsonElement>("https://httpbin.org/a
 <sub>[Demo source](https://github.com/cornflourblue/blazor-webassembly-http-get-request-examples/tree/master/Components)</sub>
 
 </td>
-<td>Browser, also server-side</td>
 <td>
 
-[JS `fetch` interop](https://learn.microsoft.com/en-us/aspnet/core/blazor/call-web-api?view=aspnetcore-7.0&pivots=webassembly#httpclient-and-httprequestmessage-with-fetch-api-request-options)
+Browser, also _native_ server-side
+
+</td>
+<td>
+
+[JS `fetch` interop](https://github.com/dotnet/runtime/blob/699acfac91ed44790e528cceae16377ba10a899c/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpHandler.cs#L224)
+ by [calling](https://github.com/dotnet/runtime/blob/v7.0.2/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpInterop.cs#L51)
+ to TS [wrapper](https://github.com/dotnet/runtime/blob/9e8d0a81a35f05eaa2c4d0ab258ed9a1f4e2ec76/src/mono/wasm/runtime/http.ts#L60)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Uno Platform](https://platform.uno/)
+
+</td>
+<td>
+
+```csharp
+// Uno Platform's own way
+// Deprecated since .NET 6,
+// use 'System.Net.Http.HttpClient' and 'HttpHandler' instead
+// See https://github.com/unoplatform/uno/issues/9665
+using System.Net.Http;
+
+using (var handler = new Uno.UI.Wasm.WasmHttpHandler())
+using (var client = new HttpClient(handler))
+{
+var request = new HttpRequestMessage(HttpMethod.Get,
+  new Uri("https://httpbin.org/anything"));
+var response = await client.SendAsync(request);
+var content = await response.Content.ReadAsStringAsync();
+}
+```
+
+</td>
+<td>
+
+[Test](https://github.com/unoplatform/uno/blob/4.7.37/src/SamplesApp/SamplesApp.Shared/Samples/UnitTests/HttpUnitTests.xaml.cs#L33)
+
+</td>
+<td>
+
+[Tutorial](https://platform.uno/docs/articles/howto-consume-webservices.html)
+
+</td>
+<td>
+
+[Playground](https://playground.platform.uno/)
+
+</td>
+<td>Browser</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI.Runtime.WebAssembly/WasmHttpHandler.cs#L62) invokes the TS
+ [wrapper](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI/ts/HttpClient.ts#L27)
 
 </td>
 </tr>
@@ -568,7 +628,7 @@ using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) 
 </td>
 <td>
 
-```rlang
+```r
 df <- read.csv("https://httpbin.org/anything")
 print(df)
 // All works: read.table() variants, download.file(), scan(), url(), etc
@@ -865,6 +925,41 @@ let resp = Request::get("https://httpbin.org/anything").send()
 <tr>
 <td>
 
+[Seed](https://seed-rs.org)
+
+</td>
+<td>
+
+```rust
+use seed::{prelude::*, *};
+
+let response = fetch("https://httpbin.org/anything").await?;
+let body = response.text().await?;
+```
+
+</td>
+<td>
+
+[Example](https://github.com/seed-rs/seed/blob/0.9.2/examples/fetch/src/simple.rs#L33)
+
+</td>
+<td>
+
+* [Doc](https://seed-rs.org/0.8.0/time_tracker_fetch)
+* [Doc](https://docs.rs/seed/0.9.2/seed/browser/fetch/)
+
+</td>
+<td></td>
+<td>Browser, Node.js, and Deno</td>
+<td>
+
+[JS `fetch` interop](https://github.com/seed-rs/seed/blob/0.9.2/src/browser/fetch.rs#L81) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
+
 [surf](https://crates.io/crates/surf)
 
 </td>
@@ -954,6 +1049,51 @@ Wasmtime's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c923
 
 </td>
 </tr>
+</table>
+
+<a id="cpp-wasi"></a>
+### C++
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<td>
+
+[httpclient_wasmedge_socket](https://github.com/hangedfish/httpclient_wasmedge_socket)
+
+</td>
+<td>
+
+```cpp
+// no SSL support yet
+std::array<char, 4096> buf{};
+fetchIO *io = fetchGetURL("http://httpbin.org/anything", "4");
+int nbytes = fetchIO_read(io, buf.data(), buf.size());
+fetchIO_close(io);
+std::cout << buf.data() << std::endl;
+```
+
+</td>
+<td>
+
+[Example](https://github.com/hangedfish/httpclient_wasmedge_socket/blob/2ef71f3cb2e8d05c0d88188df738ba84c865647f/http_get.cpp#L8)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+[WasmEdge](https://wasmedge.org/)
+
+</td>
+<td>
+
+[Raw](https://github.com/hangedfish/httpclient_wasmedge_socket/blob/fde38a90e623e4cb67ed05ffa1fa4acd9b5ee0ae/libfetch/common.c#L802) [socket write](https://github.com/hangedfish/httpclient_wasmedge_socket/blob/fde38a90e623e4cb67ed05ffa1fa4acd9b5ee0ae/libfetch/http.c#L889)
+using [WasmEdge Socket SDK for C/C++](https://github.com/hangedfish/wasmedge_wasi_socket_c), which [imports](https://github.com/hangedfish/httpclient_wasmedge_socket/blob/2ef71f3cb2e8d05c0d88188df738ba84c865647f/wasmedge_wasi_socket_c/wasi_socket_ext.c#L133) Wasmedge's implementation of WASI Socket
+
+</td>
 </table>
 
 <a id="golang-wasi"></a>
