@@ -111,7 +111,7 @@ _Possible, but why?_
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, ehttp, gloo_net, httpc, reqwasm, seed, surf](#rust)
+[wasm-bindgen, ehttp, gloo_net, httpc, reqwasm, reqwest, seed, surf](#rust)
 
 </td>
 <td>
@@ -885,6 +885,46 @@ let resp = Request::get("https://httpbin.org/anything").send()
 <td>
 
 [JS `fetch` Interop](https://github.com/rustwasm/gloo/blob/6617d0ee0c552e3ba31e112591e33b98274739f6/crates/net/src/http/mod.rs#L261) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[reqwest](https://crates.io/crates/reqwest)
+
+</td>
+<td>
+
+```rust
+let txt = reqwest::get("https://httpbin.org/anything")
+    .await?.text().await?;
+
+println!("Text: {:?}", txt);
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/seanmonstar/reqwest/blob/v0.11.14/examples/wasm_github_fetch/src/lib.rs#L38)
+* [Example](https://github.com/seanmonstar/reqwest/blob/v0.11.14/examples/simple.rs#L24)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/reqwest/)
+
+</td>
+<td></td>
+<td>
+Browser, Node.js, and Deno
+
+Also [native](https://github.com/seanmonstar/reqwest/blob/v0.11.14/src/async_impl/client.rs#L1570)
+
+</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/seanmonstar/reqwest/blob/v0.11.14/src/wasm/client.rs#L27) using [wasm-bindgen](#wasm-bindgen)
 
 </td>
 </tr>
