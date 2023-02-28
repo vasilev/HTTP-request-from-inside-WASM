@@ -111,7 +111,7 @@ _Possible, but why?_
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, ehttp, gloo_net, httpc, reqwasm, reqwest, seed, surf](#rust)
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, reqwasm, reqwest, seed, surf](#rust)
 
 </td>
 <td>
@@ -761,6 +761,47 @@ and [Deno](https://rustwasm.github.io/wasm-bindgen/reference/deployment.html?hig
 <td>
 
 [JS `fetch` Interop](https://github.com/rustwasm/wasm-bindgen/blob/0.2.83/crates/web-sys/src/features/gen_Window.rs#L2575)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Rust SDK for writing Cloudflare Workers aka workers-rs](https://crates.io/crates/worker)
+
+</td>
+<td>
+
+```rust
+let mut resp = Fetch::Url(
+  "https://httpbin.org/anything"
+    .parse().unwrap(),
+)
+.send().await?;
+let txt = resp.text().await?;
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/cloudflare/workers-rs/blob/v0.0.13/worker-sandbox/src/lib.rs#L543)
+* [Example 2](https://github.com/cloudflare/workers-rs/blob/v0.0.13/worker-sandbox/src/lib.rs#L331)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/worker/latest/worker/enum.Fetch.html)
+
+</td>
+<td></td>
+<td>
+
+[workerd, Cloudflare's JavaScript/ Wasm Runtime](https://github.com/cloudflare/workerd)
+
+</td>
+<td>
+
+[JS `fetch` interop](https://github.com/cloudflare/workers-rs/blob/d21e52bd5b9d2cc6386c31aa7201bd74e772e4d0/worker/src/global.rs#L40) using [wasm-bindgen](#wasm-bindgen)
 
 </td>
 </tr>
