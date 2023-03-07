@@ -84,7 +84,7 @@ _Possible, but why?_
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http](#python)
+[RustPython, Pyodide, pyodide-http, rpython](#python)
 
 </td>
 <td></td>
@@ -226,8 +226,8 @@ var content = await response.Content.ReadAsStringAsync();
 <td>Browser</td>
 <td>
 
-[JS `fetch` Interop](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI.Runtime.WebAssembly/WasmHttpHandler.cs#L62) invokes the TS
- [wrapper](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI/ts/HttpClient.ts#L27)
+[JS Interop](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI.Runtime.WebAssembly/WasmHttpHandler.cs#L62) invokes the TS
+ [wrapper](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI/ts/HttpClient.ts#L27) for `fetch`
 
 </td>
 </tr>
@@ -607,6 +607,66 @@ JS [`fetch`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_str
 [`XMLHttpRequest`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_core.py#L77) Interop
 using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) scope.
 
+
+</td>
+</tr>
+</table>
+
+#### Python-like languages
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[soIu/rpython](https://github.com/soIu/rpython)
+
+<sub>It's compiler</sub>
+
+</td>
+<td>
+
+```python
+from javascript import Object, asynchronous, JSON
+
+@asynchronous
+def send_request(url):
+  fetch = Object('fetch')
+  res = fetch.call(url).wait()
+  text = res['text'].call().wait()
+  print(text)
+  return text
+  
+def target(*args): return main, None
+
+def main(argv):
+  send_request('https://httpbin.org/anything')
+  return 0
+
+if __name__ == '__main__':
+  import sys
+  main(sys.argv)
+
+```
+
+</td>
+<td>
+
+[Example](https://github.com/soIu/rpython/blob/d6ae1b2d4be426fa7894c7bf3043976d8ac4948d/README.md?plain=1#L74)
+
+</td>
+<td>
+
+[Some doc](https://github.com/soIu/rpython#asynchronous-execution)
+
+</td>
+<td></td>
+<td>Browser, Node.js, and Deno</td>
+<td>
+
+Direct `fetch` interop using [javascript](https://github.com/soIu/rpython/blob/d6ae1b2d4be426fa7894c7bf3043976d8ac4948d/javascript/emscripten.py#L141) module, by employing Emscripten APIs.
 
 </td>
 </tr>
