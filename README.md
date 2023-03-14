@@ -84,7 +84,7 @@ _Possible, but why?_
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, rpython](#python)
+[RustPython, Pyodide, pyodide-http, PyScript, Panel, RPython](#python)
 
 </td>
 <td></td>
@@ -111,7 +111,7 @@ _Possible, but why?_
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, reqwasm, reqwest, seed, surf](#rust)
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, reqwasm, reqwest, seed, surf](#rust)
 
 </td>
 <td>
@@ -523,6 +523,7 @@ Browser, [Node.js](https://gitter.im/rustpython/Lobby?at=600063a5d5f4bf2965e74e2
 
 </td></tr>
 <tr><td>
+<a id="pyodide"></a>
 
 [Pyodide](https://pyodide.org)
 
@@ -587,7 +588,8 @@ response = requests.get("https://httpbin.org/anything")
 </td>
 <td>
 
-[Example](https://github.com/koenvo/pyodide-http#usage)
+* [Example](https://github.com/koenvo/pyodide-http#usage)
+* [Patching example](https://github.com/holoviz/panel/blob/v1.0.0a5/panel/io/pyodide.py#L49-L50) from _panel_
 
 </td>
 <td>
@@ -607,6 +609,81 @@ JS [`fetch`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_str
 [`XMLHttpRequest`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_core.py#L77) Interop
 using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) scope.
 
+
+</td>
+</tr>
+<tr>
+<td>
+
+[PyScript](https://pyscript.net)
+
+</td>
+<td>
+
+```python
+from pyodide.http import pyfetch, FetchResponse
+import asyncio
+
+async def req() -> FetchResponse:
+  response = await pyfetch("https://httpbin.org/anything")
+  print(await response.string())
+
+asyncio.ensure_future(req())
+```
+
+</td>
+<td>
+
+[Example](https://github.com/pyscript/pyscript/blob/2023.03.1/docs/guides/http-requests.md?plain=1#L38)
+
+</td>
+<td>
+
+[Doc](https://docs.pyscript.net/2023.03.1/guides/http-requests.html)
+
+</td>
+<td>
+
+* [Playground 1](https://pyscript.net/examples/repl.html)
+* [Playground 2](https://pyscript.net/examples/repl2.html)
+
+</td>
+<td>Browser</td>
+<td>
+
+[Uses](https://github.com/pyscript/pyscript/blob/2023.03.1/pyscriptjs/src/pyconfig.ts#L57) [pyodide](#pyodide)'s facilities 
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Panel](https://panel.holoviz.org)
+
+</td>
+<td>
+
+```python
+response = requests.get("https://httpbin.org/anything")
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/awesome-panel/panel-highcharts/blob/f5a7e13bee6f6bc1c6b8897368a28b50ab3ca30a/examples/reference/HighStock.ipynb?short_path=2854328#L104)
+* [Old example](https://github.com/holoviz-demos/webcam_classifier/blob/efe8d1a906b2a75e55c49410e73643b3c623b101/app.ipynb?short_path=2854328#L176)
+
+</td>
+<td>
+
+[Doc](https://panel.holoviz.org/user_guide/Running_in_Webassembly.html#handling-http-requests)
+
+</td>
+<td></td>
+<td>Browser</td>
+<td>
+
+[Employs](https://github.com/holoviz/panel/blob/v1.0.0a5/panel/io/pyodide.py#L50) [koenvo/pyodide-http](#pyodide-http). Also direct [`XMLHttpRequest` interop](https://github.com/holoviz/panel/blob/v1.0.0a5/panel/io/pyodide.py#L287) for image data.
 
 </td>
 </tr>
@@ -948,6 +1025,51 @@ Also  [native](https://github.com/d-e-s-o/httpc/blob/766936027513ea02fc3eb0aca8a
 </tr>
 <tr>
 <td>
+<a id="http-rs-http-client"></a>
+
+[http-client](https://crates.io/crates/http-client)
+
+</td>
+<td>
+
+```rust
+use http_client::HttpClient;
+use http_types::{Method, Request};
+use http_client::wasm::WasmClient as Client;
+
+let client = Client::new();
+let req = Request::new(Method::Get, "https://httpbin.org/anything");
+client.send(req).await.unwrap();
+dbg!(client);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/http-rs/http-client/blob/v6.5.3/examples/print_client_debug.rs#L19)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/http-client/6.5.3/http_client/index.html)
+
+</td>
+<td></td>
+<td>
+
+Browser, Node.js, and Deno
+
+Also [native](https://github.com/http-rs/http-client/blob/v6.5.3/src/native.rs) (and others).
+
+</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/http-rs/http-client/blob/v6.5.3/src/wasm.rs#L226) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
 <a id="gloo_net"></a>
 
 [Gloo](https://gloo-rs.web.app/)'s [gloo-net](https://crates.io/crates/gloo-net)
@@ -1119,17 +1241,18 @@ println!("{}", resp.body_string().await?);
 </td>
 <td>
 
-[Doc](https://docs.rs/surf)
+[Doc](https://docs.rs/surf/2.3.2/surf/index.html)
 
 </td>
 <td></td>
 <td>Browser, Node.js, and Deno
 
 Also [native](https://github.com/http-rs/surf/blob/v2.3.2/src/lib.rs#L83)
+
 </td>
 <td>
 
-[JS `fetch` Interop](https://github.com/http-rs/http-client/blob/v6.5.3/src/wasm.rs#L226) using [wasm-bindgen](#wasm-bindgen)
+[Uses](https://github.com/http-rs/surf/blob/v2.3.2/src/client.rs#L15) [http-rs/http-client](#http-rs-http-client) as WASM backend
 
 </td>
 </tr>
