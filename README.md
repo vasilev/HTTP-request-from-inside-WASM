@@ -11,6 +11,15 @@ Make HTTP request from inside WebAssembly
 <th>Standalone / server-side / WASI runtimes</th>
 </tr>
 <tr>
+<td>AssemblyScript</td>
+<td></td>
+<td>
+
+[wasi-experimental-http](#assemblyscript-wasi)
+
+</td>
+</tr>
+<tr>
 <td>C#</td>
 <td>
 
@@ -24,7 +33,7 @@ Make HTTP request from inside WebAssembly
 </td>
 </tr>
 <tr>
-<td>C++</td>
+<td>C / C++</td>
 <td>
 
 [xxhr](#cpp)
@@ -1264,6 +1273,69 @@ Also [native](https://github.com/http-rs/surf/blob/v2.3.2/src/lib.rs#L83)
 Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl containers, FaaS, Edge Computing, etc
 ------------------------------------------------------------------------------------------------------------
 
+<a id="assemblyscript-wasi"></a>
+### AssemblyScript
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
+
+</td>
+<td>
+
+```assemblyscript
+import { 
+  Method, RequestBuilder, Response 
+} from "@deislabs/wasi-experimental-http";
+import { Console } from "as-wasi/assembly";
+
+let resp = new RequestBuilder("https://httpbin.org/anything")
+    .header("User-Agent", "wasm32-wasi-http")
+    .method(Method.GET)
+    .send();
+
+let text = String.UTF8.decode(resp.bodyReadAll().buffer);
+Console.log(text);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/main.ts#L15)
+
+</td>
+<td>
+
+[Readme](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/README.md#experimental-http-client-example)
+
+</td>
+<td>
+
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=575631506) _by brendandburns_
+
+</td>
+<td>
+
+[brendandburns's fork of Wasmtime](https://github.com/brendandburns/wasmtime/commit/d6cea51fc1a96cecaad4b478b4dce45ca2bef84b)
+
+</td>
+<td>
+
+[Importing](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/package.json#L18)
+[npm package](https://www.npmjs.com/package/@deislabs/wasi-experimental-http) which [calls](https://github.com/deislabs/wasi-experimental-http/blob/v0.5.0/crates/as/index.ts#L202)
+[imported](https://github.com/deislabs/wasi-experimental-http/blob/v0.5.0/crates/as/raw.ts#L113)
+[host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http](#wasi-experimental-http) Wasmtime's WASI module.
+
+</td>
+</tr>
+</table>
+
 <a id="csharp-wasi"></a>
 ### C#
 
@@ -1795,7 +1867,8 @@ use wasi_experimental_http;
 let req = http::request::Builder::new()
   .uri("https://httpbin.org/anything").body(None).unwrap();
 let resp = wasi_experimental_http::request(req);
-let data = std::str::from_utf8(&resp.body_read_all().unwrap()).unwrap().to_string();
+let data = std::str::from_utf8(&resp.body_read_all().unwrap())
+  .unwrap().to_string();
 println!("{}", data);
 ```
 
