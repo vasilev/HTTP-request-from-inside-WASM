@@ -67,7 +67,7 @@ _Possible, but why?_
 </td>
 <td>
 
-[WasmEdge-QuickJs](#javascript)
+[WasmEdge-QuickJs, Spin SDK for JS / TS](#javascript-wasi)
 
 </td>
 </tr>
@@ -96,7 +96,11 @@ _Possible, but why?_
 [RustPython, Pyodide, pyodide-http, PyScript, Panel, RPython](#python)
 
 </td>
-<td></td>
+<td>
+
+[Spin SDK for Python](#python-wasi)
+
+</td>
 </tr>
 <tr>
 <td>R</td>
@@ -1289,7 +1293,7 @@ Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl container
 </td>
 <td>
 
-```assemblyscript
+```typescript
 import { 
   Method, RequestBuilder, Response 
 } from "@deislabs/wasi-experimental-http";
@@ -1322,7 +1326,7 @@ Console.log(text);
 </td>
 <td>
 
-[brendandburns's fork of Wasmtime](https://github.com/brendandburns/wasmtime/commit/d6cea51fc1a96cecaad4b478b4dce45ca2bef84b)
+Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
 
 </td>
 <td>
@@ -1374,14 +1378,15 @@ var resp = HttpOutbound.Send(req);
 <td></td>
 <td>
 
-[Wasmtime](https://wasmtime.dev/)
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
 
 </td>
 <td>
 
 [C level](https://github.com/fermyon/spin-dotnet-sdk/blob/0b320bad3c661bb2d3af5950f1b76af8f7fb655d/src/native/wasi-outbound-http.c#L95) 
 [binding](https://github.com/fermyon/spin-dotnet-sdk/blob/0b320bad3c661bb2d3af5950f1b76af8f7fb655d/src/HttpInterop.cs#L269) to  
-Wasmtime's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
 
 </td>
 </tr>
@@ -1421,7 +1426,7 @@ Console.WriteLine(content);
 </td>
 <td>
 
-[brendandburns's fork of Wasmtime](https://github.com/brendandburns/wasmtime/commit/d6cea51fc1a96cecaad4b478b4dce45ca2bef84b)
+Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
 
 </td>
 <td>
@@ -1527,7 +1532,7 @@ free(buffer);
 </td>
 <td>
 
-[brendandburns's fork of Wasmtime](https://github.com/brendandburns/wasmtime/commit/d6cea51fc1a96cecaad4b478b4dce45ca2bef84b)
+Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
 
 </td>
 <td>
@@ -1616,14 +1621,15 @@ resp, err := spinhttp.Get("https://httpbin.org/anything")
 <td></td>
 <td>
 
-[Wasmtime](https://wasmtime.dev/)
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
 
 </td>
 <td>
 
 [C level](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/sdk/go/http/outbound_internals.go#L66) 
 [binding](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/sdk/go/http/wasi-outbound-http.c#L95) to  
-Wasmtime's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
 
 </td>
 </tr>
@@ -1665,7 +1671,7 @@ if err == nil {
 </td>
 <td>
 
-[brendandburns's fork of Wasmtime](https://github.com/brendandburns/wasmtime/commit/d6cea51fc1a96cecaad4b478b4dce45ca2bef84b)
+Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
 
 </td>
 <td>
@@ -1676,14 +1682,16 @@ if err == nil {
 </tr>
 </table>
 
-### JavaScript
+<a id="javascript-wasi"></a>
+### JavaScript and TypeScript
 
 <table>
 <tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
-<tr><td>
+<tr>
+<td>
 
 [wasmedge-quickjs](https://github.com/second-state/wasmedge-quickjs)
 
@@ -1721,6 +1729,134 @@ to [`WasiTcpConn`](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-
 which is [`C` binding](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/event_loop/wasi_sock.rs#L606)
 to
 Wasmedge's implementation of WASI Socket
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Spin SDK for JavaScript](https://github.com/fermyon/spin-js-sdk)
+
+</td>
+<td>
+
+```js
+const resp = await fetch('https://httpbin.org/anything');
+const decoder = new TextDecoder('utf-8');
+const body = decoder.decode(await resp.arrayBuffer());
+```
+
+</td>
+<td>
+
+[Example](https://github.com/fermyon/spin-js-sdk/blob/v0.4.0/examples/javascript/outbound-http/src/index.js#L5)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
+
+</td>
+<td>
+
+[Invocation](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/js_sdk/modules/spinSdk.ts#L100)
+of [bound](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/lib.rs#L741)
+[JS SDK function](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/lib.rs#L111), 
+which [calls](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/lib.rs#L130)
+via [Rust Spin SDK](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/Cargo.toml#L19)
+Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Spin SDK for TypeScript](https://github.com/fermyon/spin-js-sdk)
+
+</td>
+<td>
+
+```typescript
+const resp = await fetch('https://httpbin.org/anything');
+const body = await resp.text();
+```
+
+</td>
+<td>
+
+[Example](https://github.com/fermyon/spin-js-sdk/blob/v0.4.0/examples/typescript/outbound_http/src/index.ts#L8)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
+
+</td>
+<td>
+
+[Invocation](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/js_sdk/modules/spinSdk.ts#L100)
+of [bound](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/lib.rs#L741)
+[JS SDK function](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/lib.rs#L111),
+which [calls](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/lib.rs#L130)
+via [Rust Spin SDK](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/Cargo.toml#L19)
+Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+
+</td>
+</tr>
+</table>
+
+<a id="python-wasi"></a>
+### Python
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Spin SDK for Python](https://github.com/fermyon/spin-python-sdk)
+
+</td>
+<td>
+
+```python
+from spin_http import Request, http_send
+
+response = http_send(
+  Request('GET', 
+  'https://httpbin.org/anything', 
+  [], None))
+
+print(str(response.body, 'utf-8'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/examples/outbound_http/app.py#L6)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
+
+</td>
+<td>
+
+A Python [`spin_http` module](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/src/lib.rs#L191-L193)
+[calls](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/src/lib.rs#L158) [imported](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/src/lib.rs#L16)
+via [Rust Spin SDK](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/Cargo.toml#L14) 
+Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
 
 </td>
 </tr>
@@ -1805,13 +1941,15 @@ let mut res = spin_sdk::http::send(
 <td></td>
 <td>
 
-[Wasmtime](https://wasmtime.dev/)
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
 
 </td>
 <td>
 
 [Calling](https://github.com/fermyon/spin/blob/v0.8.0/sdk/rust/src/outbound_http.rs#L43) [imported](https://github.com/fermyon/spin/blob/v0.8.0/crates/trigger/src/lib.rs#L100)
-Wasmtime's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+
 </td>
 </tr>
 <tr><td>
@@ -1886,7 +2024,7 @@ println!("{}", data);
 <td></td>
 <td>
 
-[brendandburns's fork of Wasmtime](https://github.com/brendandburns/wasmtime/commit/d6cea51fc1a96cecaad4b478b4dce45ca2bef84b)
+Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
 
 </td>
 <td>
