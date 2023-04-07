@@ -1311,7 +1311,8 @@ Console.log(text);
 </td>
 <td>
 
-[Example](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/main.ts#L15)
+* [Example 1](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/main.ts#L15)
+* [Example 2](https://github.com/fermyon/spin-kitchensink/blob/c0d0f2b0487df0cb9f151b7dd8f7cd13f9ab1087/assemblyscript-outbound-http/index.ts#L11) _from [old](https://github.com/fermyon/spin/pull/699) Spin_
 
 </td>
 <td>
@@ -1327,6 +1328,7 @@ Console.log(text);
 <td>
 
 Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
+or [**old** Spin](https://github.com/fermyon/spin/pull/699)
 
 </td>
 <td>
@@ -1593,7 +1595,7 @@ res, err := hf.Http("https://httpbin.org/anything", "GET", nil, "")
 <tr>
 <td>
 
-[(Tiny)Go SDK for Spin](https://developer.fermyon.com/spin/go-components)
+[Spin SDK for (Tiny)Go](https://github.com/fermyon/spin/tree/v1.0/sdk/go)
 
 </td>
 <td>
@@ -1609,13 +1611,14 @@ resp, err := spinhttp.Get("https://httpbin.org/anything")
 </td>
 <td>
 
-* [Example 1](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/examples/http-tinygo-outbound-http/main.go#L14)
+* [Example 1](https://github.com/fermyon/spin/blob/v1.0/examples/http-tinygo-outbound-http/main.go#L14)
 * [Example 2](https://github.com/fermyon/spin-kitchensink/blob/855f9477f9090b9cb54e2454b158ef9515f54644/go-outbound-http/main.go#L16)
 
 </td>
 <td>
 
-[Doc](https://developer.fermyon.com/spin/go-components#sending-outbound-http-requests)
+* [Doc](https://developer.fermyon.com/spin/go-components#sending-outbound-http-requests)
+* [Doc](https://developer.fermyon.com/spin/http-outbound)
 
 </td>
 <td></td>
@@ -1752,7 +1755,12 @@ const body = decoder.decode(await resp.arrayBuffer());
 [Example](https://github.com/fermyon/spin-js-sdk/blob/v0.4.0/examples/javascript/outbound-http/src/index.js#L5)
 
 </td>
-<td></td>
+<td>
+
+* [Doc](https://developer.fermyon.com/spin/javascript-components#sending-outbound-http-requests)
+* [Doc](https://developer.fermyon.com/spin/http-outbound)
+
+</td>
 <td></td>
 <td>
 
@@ -1790,7 +1798,12 @@ const body = await resp.text();
 [Example](https://github.com/fermyon/spin-js-sdk/blob/v0.4.0/examples/typescript/outbound_http/src/index.ts#L8)
 
 </td>
-<td></td>
+<td>
+
+* [Doc](https://developer.fermyon.com/spin/javascript-components#sending-outbound-http-requests)
+* [Doc](https://developer.fermyon.com/spin/http-outbound)
+
+</td>
 <td></td>
 <td>
 
@@ -1843,7 +1856,12 @@ print(str(response.body, 'utf-8'))
 [Example](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/examples/outbound_http/app.py#L6)
 
 </td>
-<td></td>
+<td>
+
+* [Doc](https://developer.fermyon.com/spin/python-components#an-outbound-http-example)
+* [Doc](https://developer.fermyon.com/spin/http-outbound)
+
+</td>
 <td></td>
 <td>
 
@@ -1913,7 +1931,7 @@ C level [wrapper](https://github.com/second-state/http_req/blob/cd9f9e086145741e
 <tr>
 <td>
 
-[Spin SDK for Rust](https://github.com/fermyon/spin/tree/v0.8.0/sdk/rust)
+[Spin SDK for Rust](https://github.com/fermyon/spin/tree/v1.0/sdk/rust)
 
 </td>
 <td>
@@ -1930,12 +1948,16 @@ let mut res = spin_sdk::http::send(
 </td>
 <td>
 
-[Example](https://github.com/fermyon/spin/blob/v0.8.0/examples/http-rust-outbound-http/src/lib.rs#L10)
+* [Example 1](https://github.com/fermyon/spin/blob/v1.0/examples/http-rust-outbound-http/src/lib.rs#L10)
+* [Example 2](https://github.com/fermyon/spin-kitchensink/blob/c0d0f2b0487df0cb9f151b7dd8f7cd13f9ab1087/rust-outbound-http/src/lib.rs#L19)
+* [Example 3](https://github.com/fermyon/spin/blob/v1.0/sdk/rust/readme.md?plain=1#L46) <sub>(uses [alias](https://github.com/fermyon/spin/blob/v1.0/sdk/rust/src/lib.rs#L36))</sub>
 
 </td>
 <td>
 
-[Doc](https://github.com/fermyon/spin/tree/v0.8.0/sdk/rust#making-outbound-http-requests)
+* [Doc](https://developer.fermyon.com/spin/rust-components#sending-outbound-http-requests)
+* [Doc](https://github.com/fermyon/spin/tree/v1.0/sdk/rust#making-outbound-http-requests)
+* [Doc](https://developer.fermyon.com/spin/http-outbound)
 
 </td>
 <td></td>
