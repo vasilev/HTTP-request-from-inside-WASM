@@ -12,7 +12,11 @@ Make HTTP request from inside WebAssembly
 </tr>
 <tr>
 <td>AssemblyScript</td>
-<td></td>
+<td>
+
+[as-fetch](#assemblyscript)
+
+</td>
 <td>
 
 [wasi-experimental-http](#assemblyscript-wasi)
@@ -133,10 +137,70 @@ _Possible, but why?_
 
 </td>
 </tr>
+<tr>
+<td>Swift</td>
+<td>
+
+[SwiftWasm](#swift)
+
+</td>
+<td></td>
+</tr>
 </table>
 
 Browser WASM runtimes and V8-based runtimes like Node.js and Deno
 -----------------------------------------------------------------
+
+### AssemblyScript
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[as-fetch](https://github.com/JairusSW/as-fetch)
+
+</td>
+<td>
+
+```typescript
+import { fetch } from "as-fetch/assembly";
+
+export { responseHandler } from "as-fetch/assembly";
+
+fetch("https://httpbin.org/anything", {
+  method: "GET",
+  mode: "no-cors",
+  headers: [],
+  body: null,
+}).then((resp) => {
+  const text = resp.text();
+});
+```
+
+</td>
+<td>
+
+[Example](https://github.com/JairusSW/as-fetch/blob/503cb7804d3aeaa9a5dd86b0f6ef3907ce6def1b/assembly/test.ts#L10)
+
+</td>
+<td>
+
+[Readme](https://github.com/JairusSW/as-fetch#usage)
+
+</td>
+<td></td>
+<td>Browser, Node.js, and Deno</td>
+<td>
+
+[JS `fetch` interop](https://github.com/JairusSW/as-fetch/blob/503cb7804d3aeaa9a5dd86b0f6ef3907ce6def1b/assembly/src/fetch.ts#L25)
+by [importing](https://github.com/JairusSW/as-fetch/blob/503cb7804d3aeaa9a5dd86b0f6ef3907ce6def1b/assembly/src/fetch.ts#L3) the function from runtime
+
+</td>
+</tr>
+</table>
 
 <a id="csharp"></a>
 ### C#
@@ -1273,6 +1337,66 @@ Also [native](https://github.com/http-rs/surf/blob/v2.3.2/src/lib.rs#L83)
 
 </table>
 
+### Swift
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[SwiftWasm](https://swiftwasm.org/)
+
+</td>
+<td>
+
+```swift
+import JavaScriptEventLoop
+import JavaScriptKit
+
+JavaScriptEventLoop.installGlobalExecutor()
+
+let fetch = JSObject.global.fetch.function!
+let resp = try! await JSPromise(
+  fetch("https://httpbin.org/anything").object!)!.value
+let text = try! await JSPromise(resp.text().object!)!.value
+print(text)
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/swiftwasm/JavaScriptKit/blob/096584bb6959f16d97daf3ebf52039f98c36fdbf/Example/JavaScriptKitExample/Sources/JavaScriptKitExample/main.swift#L36)
+* [Example](https://github.com/swiftwasm/swift-web-github-example/blob/d4fd6d3b83835396a6208ad412b91899c8a80973/Sources/GitHubExampleWeb/WebBindings/WebFetch.swift#L6)
+
+
+</td>
+<td>
+
+* [Doc](https://book.swiftwasm.org/getting-started/concurrency.html?highlight=fetch#javascript-event-loop-based-task-executor)
+* [JS interop doc](https://book.swiftwasm.org/getting-started/javascript-interop.html)
+
+</td>
+<td>
+
+* [Demo](https://swiftwasm.org/swift-web-github-example/)
+* [Playground](https://pad.swiftwasm.org/)
+
+</td>
+<td>
+
+Browser, [Node.js](https://book.swiftwasm.org/getting-started/javascript-interop.html?highlight=node.js#javascript-interoperation), and Deno
+
+</td>
+<td>
+
+Direct `fetch` interop using [JavaScriptKit](https://github.com/swiftwasm/JavaScriptKit) framework
+
+</td>
+</tr>
+</table>
 
 Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl containers, FaaS, Edge Computing, etc
 ------------------------------------------------------------------------------------------------------------
