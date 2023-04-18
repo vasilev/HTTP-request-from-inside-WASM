@@ -63,6 +63,15 @@ Make HTTP request from inside WebAssembly
 </td>
 </tr>
 <tr>
+<td>Java</td>
+<td></td>
+<td>
+
+[spin-teavm-example](#java-wasi)
+
+</td>
+</tr>
+<tr>
 <td>JavaScript</td>
 <td>
 
@@ -909,7 +918,7 @@ puts resp.text.await
 </td>
 <td>
 
-* [TryRuby Demo](https://try.ruby-lang.org/playground/#code=+require+'js'%0A+promise+%3D+JS.global.call%28%3Afetch%2C+'https%3A%2F%2Fhttpbin.org%2Fanything'%29%0A+promise.call%28%3Athen%2C%0A+++-%3E%28r%29+%7B+p2%3D+r.call%28%3Atext%29%3B+p2.call%28%3Athen%2C+%0A+++++-%3E%28t%29+%7B+puts+%22text%3D%23%7Bt%7D%22+%7D+%29%7D+%0A+%29&engine=cruby-3.3.0dev)
+* [TryRuby Demo](https://try.ruby-lang.org/playground/#code=+require+'js'%0A+promise+%3D+JS.global.call%28%3Afetch%2C+'https%3A%2F%2Fhttpbin.org%2Fanything'%29%0A+promise.call%28%3Athen%2C%0A+++-%3E%28r%29+%7B+p2%3D+r.call%28%3Atext%29%3B+p2.call%28%3Athen%2C+%0A+++++-%3E%28t%29+%7B+puts+%22text%3D%23%7Bt%7D%22+%7D+%29%7D+%0A+%29&engine=cruby-3.2.0)
 * [irb-wasm Playground](https://irb-wasm.vercel.app/)
 
 </td>
@@ -1368,9 +1377,9 @@ print(text)
 </td>
 <td>
 
-* [Example](https://github.com/swiftwasm/JavaScriptKit/blob/096584bb6959f16d97daf3ebf52039f98c36fdbf/Example/JavaScriptKitExample/Sources/JavaScriptKitExample/main.swift#L36)
-* [Example](https://github.com/swiftwasm/swift-web-github-example/blob/d4fd6d3b83835396a6208ad412b91899c8a80973/Sources/GitHubExampleWeb/WebBindings/WebFetch.swift#L6)
-
+* [Example 1](https://github.com/swiftwasm/JavaScriptKit/blob/0.18.0/Example/JavaScriptKitExample/Sources/JavaScriptKitExample/main.swift#L36)
+* [Example 2](https://github.com/swiftwasm/swift-web-github-example/blob/d4fd6d3b83835396a6208ad412b91899c8a80973/Sources/GitHubExampleWeb/WebBindings/WebFetch.swift#L6)
+* [Example 3](https://github.com/TokamakUI/Tokamak/blob/0.11.1/Sources/TokamakDemo/Modifiers/TaskDemo.swift#L54) from _Tokamak_
 
 </td>
 <td>
@@ -1804,6 +1813,64 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 <td>
 
 [Calling](https://github.com/dev-wasm/dev-wasm-go/blob/d7482362e292598bdb04493a6b664272a60e9c71/http/req.go#L64) [imported](https://github.com/dev-wasm/dev-wasm-go/blob/d7482362e292598bdb04493a6b664272a60e9c71/http/req.go#L36-L38) [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http](#wasi-experimental-http) Wasmtime's WASI module.
+
+</td>
+</tr>
+</table>
+
+<a id="java-wasi"></a>
+### Java
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[dicej/spin-teavm-example](https://github.com/dicej/spin-teavm-example)
+
+Uses [forked TeaVM](https://github.com/fermyon/teavm-wasi) as compiler.
+
+</td>
+<td>
+
+```java
+import wit_wasi_outbound_http.WasiOutboundHttp.*;
+
+Result<Response, HttpError> result =
+  WasiOutboundHttp.request(
+    new Request(Method.GET, "https://httpbin.org/anything", 
+    new ArrayList<>(), new ArrayList<>(), null));
+
+Response resp = result.getOk();
+String body = new String(resp.body, UTF_8);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/dicej/spin-teavm-example/blob/1f4f83bf1ac710a2c38b80be83a808c4570772b6/src/main/java/wit_spin_http/SpinHttpImpl.java#L35-L36)
+
+</td>
+<td>
+
+[Readme](https://github.com/dicej/spin-teavm-example/blob/main/README.md)
+
+</td>
+<td></td>
+<td>
+
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
+
+</td>
+<td>
+
+Direct [invocation](https://github.com/dicej/spin-teavm-example/blob/1f4f83bf1ac710a2c38b80be83a808c4570772b6/src/main/java/wit_wasi_outbound_http/WasiOutboundHttp.java#L99) 
+of [imported](https://github.com/dicej/spin-teavm-example/blob/1f4f83bf1ac710a2c38b80be83a808c4570772b6/src/main/java/wit_wasi_outbound_http/WasiOutboundHttp.java#L49-L50) 
+Spin's [host function](https://github.com/fermyon/spin/blob/v0.8.0/crates/outbound-http/src/lib.rs#L57).
 
 </td>
 </tr>
