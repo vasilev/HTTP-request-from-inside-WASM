@@ -64,7 +64,11 @@ Make HTTP request from inside WebAssembly
 </tr>
 <tr>
 <td>Java</td>
-<td></td>
+<td>
+
+[Bytecoder](#java)
+
+</td>
 <td>
 
 [spin-teavm-example](#java-wasi)
@@ -455,6 +459,70 @@ Browser and [Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-we
 <td>
 
 Direct [JS `fetch` Interop](https://github.com/marwan-at-work/wasm-fetch/blob/e4e5f93254680e5f64e37a500e2f3a73c374907f/fetch.go#L127)
+
+</td>
+</tr>
+</table>
+
+### Java / JVM
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[mirkosertic/Bytecoder](https://github.com/mirkosertic/Bytecoder)
+
+<sub>transpile JVM bytecode to Wasm</sub>
+
+</td>
+<td>
+
+```java
+import de.mirkosertic.bytecoder.api.web.*;
+
+final Window win = Window.window();
+final Console con = Console.console();
+
+win.fetch("https://httpbin.org/anything").then(
+ new Promise.Handler<Response>() {
+  @Override
+  public void handleObject(final Response resp) {
+    resp.text().then(new StringPromise.Handler() {
+      @Override
+      public void handleString(final String text) {
+        con.log(text);
+      }
+    });
+  }
+});
+```
+
+</td>
+<td>
+
+[Test](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/core/src/test/java/de/mirkosertic/bytecoder/core/OpaqueReferenceTest.java#L105)
+
+</td>
+<td>
+
+[Some doc](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/manual/content/chapter-1/page-1-f.md?plain=1#L40)
+
+</td>
+<td></td>
+<td>
+
+Browser, Node.js, and Deno
+
+</td>
+<td>
+
+Direct [`fetch`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/WindowOrWorkerGlobalScope.java#L22)  
+interop using [imported](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/Window.java#L23) 
+JS [`window`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/core/src/main/resources/wasmruntime.js#L637) object.
 
 </td>
 </tr>
