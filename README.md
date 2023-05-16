@@ -1,7 +1,7 @@
 Make HTTP request from inside WebAssembly
 =========================================
 
-(Wannabe-awesome) list of approaches (recipes, frameworks, http client libraries, etc) to make outbound HTTP(S) requests from inside WebAssembly.
+(Wannabe-awesome) list of approaches (recipes, frameworks, http client libraries, etc) to send outbound HTTP(S) requests from inside WebAssembly.
 
 ### Contents
 <table>
@@ -48,6 +48,15 @@ Make HTTP request from inside WebAssembly
 [httpclient_wasmedge_socket, wasi-experimental-http](#cpp-wasi)
 
 </td>
+</tr>
+<tr>
+<td>Crystal</td>
+<td>
+
+[crystal-js](#crystal)
+
+</td>
+<td></td>
 </tr>
 <tr>
 <td>Golang / TinyGo</td>
@@ -369,6 +378,72 @@ Browser, [Node.js](https://www.npmjs.com/package/xmlhttprequest-ssl), and [Deno]
 <td>
 
 [JS `XMLHttpRequest` Interop](https://github.com/nxxm/xxhr/blob/v1.0.2/xxhr/impl/session-emscripten.hpp#L273)
+
+</td>
+</tr>
+</table>
+
+<a id="crystal"></a>
+### Crystal
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[lbguilherme/crystal-js](https://github.com/lbguilherme/crystal-js)
+
+</td>
+<td>
+
+```crystal
+require "js"
+
+class XMLHttpRequest < JS::Reference
+  @[JS::Method]
+  def self.new : self
+    <<-js
+      return new XMLHttpRequest();
+    js
+  end
+
+  js_getter responseText : String
+
+  js_method send
+  js_method open(method : String, url : String, async : Int32)
+end
+
+req = XMLHttpRequest.new
+req.open("GET", "https://httpbin.org/anything", 0)
+req.send
+JS.console.log req.response_text
+```
+
+</td>
+<td>
+
+[Example](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L245)
+
+</td>
+<td>
+
+[Readme](https://github.com/lbguilherme/crystal-js/blob/main/README.md#defining-raw-javascript-methods)
+
+</td>
+<td></td>
+<td>
+
+Browser, Node.js, and Deno
+
+</td>
+<td>
+
+Manual JS `XMLHttpRequest` interop by creating the 
+[wrapper](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L220) 
+using [`crystal-js`](https://github.com/lbguilherme/crystal-js) shard.
 
 </td>
 </tr>
