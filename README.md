@@ -32,7 +32,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Spin SDK for .NET, wasi-experimental-http](#csharp-wasi)
+[Spin SDK for .NET, wasi-experimental-http, wasmtime-wasi-http](#csharp-wasi)
 
 </td>
 </tr>
@@ -425,7 +425,8 @@ JS.console.log req.response_text
 </td>
 <td>
 
-[Example](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L245)
+* [Example 1](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L245)
+* [Example 2](https://github.com/wasm-outbound-http-examples/crystal/blob/e9cd47aeb218d9e4986ce9cd79329abf9586effb/browser/src/httpget.cr#L18)
 
 </td>
 <td>
@@ -433,7 +434,11 @@ JS.console.log req.response_text
 [Readme](https://github.com/lbguilherme/crystal-js/blob/main/README.md#defining-raw-javascript-methods)
 
 </td>
-<td></td>
+<td>
+
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=648744578)
+
+</td>
 <td>
 
 Browser, Node.js, and Deno
@@ -1751,12 +1756,12 @@ Console.WriteLine(content);
 </td>
 <td>
 
-[Readme](https://github.com/dev-wasm/dev-wasm-dotnet/blob/main/http/README.md#experimental-http-client-example)
+[Readme](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/README.md#experimental-http-client-example)
 
 </td>
 <td>
 
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=575630606) _by brendandburns_
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=650329121) _created by brendandburns_
 
 </td>
 <td>
@@ -1768,6 +1773,66 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 
 [Calling](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/WasiHttpHandler.cs#L158) [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/WasiHttpExperimental.cs#L25) via [C level](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/req.h#L26)
 [bindings](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/wasi_http.c#L93) the [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http-wasmtime](https://github.com/deislabs/wasi-experimental-http/tree/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime) Wasmtime's WASI module.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[wasmtime-wasi-http](https://crates.io/crates/wasmtime-wasi-http)
+
+</td>
+<td>
+
+```csharp
+// *Still* identical to wasi-experimental-http's code. 
+using Wasi.Http;
+
+var client = new HttpClient(new WasiHttpHandler());
+var result = await client.GetAsync("https://httpbin.org/anything", 
+ System.Threading.CancellationToken.None);
+var content = await result.Content.ReadAsStringAsync();
+Console.WriteLine(content);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/Program.cs#L34)
+
+</td>
+<td>
+
+[Readme](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/README.md#experimental-http-client-example)
+
+</td>
+<td>
+
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=575630606) _by brendandburns_
+
+<sub>But you need also (yet) to install LLVM's `lld` into this container</sub>
+
+</td>
+<td>
+
+[Wasmtime version 9.0](https://github.com/bytecodealliance/wasmtime/blob/v9.0.0/RELEASES.md?plain=1#L21).
+
+</td>
+<td>
+
+<sub>Sequence: .Net -> C -> WASI</sub>
+
+[Calling](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/WasiHttpHandler.cs#L194) 
+[imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/WasiHttpExperimental.cs#L25) 
+C-level
+[Mono binding](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/wasi_http.c#L171) 
+which [calls](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/wasi_http.c#L53)
+[generated](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/README.md?plain=1#L111-L121)
+(<sub>by [`wit-bindgen`](https://github.com/bytecodealliance/wit-bindgen) from the [wit template](https://github.com/WebAssembly/wasi-http/blob/19a019bd5917da7e110ef1b7e6bed6e22297d436/wit/outgoing-handler.wit#L14)</sub>)
+code, which calls [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25872298e129526b2b127c930dbebc84ce7e69e4/http/proxy.c#L213)
+Wasmtime's [host function](https://github.com/bytecodealliance/wasmtime/blob/v9.0.3/crates/wasi-http/src/http_impl.rs#L53),
+which, in turn, [performs](https://github.com/bytecodealliance/wasmtime/blob/v9.0.3/crates/wasi-http/src/http_impl.rs#L186) real request using
+[`hyper`](https://github.com/hyperium/hyper): [https](https://github.com/bytecodealliance/wasmtime/blob/v9.0.3/crates/wasi-http/src/http_impl.rs#L137), [http](https://github.com/bytecodealliance/wasmtime/blob/v9.0.3/crates/wasi-http/src/http_impl.rs#L152).
 
 </td>
 </tr>
@@ -1862,8 +1927,7 @@ free(buffer);
 </td>
 <td>
 
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=37e5fcc2cad204ed2534762e81bbceaa32399952&repo=575629237) _by brendandburns_
-<sub>, but need the [old version](https://github.com/dev-wasm/dev-wasm-c/blob/37e5fcc2cad204ed2534762e81bbceaa32399952/.devcontainer/devcontainer.json#L8) of container</sub>
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=648389246) _created by brendandburns_
 
 </td>
 <td>
@@ -1905,6 +1969,8 @@ streams_read(stream, len, &body_res, &err);
 ```
 
 </summary>
+
+--------
 
 ```C
 #include "proxy.h" // Generated by wit-bindgen
@@ -2110,8 +2176,7 @@ if err == nil {
 </td>
 <td>
 
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=d7482362e292598bdb04493a6b664272a60e9c71&repo=575629782) _by brendandburns_
-<sub>, but need the [old version](https://github.com/dev-wasm/dev-wasm-go/blob/d7482362e292598bdb04493a6b664272a60e9c71/.devcontainer/devcontainer.json#L4) of container</sub>
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=648324699) _created by brendandburns_
 
 </td>
 <td>
@@ -2176,7 +2241,7 @@ if err == nil {
 </td>
 <td>
 
-Sequence: Go -> C -> WASI
+<sub>Sequence: Go -> C -> WASI</sub>
 
 [Calling](https://github.com/dev-wasm/dev-wasm-go/blob/9373e164f38a5e07f73fe232636687545694f373/http/client/transport.go#L113)
 a [method](https://github.com/dev-wasm/dev-wasm-go/blob/9373e164f38a5e07f73fe232636687545694f373/http/proxy/proxy.go#L1504)
