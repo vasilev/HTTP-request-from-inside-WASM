@@ -168,6 +168,15 @@ _Possible, but why?_
 </td>
 <td></td>
 </tr>
+<tr>
+<td>Tcl</td>
+<td>
+
+[Wacl](#tcl)
+
+</td>
+<td></td>
+</tr>
 </table>
 
 Browser WASM runtimes and V8-based runtimes like Node.js and Deno
@@ -823,8 +832,9 @@ response = requests.get("https://httpbin.org/anything")
 </td>
 <td>
 
-* [Example](https://github.com/koenvo/pyodide-http#usage)
-* [Patching example](https://github.com/holoviz/panel/blob/v1.0.0a5/panel/io/pyodide.py#L49-L50) from _panel_
+* [Example](https://github.com/koenvo/pyodide-http/tree/0.2.1#usage)
+* [Patching example](https://github.com/koenvo/pyodide-http/blob/0.2.1/examples/pyvo.html#L12-L13)
+* [Patching example](https://github.com/holoviz/panel/blob/v1.1.0/panel/io/pyodide.py#L55-L56) from _panel_
 
 </td>
 <td>
@@ -911,14 +921,14 @@ response = requests.get("https://httpbin.org/anything")
 </td>
 <td>
 
-[Doc](https://panel.holoviz.org/user_guide/Running_in_Webassembly.html#handling-http-requests)
+[Doc](https://github.com/holoviz/panel/blob/v1.1.0/doc/how_to/wasm/convert.md#handling-http-requests)
 
 </td>
 <td></td>
 <td>Browser</td>
 <td>
 
-[Employs](https://github.com/holoviz/panel/blob/v1.0.0a5/panel/io/pyodide.py#L50) [koenvo/pyodide-http](#pyodide-http). Also direct [`XMLHttpRequest` interop](https://github.com/holoviz/panel/blob/v1.0.0a5/panel/io/pyodide.py#L287) for image data.
+[Employs](https://github.com/holoviz/panel/blob/v1.1.0/panel/io/pyodide.py#L56) [koenvo/pyodide-http](#pyodide-http). Also direct [`XMLHttpRequest` interop](https://github.com/holoviz/panel/blob/v1.1.0/panel/io/pyodide.py#L356) for image data.
 
 </td>
 </tr>
@@ -1556,7 +1566,77 @@ Direct `fetch` interop using [JavaScriptKit](https://github.com/swiftwasm/JavaSc
 </tr>
 </table>
 
-Standalone and server-side runtimes (mostly WASI-Socket-enabled), incl containers, FaaS, Edge Computing, etc
+### Tcl
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Wacl](https://github.com/ecky-l/wacl)
+
+</td>
+<td>
+
+```tcl
+set func_ptr_number 2
+puts [::wacl::jscall $func_ptr_number "string" "string" "https://httpbin.org/anything"]
+```
+
+Needs a JavaScript-side function registered using `jswrap()`:
+```js
+wacl.onReady(function (interpreter) {
+  const wrappedFuncName = interpreter.jswrap(function (ptrUrl) {
+    const url = interpreter.ptr2str(ptrUrl);
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    return interpreter.str2ptr(xhr.responseText);
+  }, 'string', 'string');
+});
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/wasm-outbound-http-examples/tcl/blob/1d5be00db183cba88da520b0ef8352ab31e48909/index.html#L31)
+* [`jswrap` example](https://github.com/wasm-outbound-http-examples/tcl/blob/1d5be00db183cba88da520b0ef8352ab31e48909/index.html#L40)
+
+</td>
+<td>
+
+[Readme](https://github.com/ecky-l/wacl/blob/9daacabb0102a9986f33263261350edfeebdd83b/README.md?plain=1#L17)
+
+</td>
+<td>
+
+[Demo / Playground](https://wasm-outbound-http-examples.github.io/tcl/)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Manual JS `XMLHttpRequest` interop by 
+[registering](https://github.com/wasm-outbound-http-examples/tcl/blob/1d5be00db183cba88da520b0ef8352ab31e48909/index.html#L40) 
+a function on JS side using 
+[`jswrap()`](https://github.com/ecky-l/wacl/blob/master/js/preJsRequire.js#L82-L85) via Emscripten `addFunction()` API
+and then [calling](https://github.com/wasm-outbound-http-examples/tcl/blob/1d5be00db183cba88da520b0ef8352ab31e48909/index.html#L31) it
+using [`::wacl::jscall`](https://github.com/ecky-l/wacl/blob/9daacabb0102a9986f33263261350edfeebdd83b/opt/wacl.c#L205-L209) 
+by its registration number.
+
+</td>
+</tr>
+</table>
+
+
+Standalone and server-side runtimes (mostly WASI and WASI-Socket-enabled), incl containers, FaaS, Edge Computing, etc
 ------------------------------------------------------------------------------------------------------------
 
 <a id="assemblyscript-wasi"></a>
@@ -1810,7 +1890,7 @@ Console.WriteLine(content);
 
 [Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=575630606) _by brendandburns_
 
-<sub>But you need also (yet) to install LLVM's `lld` into this container</sub>
+<sub>But you need also [(yet)](https://github.com/dev-wasm/dev-wasm-dotnet/pull/4) to install `libxml2` into this container</sub>
 
 </td>
 <td>
