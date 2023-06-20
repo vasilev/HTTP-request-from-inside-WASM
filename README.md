@@ -67,7 +67,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Capsule, Spin SDK for Go, wasi-experimental-http, wasmtime-wasi-http](#golang-wasi)
+[Capsule, Spin SDK for Go, stealthrocket/net, wasi-experimental-http, wasmtime-wasi-http](#golang-wasi)
 
 </td>
 </tr>
@@ -1684,7 +1684,7 @@ Console.log(text);
 </td>
 <td>
 
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=575631506) _by brendandburns_
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=656267188) _created by brendandburns_
 
 </td>
 <td>
@@ -1742,7 +1742,7 @@ _from dev-wasm-ts_
 <td>
 
 Possible with 
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=575631506) _by brendandburns_
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=656267188) _created by brendandburns_
 
 </td>
 <td>
@@ -1755,6 +1755,62 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 Using [client lib](https://github.com/brendandburns/wasi-http-ts) which [calls](https://github.com/brendandburns/wasi-http-ts/blob/1f8c7d7e48a79575df080a77fe589cf5cf2309ac/index.ts#L202)
 [imported](https://github.com/brendandburns/wasi-http-ts/blob/1f8c7d7e48a79575df080a77fe589cf5cf2309ac/raw.ts#L113)
 [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http-wasmtime](https://github.com/deislabs/wasi-experimental-http/tree/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime) Wasmtime's WASI module.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[wasmtime-wasi-http](https://crates.io/crates/wasmtime-wasi-http)
+
+</td>
+<td>
+
+```typescript
+import { Console } from "as-wasi/assembly";
+import { request } from "./request";
+export function cabi_realloc(a: usize, b: usize,
+                             c: usize, len: usize): usize {
+ return heap.alloc(len);
+}
+
+let response = request("GET", "https://httpbin.org/anything", null,
+  [{ name: "User-Agent", value: "wasi-http" }]);
+
+Console.log(response.Body);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/dev-wasm/dev-wasm-ts/blob/1b4ec0d01e6fdb576e18126d92b23a90709630d0/http/main.ts#L9)
+
+</td>
+<td>
+
+[Readme](https://github.com/dev-wasm/dev-wasm-ts/blob/1b4ec0d01e6fdb576e18126d92b23a90709630d0/http/README.md#experimental-http-client-example)
+
+</td>
+<td>
+
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=575631506) _by brendandburns_
+
+</td>
+<td>
+
+[Wasmtime version 9.0](https://github.com/bytecodealliance/wasmtime/blob/v9.0.0/RELEASES.md?plain=1#L21) and above.
+
+</td>
+<td>
+
+[Calling](https://github.com/dev-wasm/dev-wasm-ts/blob/1b4ec0d01e6fdb576e18126d92b23a90709630d0/http/request.ts#L112) to
+[imported](https://github.com/dev-wasm/dev-wasm-ts/blob/1b4ec0d01e6fdb576e18126d92b23a90709630d0/http/raw.ts#L35)
+Wasmtime's [host function](https://github.com/bytecodealliance/wasmtime/blob/v10.0.0/crates/wasi-http/src/http_impl.rs#L47),
+which, in turn, [performs](https://github.com/bytecodealliance/wasmtime/blob/v10.0.0/crates/wasi-http/src/http_impl.rs#L179) real request using
+[`hyper`](https://github.com/hyperium/hyper): 
+[https](https://github.com/bytecodealliance/wasmtime/blob/v10.0.0/crates/wasi-http/src/http_impl.rs#L130), 
+[http](https://github.com/bytecodealliance/wasmtime/blob/v10.0.0/crates/wasi-http/src/http_impl.rs#L145).
+
 
 </td>
 </tr>
@@ -2334,6 +2390,64 @@ the [imported](https://github.com/dev-wasm/dev-wasm-go/blob/9373e164f38a5e07f73f
 Wasmtime's [host function](https://github.com/bytecodealliance/wasmtime/blob/v9.0.2/crates/wasi-http/src/http_impl.rs#L53),
 which, in turn, [performs](https://github.com/bytecodealliance/wasmtime/blob/v9.0.2/crates/wasi-http/src/http_impl.rs#L186) real request using
 [`hyper`](https://github.com/hyperium/hyper): [https](https://github.com/bytecodealliance/wasmtime/blob/v9.0.2/crates/wasi-http/src/http_impl.rs#L137), [http](https://github.com/bytecodealliance/wasmtime/blob/v9.0.2/crates/wasi-http/src/http_impl.rs#L152).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[stealthrocket/net](https://github.com/stealthrocket/net)
+
+<sub>Use `gotip` until [Go 1.21](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L18) is released. 
+
+</td>
+<td>
+
+```go
+import ( 	"fmt" ; "io" ; "net/http"
+  _ "github.com/stealthrocket/net/http"
+)
+
+response, err := http.Get("http://httpbin.org/anything")
+if err != nil {
+  fmt.Println(err)
+}
+defer response.Body.Close()
+
+body, err := io.ReadAll(response.Body)
+if err == nil {
+  fmt.Println(string(body))
+}
+```
+
+</td>
+<td>
+
+* [Test](https://github.com/stealthrocket/net/blob/v0.1.4/http/http_wasip1_test.go#L33)
+
+</td>
+<td>
+
+[Readme](https://github.com/stealthrocket/net/blob/v0.1.4/README.md#configuration)
+
+</td>
+<td>
+
+
+
+</td>
+<td>
+
+[Wazero and maybe WasmEdge](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L10-L11)
+
+</td>
+<td>
+
+[Hotpatching](https://github.com/stealthrocket/net/blob/v0.1.4/http/http_wasip1.go#L13) on module import `http.DefaultTransport` with
+`wasip1.DialContext`
+which refers to 
+[imported `sock_conn()`](https://github.com/stealthrocket/net/blob/v0.1.4/wasip1/syscall_wasmedge_wasip1.go#L143) in the case of WasmEdge
+and to [`syscall.Connect()`](https://github.com/stealthrocket/wasi-go/blob/v0.6.9/internal/sockets/dial.go#L24) in the case of Wazero.
 
 </td>
 </tr>
