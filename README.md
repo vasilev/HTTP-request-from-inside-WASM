@@ -119,7 +119,7 @@ _Possible, but why?_
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, PyScript, Panel, RPython](#python)
+[RustPython, Pyodide, pyodide-http, PyScript, Panel, RPython, micropython-wasm](#python)
 
 </td>
 <td>
@@ -929,6 +929,52 @@ response = requests.get("https://httpbin.org/anything")
 <td>
 
 [Employs](https://github.com/holoviz/panel/blob/v1.1.0/panel/io/pyodide.py#L56) [koenvo/pyodide-http](#pyodide-http). Also direct [`XMLHttpRequest` interop](https://github.com/holoviz/panel/blob/v1.1.0/panel/io/pyodide.py#L356) for image data.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[micropython-wasm](https://github.com/rafi16jan/micropython-wasm)
+
+</td>
+<td>
+
+```python
+import js
+
+fetch = JS('fetch')
+
+response = fetch('https://httpbin.org/anything').wait()
+text = response.text().wait()
+print(text)
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/rafi16jan/micropython-wasm/blob/74d3da30dd9baa39aa1429bb1548d49b7a1662e1/README.md?plain=1#L141)
+* [Example 2](https://github.com/wasm-outbound-http-examples/micropython/blob/7cd478c7654c00a12dce887f9119a771d8bd1286/browser-and-node/src/httpget-node.js#L11)
+
+</td>
+<td>
+
+[Readme](https://github.com/rafi16jan/micropython-wasm/blob/74d3da30dd9baa39aa1429bb1548d49b7a1662e1/README.md?plain=1#L69)
+
+</td>
+<td>
+
+* [Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=659393452)
+
+</td>
+<td>
+
+Browser and Node.js
+
+</td>
+<td>
+
+Direct `fetch` interop using [js](https://github.com/rafi16jan/micropython-wasm/blob/74d3da30dd9baa39aa1429bb1548d49b7a1662e1/js.py#L111) module, by employing Emscripten APIs.
 
 </td>
 </tr>
