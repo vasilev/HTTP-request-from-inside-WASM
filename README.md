@@ -98,6 +98,15 @@ _Possible, but why?_
 </td>
 </tr>
 <tr>
+<td>Lua</td>
+<td>
+
+[Wasmoon](#lua)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>PHP</td>
 <td>
 
@@ -613,6 +622,56 @@ Browser, Node.js, and Deno
 Direct [`fetch`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/WindowOrWorkerGlobalScope.java#L22)  
 interop using [imported](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/Window.java#L23) 
 JS [`window`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/core/src/main/resources/wasmruntime.js#L637) object.
+
+</td>
+</tr>
+</table>
+
+### Lua
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Wasmoon](https://github.com/ceifa/wasmoon)
+
+</td>
+<td>
+
+```lua
+local resp = fetch('https://httpbin.org/anything'):await()
+local text = resp:text():await()
+print(text)
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/lua/blob/c40b25566336cbb05122937117c6b55bf78742f7/browser-and-node/src/httpget.mjs#L11)
+
+</td>
+<td>
+
+[Some doc](https://github.com/ceifa/wasmoon#api-usage)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/lua)
+
+</td>
+<td>
+
+[Browser, Node.js, and Deno](https://github.com/ceifa/wasmoon/blob/b4bd60d5fdcc29f51d42286b8183ba89f287ae81/README.md?plain=1#L9)
+
+</td>
+<td>
+
+Direct `fetch` interop by manually importing it into Lua using 
+[`lua.global.set()`](https://github.com/ceifa/wasmoon/blob/b4bd60d5fdcc29f51d42286b8183ba89f287ae81/src/global.ts#L131).
 
 </td>
 </tr>
@@ -2444,7 +2503,7 @@ which, in turn, [performs](https://github.com/bytecodealliance/wasmtime/blob/v9.
 
 [stealthrocket/net](https://github.com/stealthrocket/net)
 
-<sub>Use `gotip` until [Go 1.21](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L18) is released. 
+<sub>Use `gotip` until [Go 1.21](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L18) is released.</sub> 
 
 </td>
 <td>
@@ -2470,6 +2529,8 @@ if err == nil {
 <td>
 
 * [Test](https://github.com/stealthrocket/net/blob/v0.1.4/http/http_wasip1_test.go#L33)
+* [HTTP Example](https://github.com/wasm-outbound-http-examples/go/blob/c48072d362c953ef88498967fe20efb642959527/wasi-stealthrocket-net/httpget.go#L12)
+* [HTTPS Example](https://github.com/wasm-outbound-http-examples/go/blob/c48072d362c953ef88498967fe20efb642959527/wasi-stealthrocket-net/httpsget.go#L22)
 
 </td>
 <td>
@@ -2479,12 +2540,12 @@ if err == nil {
 </td>
 <td>
 
-
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/go)
 
 </td>
 <td>
 
-[Wazero and maybe WasmEdge](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L10-L11)
+[Wazero and WasmEdge](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L10-L11)
 
 </td>
 <td>
