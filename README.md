@@ -186,6 +186,15 @@ _Possible, but why?_
 </td>
 <td></td>
 </tr>
+<tr>
+<td>Zig</td>
+<td></td>
+<td>
+
+[wasi-experimental-http](#zig-wasi)
+
+</td>
+</tr>
 </table>
 
 Browser WASM runtimes and V8-based runtimes like Node.js and Deno
@@ -454,7 +463,8 @@ JS.console.log req.response_text
 </td>
 <td>
 
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=648744578)
+* [Demo](https://wasm-outbound-http-examples.github.io/crystal/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/crystal)
 
 </td>
 <td>
@@ -1023,7 +1033,7 @@ print(text)
 </td>
 <td>
 
-* [Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=659393452)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/micropython)
 
 </td>
 <td>
@@ -3213,6 +3223,75 @@ calls imported
 
 2. Wazero's [host function](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
    which [performs](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+
+</td>
+</tr>
+</table>
+
+<a id="zig-wasi"></a>
+### Zig
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
+
+</td>
+<td>
+
+```zig
+var gp_all = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gp_all.allocator();
+var status: u16 = 0;
+var handle: u32 = 0;
+
+_ = request("https://httpbin.org/anything", "GET", "", "", &status, &handle);
+defer _ = close(@bitCast(i32, handle));
+
+var headers_buffer = try allocator.alloc(u8, 1024);
+var header_len: u32 = 0;
+_ = header(handle, "content-length", headers_buffer, &header_len);
+const length = try std.fmt.parseInt(u32, headers_buffer[0..header_len], 10);
+var buffer = try allocator.alloc(u8, length + 1);
+defer allocator.free(buffer);
+
+var written: u32 = 0;
+_ = body_read(handle, &buffer[0], @bitCast(i32, buffer.len), &written);
+try std.io.getStdOut().writer().print("{s}\n", .{buffer[0..written]});
+```
+
+</td>
+<td>
+
+[Example](https://github.com/dev-wasm/dev-wasm-zig/blob/84c2edf33e025103aae4d0861177585cc56fac8e/src/http.zig#L32)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/wasi-experimental-http/0.10.0/wasi_experimental_http/)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/dev-wasm/dev-wasm-zig) _by brendandburns_
+
+</td>
+<td>
+
+Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
+
+</td>
+<td>
+
+[Calling](https://github.com/dev-wasm/dev-wasm-zig/blob/84c2edf33e025103aae4d0861177585cc56fac8e/src/http.zig#L17) 
+[imported](https://github.com/dev-wasm/dev-wasm-zig/blob/84c2edf33e025103aae4d0861177585cc56fac8e/src/http.zig#L1) 
+Wasmtime's [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238).
+The actual request is [here](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L516).
 
 </td>
 </tr>
