@@ -72,6 +72,15 @@ Make HTTP request from inside WebAssembly
 </td>
 </tr>
 <tr>
+<td>Haskell</td>
+<td></td>
+<td>
+
+[Extism PDK for Haskell](#haskell-wasi)
+
+</td>
+</tr>
+<tr>
 <td>Java</td>
 <td>
 
@@ -93,7 +102,7 @@ _Possible, but why?_
 </td>
 <td>
 
-[WasmEdge-QuickJs, Spin SDK for JS / TS](#javascript-wasi)
+[WasmEdge-QuickJs, Extism PDK for JS, Spin SDK for JS / TS](#javascript-wasi)
 
 </td>
 </tr>
@@ -2662,6 +2671,68 @@ and to [`syscall.Connect()`](https://github.com/stealthrocket/wasi-go/blob/v0.6.
 </tr>
 </table>
 
+<a id="haskell-wasi"></a>
+### Haskell
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Extism Plug-in Development Kit (PDK) for Haskell](https://github.com/extism/haskell-pdk)
+
+</td>
+<td>
+
+```haskell
+module Main where
+
+import Extism.PDK
+import Extism.PDK.HTTP
+
+https_get = do
+  let url = "https://httpbin.org/anything"
+  let req = newRequest url
+  resp <- sendRequest req Nothing
+  outputMemory (memory resp)
+
+foreign export ccall "https_get" https_get :: IO ()
+
+main = https_get
+```
+
+</td>
+<td>
+
+[Example](https://github.com/extism/haskell-pdk/blob/f5d768c8fee67cae176eed22dcb3276577ecf46b/examples/HTTPGet.hs#L12)
+
+</td>
+<td>
+
+[Doc](https://extism.org/docs/write-a-plugin/haskell-pdk/#using-extism-built-in-http)
+
+</td>
+<td></td>
+<td>
+
+Extism [uses](https://github.com/extism/extism/blob/v0.4.0/runtime/Cargo.toml#L12) Wasmtime
+
+</td>
+<td>
+
+[Calling](https://github.com/extism/haskell-pdk/blob/f5d768c8fee67cae176eed22dcb3276577ecf46b/src/Extism/PDK/HTTP.hs#L71)
+[imported](https://github.com/extism/haskell-pdk/blob/f5d768c8fee67cae176eed22dcb3276577ecf46b/src/Extism/PDK/Bindings.hs#L43)
+runtime's [host function](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L297)
+[exported](https://github.com/extism/extism/blob/v0.4.0/runtime/src/plugin.rs#L112) for plugins,
+which [makes](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L358) actual request using `ureq`.
+
+</td>
+</tr>
+</table>
+
 <a id="java-wasi"></a>
 ### Java
 
@@ -2767,6 +2838,55 @@ to [`WasiTcpConn`](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-
 which is [`C` binding](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/event_loop/wasi_sock.rs#L606)
 to
 Wasmedge's implementation of WASI Socket
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Extism Plug-in Development Kit (PDK) for JavaScript](https://github.com/extism/js-pdk)
+
+</td>
+<td>
+
+```js
+function https_get() {
+  let resp = Http.request(
+    {
+      url: 'https://httpbin.org/anything',
+      method: 'GET',
+      headers: { 'User-Agent': 'extism_pdk' }
+    },
+    null
+  );
+  Host.outputString(resp.body);
+}
+module.exports = { https_get }
+```
+
+</td>
+<td>
+
+[Example](https://github.com/extism/js-pdk/blob/v0.5.0/script.js#L49)
+
+</td>
+<td>
+
+[Some doc](https://extism.org/docs/write-a-plugin/js-pdk/)
+
+</td>
+<td></td>
+<td>
+
+Extism [uses](https://github.com/extism/extism/blob/v0.4.0/runtime/Cargo.toml#L12) Wasmtime
+
+</td>
+<td>
+
+`Http` object [injected](https://github.com/extism/js-pdk/blob/v0.5.0/crates/core/src/globals.rs#L21) into QuickJS's
+global namespace. It [calls](https://github.com/extism/js-pdk/blob/v0.5.0/crates/core/src/globals.rs#L176) the 
+[`http::request()`](https://github.com/extism/rust-pdk/blob/v0.3.3/src/http.rs#L35)
+from [Extism PDK for Rust](#extism-rust-pdk).
 
 </td>
 </tr>
@@ -2925,6 +3045,7 @@ Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
 <tr>
 <td>
+<a id="extism-rust-pdk"></a>
 
 [Extism Plug-in Development Kit (PDK) for Rust](https://github.com/extism/rust-pdk)
 
