@@ -200,7 +200,7 @@ _Possible, but why?_
 <td></td>
 <td>
 
-[wasi-experimental-http](#zig-wasi)
+[Extism PDK for Zig, wasi-experimental-http](#zig-wasi)
 
 </td>
 </tr>
@@ -857,6 +857,8 @@ from pyodide.http import pyfetch
 response = await pyfetch("https://httpbin.org/anything")
 ```
 
+<sub>Also note that the [pyodide-http](#pyodide-http) is [bundled](https://github.com/pyodide/pyodide/pull/3355) in Pyodide.</sub>
+
 </td>
 <td>
 
@@ -888,6 +890,7 @@ Browser, Node.js, and [maybe Deno](https://github.com/pyodide/pyodide/pull/3421)
 </tr>
 <tr>
 <td>
+<a id="pyodide-http"></a>
 
 [koenvo/pyodide-http](https://github.com/koenvo/pyodide-http)
 
@@ -3357,6 +3360,61 @@ calls imported
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Extism Plug-in Development Kit (PDK) for Zig](https://github.com/extism/zig-pdk)
+
+</td>
+<td>
+
+```zig
+const std = @import("std");
+const extism_pdk = @import("extism-pdk");
+const allocator = std.heap.wasm_allocator;
+
+export fn https_get() i32 {
+const plugin = extism_pdk.Plugin.init(allocator);
+var req = extism_pdk.http.HttpRequest.init(allocator, "GET", 
+  "https://httpbin.org/anything");
+defer req.deinit();
+req.setHeader("User-Agent", "extism_pdk") catch unreachable;
+
+const resp = plugin.request(req, null) catch unreachable;
+defer resp.deinit();
+
+plugin.outputMemory(resp.memory);
+return 0;
+}
+```
+
+</td>
+<td>
+
+[Example](https://github.com/extism/zig-pdk/blob/55bde28e8ef1adfe505b15485ae4dafcd5e6a805/examples/basic.zig#L62)
+
+</td>
+<td>
+
+[Some doc](https://extism.org/docs/write-a-plugin/zig-pdk#example-usage)
+
+</td>
+<td></td>
+<td>
+
+Extism [uses](https://github.com/extism/extism/blob/v0.4.0/runtime/Cargo.toml#L12) Wasmtime
+
+</td>
+<td>
+
+[Calling](https://github.com/extism/zig-pdk/blob/55bde28e8ef1adfe505b15485ae4dafcd5e6a805/src/main.zig#L138)
+[imported](https://github.com/extism/zig-pdk/blob/55bde28e8ef1adfe505b15485ae4dafcd5e6a805/src/ffi.zig#L17)
+runtime's [host function](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L297)
+[exported](https://github.com/extism/extism/blob/v0.4.0/runtime/src/plugin.rs#L112) for plugins,
+which [makes](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L358) actual request using `ureq`.
+
+</td>
+</tr>
 <tr>
 <td>
 
