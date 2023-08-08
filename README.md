@@ -110,7 +110,7 @@ _Possible, but why?_
 <td>Lua</td>
 <td>
 
-[Wasmoon](#lua)
+[Wasmoon, gluahttp](#lua)
 
 </td>
 <td></td>
@@ -499,6 +499,7 @@ using [`crystal-js`](https://github.com/lbguilherme/crystal-js) shard.
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
 <tr><td>
+<a id="go-net-http"></a>
 
 [Golang](https://go.dev/)
 
@@ -691,6 +692,57 @@ print(text)
 
 Direct `fetch` interop by manually importing it into Lua using 
 [`lua.global.set()`](https://github.com/ceifa/wasmoon/blob/b4bd60d5fdcc29f51d42286b8183ba89f287ae81/src/global.ts#L131).
+
+</td>
+</tr>
+</table>
+
+#### Lua implemented in Golang
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[cjoudrey/gluahttp](https://github.com/cjoudrey/gluahttp)
+
+</td>
+<td>
+
+```lua
+local http = require("http")
+local res, err = http.request('GET', 
+  'https://httpbin.org/anything', {
+  headers={
+    ['User-Agent']='gluahttp/wasm'
+  }
+})
+print(res.body)
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/lua-in-go/blob/017112ee99c0a0b14a511729310252c1d2fe68ee/browser-gluahttp/main.go#L19)
+
+</td>
+<td>
+
+[Readme](https://github.com/cjoudrey/gluahttp#usage)
+
+</td>
+<td>
+
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/lua-in-go)
+
+</td>
+<td>Browser and maybe Node</td>
+<td>
+
+[Using](https://github.com/cjoudrey/gluahttp/blob/25003d9adfa90bf4c4609bcebdf2061a5636d532/gluahttp.go#L218)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/cjoudrey/gluahttp/blob/25003d9adfa90bf4c4609bcebdf2061a5636d532/gluahttp.go#L38).
 
 </td>
 </tr>
