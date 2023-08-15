@@ -137,7 +137,7 @@ _Possible, but why?_
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, PyScript, Panel, RPython, micropython-wasm](#python)
+[RustPython, Pyodide, pyodide-http, JupyterLite, PyScript, Panel, RPython, micropython-wasm](#python)
 
 </td>
 <td>
@@ -712,7 +712,7 @@ Direct `fetch` interop by manually importing it into Lua using
 <td>
 
 ```lua
-local http = require("http")
+local http = require('http')
 local res, err = http.request('GET', 
   'https://httpbin.org/anything', {
   headers={
@@ -1062,6 +1062,66 @@ response = requests.get("https://httpbin.org/anything")
 <td>
 
 [Employs](https://github.com/holoviz/panel/blob/v1.1.0/panel/io/pyodide.py#L56) [koenvo/pyodide-http](#pyodide-http). Also direct [`XMLHttpRequest` interop](https://github.com/holoviz/panel/blob/v1.1.0/panel/io/pyodide.py#L356) for image data.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[JupyterLite](https://github.com/jupyterlite/jupyterlite)
+
+</td>
+<td>
+
+```python
+# using Pandas
+import pyodide_http; pyodide_http.patch_all()
+import pandas as pd
+
+data = pd.read_json('https://httpbin.org/json')
+data
+```
+
+```python
+# using js.fetch
+from js import fetch
+res = await fetch('https://httpbin.org/anything')
+text = await res.text()
+print(text)
+```
+
+```python
+# using requests
+import micropip; await micropip.install(['requests'])
+import pyodide_http; pyodide_http.patch_all()
+
+import requests
+res = requests.get("https://httpbin.org/anything")
+print(res.text)
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/jupyterlite/jupyterlite/blob/v0.1.1/examples/pyodide/plotly.ipynb?short_path=7be76b8#L75)
+* [Example](https://github.com/jupyterlite/jupyterlite/blob/v0.1.1/examples/python.ipynb?short_path=d44a323#L194)
+* [Example](https://github.com/jupyterlite/jupyterlite/blob/v0.1.1/docs/howto/content/python.md?plain=1#L73)
+
+</td>
+<td>
+
+[Doc](https://github.com/jupyterlite/jupyterlite/blob/v0.1.1/docs/howto/content/python.md#fetching-remote-content)
+
+</td>
+<td>
+
+[Playground](https://jupyterlite.readthedocs.io/en/latest/_static/lab/index.html)
+
+</td>
+<td>Browser</td>
+<td>
+
+Employing [`pyodide-http`](#pyodide-http) and [Pyodide](https://github.com/jupyterlite/pyodide-kernel/blob/v0.1.0/jupyterlite_pyodide_kernel/constants.py#L32)'s own facilities.
 
 </td>
 </tr>
