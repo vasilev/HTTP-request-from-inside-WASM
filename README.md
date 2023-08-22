@@ -137,7 +137,7 @@ _Possible, but why?_
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, JupyterLite, PyScript, Panel, RPython, micropython-wasm](#python)
+[RustPython, Pyodide, pyodide-http, JupyterLite, PyScript, Panel, RPython, Stlite, micropython-wasm](#python)
 
 </td>
 <td>
@@ -1168,6 +1168,50 @@ Browser and Node.js
 <td>
 
 Direct `fetch` interop using [js](https://github.com/rafi16jan/micropython-wasm/blob/74d3da30dd9baa39aa1429bb1548d49b7a1662e1/js.py#L111) module, by employing Emscripten APIs.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Stlite](https://github.com/whitphx/stlite)
+
+<sub>a port of [Streamlit](https://streamlit.io/) to Wasm</sub>
+
+</td>
+<td>
+
+```python
+from pyodide.http import pyfetch
+import streamlit as st
+
+response = await pyfetch("https://httpbin.org/anything")
+body = await response.string()
+st.write(body)
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/whitphx/stlite/blob/v0.38.0/packages/sharing-editor/public/samples/011_component_gallery/pages/charts.audio.py#L16)
+* [Example 2](https://github.com/whitphx/stlite/blob/v0.38.0/README.md?plain=1#L322)
+* [Pandas + open_url example](https://github.com/whitphx/stlite/blob/v0.38.0/packages/sharing-editor/public/samples/012_custom_components/pages/aggrid.py#L11)
+
+</td>
+<td>
+
+[Readme](https://github.com/whitphx/stlite#example-2-pyodidehttppyfetch)
+
+</td>
+<td>
+
+[Playground](https://edit.share.stlite.net/)
+
+</td>
+<td>Browser</td>
+<td>
+
+[Uses](https://github.com/whitphx/stlite/blob/v0.38.0/packages/kernel/package.json#L30) [pyodide](#pyodide)'s [facilities](https://github.com/whitphx/stlite/blob/v0.38.0/README.md?plain=1#L271).
 
 </td>
 </tr>
