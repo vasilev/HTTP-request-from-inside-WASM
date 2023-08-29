@@ -62,7 +62,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-["net/http", "wasm-fetch"](#golang)
+[net/http, wasm-fetch, Nigel2392/requester](#golang)
 
 </td>
 <td>
@@ -577,6 +577,58 @@ Browser and [Node.js](https://github.com/golang/go/wiki/WebAssembly#executing-we
 <td>
 
 Direct [JS `fetch` Interop](https://github.com/marwan-at-work/wasm-fetch/blob/e4e5f93254680e5f64e37a500e2f3a73c374907f/fetch.go#L127)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Nigel2392/requester](https://github.com/Nigel2392/requester)
+
+</td>
+<td>
+
+```go
+import "github.com/Nigel2392/requester"
+
+var client = requester.NewAPIClient()
+client.Get("https://httpbin.org/anything").Do(
+  func(response *http.Response) {
+    body, err := io.ReadAll(response.Body)
+    if err == nil {
+        fmt.Println(string(body))
+    }
+  }
+)
+```
+
+</td>
+<td>
+
+* [Test](https://github.com/Nigel2392/requester/blob/v1.0.0/client_test.go#L96)
+* [Example](https://github.com/wasm-outbound-http-examples/go/blob/48e9b5945a059b5448e88a961d396270a8eccd90/browser-requester/http-get.go#L14)
+
+</td>
+<td>
+
+[Sources](https://github.com/Nigel2392/requester/blob/v1.0.0/client_all.go#L72-L118)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/go/requester/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/go)
+
+</td>
+<td>
+
+Browser and maybe Node.js
+
+</td>
+<td>
+
+[Uses](https://github.com/Nigel2392/requester/blob/v1.0.0/client.go#L56)
+Golang's [`"net/http"`](#go-net-http)
 
 </td>
 </tr>
