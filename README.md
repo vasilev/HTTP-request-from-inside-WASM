@@ -196,6 +196,15 @@ _Possible, but why?_
 <td></td>
 </tr>
 <tr>
+<td>Wonkey</td>
+<td>
+
+[Wonkey/httprequest](#wonkey)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Zig</td>
 <td></td>
 <td>
@@ -1965,6 +1974,60 @@ a function on JS side using
 and then [calling](https://github.com/wasm-outbound-http-examples/tcl/blob/1d5be00db183cba88da520b0ef8352ab31e48909/index.html#L31) it
 using [`::wacl::jscall`](https://github.com/ecky-l/wacl/blob/9daacabb0102a9986f33263261350edfeebdd83b/opt/wacl.c#L205-L209) 
 by its registration number.
+
+</td>
+</tr>
+</table>
+
+### Wonkey
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Wonkey/httprequest](https://github.com/wonkey-coders/wonkey)
+
+</td>
+<td>
+
+```monkey
+Local request := New HttpRequest
+request.ReadyStateChanged = Lambda()
+  If request.ReadyState = ReadyState.Done Then
+    Print "Body: " + request.ResponseText
+  End
+End
+
+request.Open("GET", "https://httpbin.org/anything")
+request.Send()
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/wonkey-coders/wonkey/blob/v2022.04/modules/httprequest/tests/simple_get.wx#L41)
+* [Example 2](https://github.com/wasm-outbound-http-examples/wonkey/blob/f0a6f30dedcc8363b949d9e58833beabb8b91e89/browser/httpget.wx#L27)
+
+</td>
+<td>
+
+[Some doc](https://wonkey-coders.github.io/docs/modules/httprequest/httprequest-module/)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/wonkey/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/wonkey)
+
+</td>
+<td>Browser</td>
+<td>
+
+JS `fetch` interop [using](https://github.com/wonkey-coders/wonkey/blob/v2022.04/modules/httprequest/httprequest_emscripten.wx#L28) Emscripten APIs.
 
 </td>
 </tr>
