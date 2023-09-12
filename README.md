@@ -110,7 +110,7 @@ _Possible, but why?_
 <td>Lua</td>
 <td>
 
-[Wasmoon, gluahttp](#lua)
+[Wasmoon, gluahttp, lmodhttpclient](#lua)
 
 </td>
 <td></td>
@@ -796,6 +796,7 @@ print(res.body)
 </td>
 <td>
 
+* [Demo](https://wasm-outbound-http-examples.github.io/lua-in-go/gluahttp/)
 * [Dev Container](https://codespaces.new/wasm-outbound-http-examples/lua-in-go)
 
 </td>
@@ -804,6 +805,50 @@ print(res.body)
 
 [Using](https://github.com/cjoudrey/gluahttp/blob/25003d9adfa90bf4c4609bcebdf2061a5636d532/gluahttp.go#L218)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/cjoudrey/gluahttp/blob/25003d9adfa90bf4c4609bcebdf2061a5636d532/gluahttp.go#L38).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[erdian718/lmodhttpclient](https://github.com/erdian718/lmodhttpclient) 
+<sub>aka ofunc/lmodhttpclient</sub>
+
+</td>
+<td>
+
+```lua
+local io = require('io')
+local httpclient = require('http/client')
+
+local res = httpclient.get(
+  'https://httpbin.org/anything')
+io.copy(res, io.stdout)
+res:close()
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/lua-in-go/blob/af18668722420a3547f9554e8ee2c408afda2617/browser-lmodhttpclient/main.go#L19)
+
+</td>
+<td>
+
+[Readme](https://github.com/erdian718/lmodhttpclient/tree/master#usage)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/lua-in-go/lmodhttpclient/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/lua-in-go)
+
+</td>
+<td>Browser and maybe Node</td>
+<td>
+
+[Using](https://github.com/erdian718/lmodhttpclient/blob/d87d685c200b19b4e1c3753146d064288dbe112b/mod.go#L72)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/erdian718/lmodhttpclient/blob/d87d685c200b19b4e1c3753146d064288dbe112b/mod.go#L47-L48).
 
 </td>
 </tr>
