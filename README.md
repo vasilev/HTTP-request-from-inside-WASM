@@ -110,7 +110,7 @@ _Possible, but why?_
 <td>Lua</td>
 <td>
 
-[Wasmoon, gluahttp, lmodhttpclient](#lua)
+[Wasmoon, gluahttp, lmodhttpclient, gopher-lua-libs](#lua)
 
 </td>
 <td></td>
@@ -805,6 +805,50 @@ print(res.body)
 
 [Using](https://github.com/cjoudrey/gluahttp/blob/25003d9adfa90bf4c4609bcebdf2061a5636d532/gluahttp.go#L218)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/cjoudrey/gluahttp/blob/25003d9adfa90bf4c4609bcebdf2061a5636d532/gluahttp.go#L38).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[gopher-lua-libs](https://github.com/vadv/gopher-lua-libs)
+
+</td>
+<td>
+
+```lua
+local http = require('http')
+local client = http.client()
+local req = http.request('GET', 
+  'https://httpbin.org/anything')
+local res, err = client:do_request(req)
+print(res.body)
+```
+
+</td>
+<td>
+
+* [Test](https://github.com/vadv/gopher-lua-libs/blob/v0.5.0/http/client/client_example_test.go#L17)
+* [Example](https://github.com/vadv/gopher-lua-libs/blob/v0.5.0/examples/slack-alertmanager-silence-bot/bot.lua#L72)
+* [Example](https://github.com/wasm-outbound-http-examples/lua-in-go/blob/edde8a27b0c34d50b89640ba40f64152d94ae8cb/browser-gopher-lua-libs/main.go#L17)
+
+</td>
+<td>
+
+[Doc](https://pkg.go.dev/github.com/vadv/gopher-lua-libs/http)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/lua-in-go/gopher-lua-libs/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/lua-in-go)
+
+</td>
+<td>Browser and maybe Node</td>
+<td>
+
+[Using](https://github.com/vadv/gopher-lua-libs/blob/v0.5.0/http/client/client.go#L67)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/vadv/gopher-lua-libs/blob/v0.5.0/http/client/loader.go#L23).
 
 </td>
 </tr>
