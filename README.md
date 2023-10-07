@@ -62,7 +62,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-[net/http, wasm-fetch, Nigel2392/requester](#golang)
+[net/http, wasm-fetch, Nigel2392/requester, Risor](#golang)
 
 </td>
 <td>
@@ -638,6 +638,55 @@ Browser and maybe Node.js
 
 [Uses](https://github.com/Nigel2392/requester/blob/v1.0.0/client.go#L56)
 Golang's [`"net/http"`](#go-net-http)
+
+</td>
+</tr>
+</table>
+
+#### Golang-like languages
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Risor](https://github.com/risor-io/risor)
+
+</td>
+<td>
+
+```go
+url := 'https://httpbin.org/anything'
+resp := fetch(url)
+print(resp.text())
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/risor-io/risor/blob/v1.1.1/examples/scripts/stargazers.risor#L6)
+* [Example](https://github.com/wasm-outbound-http-examples/risor/blob/0e6a935c8124bf11fd100bea600dd0eb4ed7cd37/browser/main.go#L13)
+
+</td>
+<td>
+
+[Doc](https://risor.io/examples/fetch)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/risor/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/risor)
+
+</td>
+<td>Browser and maybe Node</td>
+<td>
+
+[Using](https://github.com/risor-io/risor/blob/v1.1.1/modules/fetch/fetch.go#L46)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/risor-io/risor/blob/v1.1.1/modules/fetch/fetch.go#L58).
 
 </td>
 </tr>
