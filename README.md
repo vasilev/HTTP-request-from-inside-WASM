@@ -62,7 +62,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-[net/http, wasm-fetch, Nigel2392/requester, Risor](#golang)
+[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor](#golang)
 
 </td>
 <td>
@@ -653,13 +653,55 @@ Golang's [`"net/http"`](#go-net-http)
 <tr>
 <td>
 
+[Anko](https://github.com/mattn/anko)
+
+</td>
+<td>
+
+```js
+var http = import("net/http")
+var ioutil = import("io/ioutil")
+
+var url = "https://httpbin.org/anything"
+res, _ = http.DefaultClient.Get(url)
+b, _ = ioutil.ReadAll(res.Body)
+println(toString(b))
+res.Body.Close()
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/mattn/anko/blob/v0.1.9/_example/scripts/http.ank#L5)
+* [Test](https://github.com/mattn/anko/blob/v0.1.9/vm/example_packages_test.go#L109)
+* [Example](https://github.com/wasm-outbound-http-examples/anko/blob/aa01ffaad3153254ae2abbf432b16b33b315574e/browser/main.go#L18)
+
+</td>
+<td></td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/anko/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/anko)
+
+</td>
+<td>Browser and maybe Node</td>
+<td>
+
+Directly invoking
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/mattn/anko/blob/v0.1.9/packages/net.http.go#L14).
+
+</td>
+</tr>
+<tr>
+<td>
+
 [Risor](https://github.com/risor-io/risor)
 
 </td>
 <td>
 
 ```go
-url := 'https://httpbin.org/anything'
+url := "https://httpbin.org/anything"
 resp := fetch(url)
 print(resp.text())
 ```
