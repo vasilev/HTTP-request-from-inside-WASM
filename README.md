@@ -24,7 +24,7 @@ Make HTTP request from inside WebAssembly
 </td>
 </tr>
 <tr>
-<td>C#</td>
+<td>C# / .Net</td>
 <td>
 
 [Blazor, Uno Platform](#csharp)
@@ -32,7 +32,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Spin SDK for .NET, wasi-experimental-http, wasi-http](#csharp-wasi)
+[Extism PDK for .NET, Spin SDK for .NET, wasi-experimental-http, wasi-http](#csharp-wasi)
 
 </td>
 </tr>
@@ -2405,13 +2405,66 @@ Console.log(response.Body);
 </table>
 
 <a id="csharp-wasi"></a>
-### C#
+### C# / .Net
 
 <table>
 <tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Extism Plug-in Development Kit (PDK) for .NET](https://github.com/extism/dotnet-pdk)
+
+</td>
+<td>
+
+```csharp
+using Extism;
+
+var req = new HttpRequest(
+    "https://httpbin.org/anything")
+{
+    Method = HttpMethod.GET
+};
+var res = Pdk.SendRequest(req);
+Pdk.SetOutput(res.Body);
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/extism/dotnet-pdk/blob/v1.0.0-rc3/samples/KitchenSink/Program.cs#L77)
+* [Example](https://github.com/wasm-outbound-http-examples/extism-dotnet-pdk/blob/b42f25ad08c3a82e5dbab982055747c87cde1b3d/Program.cs#L9)
+
+</td>
+<td>
+
+[Doc](https://github.com/extism/dotnet-pdk/tree/v1.0.0-rc3#making-http-calls)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/extism-dotnet-pdk)
+
+</td>
+<td>
+
+* Extism [uses](https://github.com/extism/extism/blob/v1.0.0-rc0/runtime/Cargo.toml#L12) Wasmtime
+* Extism CLI [uses](https://github.com/extism/cli/blob/v0.3.0/go.mod#L10) Wazero
+
+</td>
+<td>
+
+[Calling](https://github.com/extism/dotnet-pdk/blob/v1.0.0-rc3/src/Extism.Pdk/Interop.cs#L305) 
+[C-level-imported](https://github.com/extism/dotnet-pdk/blob/v1.0.0-rc3/src/Extism.Pdk/Native.cs#L60-L61)
+runtime's [host function](https://github.com/extism/extism/blob/v1.0.0-rc0/runtime/src/pdk.rs#L146)
+[exported](https://github.com/extism/extism/blob/v1.0.0-rc0/runtime/src/plugin.rs#L188) for plugins,
+which [makes](https://github.com/extism/extism/blob/v1.0.0-rc0/runtime/src/pdk.rs#L214) actual request using `ureq`.
+
+</td>
+</tr>
 <tr>
 <td>
 
