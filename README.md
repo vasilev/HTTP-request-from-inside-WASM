@@ -3616,17 +3616,18 @@ use http_req::request;
 let mut writer = Vec::new();
 let res = request::get("https://httpbin.org/anything", 
     &mut writer).unwrap();
+println!("body: {}", String::from_utf8_lossy(&writer));
 ```
 
 </td>
 <td>
 
-[Example](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/examples/get_https.rs#L5)
+[Example](https://github.com/second-state/http_req/blob/35af6c133c28dd3a84aac318985842c674afc36b/examples/get_https.rs#L5)
 
 </td>
 <td>
 
-[Doc](https://wasmedge.org/book/en/write_wasm/rust/networking-https.html)
+[Doc](https://wasmedge.org/docs/develop/rust/http_service/client)
 
 </td>
 <td></td>
@@ -3637,8 +3638,11 @@ let res = request::get("https://httpbin.org/anything",
 </td>
 <td>
 
-C level [wrapper](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/src/sslwrapper.rs#L10) over [`wasmedge_httpsreq` plugin](https://github.com/WasmEdge/WasmEdge/tree/master/plugins/wasmedge_httpsreq) (`libwasmedgePluginHttpsReq.so` as usual). And
-[wasmedge_wasi_socket](https://github.com/second-state/http_req/blob/cd9f9e086145741e2ee287364c2f6097dd92f7e1/src/request.rs#L20) for non-SSL.
+[Writes](https://github.com/second-state/http_req/blob/35af6c133c28dd3a84aac318985842c674afc36b/src/request.rs#L486) to 
+[`wasmedge_wasi_socket`](https://github.com/second-state/http_req/blob/35af6c133c28dd3a84aac318985842c674afc36b/src/request.rs#L20) stream.
+For SSL, the stream is [wrapped](https://github.com/second-state/http_req/blob/35af6c133c28dd3a84aac318985842c674afc36b/src/request.rs#L946) 
+[with](https://github.com/second-state/http_req/blob/35af6c133c28dd3a84aac318985842c674afc36b/src/tls.rs#L36) 
+[rustls's stream](https://github.com/second-state/http_req/blob/35af6c133c28dd3a84aac318985842c674afc36b/src/tls.rs#L181).
 
 </td>
 </tr>
