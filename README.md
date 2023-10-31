@@ -27,7 +27,7 @@ Make HTTP request from inside WebAssembly
 <td>C# / .Net</td>
 <td>
 
-[Blazor, Uno Platform](#csharp)
+[Blazor, System.Net.Http.HttpClient, Uno Platform](#csharp)
 
 </td>
 <td>
@@ -323,6 +323,56 @@ Browser, also _native_ server-side
 [JS `fetch` interop](https://github.com/dotnet/runtime/blob/699acfac91ed44790e528cceae16377ba10a899c/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpHandler.cs#L224)
  by [calling](https://github.com/dotnet/runtime/blob/v7.0.2/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpInterop.cs#L51)
  to TS [wrapper](https://github.com/dotnet/runtime/blob/9e8d0a81a35f05eaa2c4d0ab258ed9a1f4e2ec76/src/mono/wasm/runtime/http.ts#L60)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[System.Net. Http.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
+
+<sub>Standard library</sub>
+
+</td>
+<td>
+
+```csharp
+using System.Net.Http;
+
+HttpClient client = new HttpClient();
+string uri = "https://httpbin.org/anything";
+string responseText = await client.GetStringAsync(uri);
+
+Console.WriteLine("body: " + responseText);
+```
+
+</td>
+<td>
+
+<==
+
+</td>
+<td>
+
+[Doc](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
+
+</td>
+<td>
+
+Possible with
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/extism-dotnet-pdk)
+
+</td>
+<td>
+
+Browser and maybe Node
+
+</td>
+<td>
+
+[JS `fetch` interop](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpHandler.cs#L219)
+by [calling](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpInterop.cs#L51)
+to TS [wrapper](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/mono/wasm/runtime/http.ts#L70)
 
 </td>
 </tr>
