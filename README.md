@@ -337,6 +337,7 @@ Browser, also _native_ server-side
 <td>
 
 ```csharp
+using System;
 using System.Net.Http;
 
 HttpClient client = new HttpClient();
@@ -349,7 +350,7 @@ Console.WriteLine("body: " + responseText);
 </td>
 <td>
 
-<==
+[Example](https://github.com/wasm-outbound-http-examples/dotnet/blob/397d898b51e4396b32b3f2eb568eed140603d636/browser-and-node/Program.cs#L6)
 
 </td>
 <td>
@@ -359,13 +360,16 @@ Console.WriteLine("body: " + responseText);
 </td>
 <td>
 
-Possible with
-[Dev Container](https://codespaces.new/wasm-outbound-http-examples/extism-dotnet-pdk)
+* [Demo](https://wasm-outbound-http-examples.github.io/dotnet)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dotnet)
 
 </td>
 <td>
 
-Browser and maybe Node
+Browser, 
+[Node](https://learn.microsoft.com/en-us/aspnet/core/client-side/dotnet-interop?view=aspnetcore-8.0#nodejs-console-app), 
+[Bun](https://github.com/wasm-outbound-http-examples/dotnet/blob/main/browser-and-node/node/README.md#test-with-bun), 
+and [Deno](https://github.com/wasm-outbound-http-examples/dotnet/blob/main/browser-and-node/node/README.md#test-with-deno).
 
 </td>
 <td>
