@@ -137,7 +137,7 @@ _Possible, but why?_
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, JupyterLite, PyScript, Panel, RPython, Stlite, micropython-wasm](#python)
+[RustPython, Pyodide, pyodide-http, GPython, JupyterLite, PyScript, Panel, RPython, Stlite, micropython-wasm](#python)
 
 </td>
 <td>
@@ -1282,6 +1282,51 @@ JS [`fetch`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_str
 [`XMLHttpRequest`](https://github.com/koenvo/pyodide-http/blob/0.2.0/pyodide_http/_core.py#L77) Interop
 using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) scope.
 
+
+</td>
+</tr>
+<tr>
+<td>
+
+[GPython](https://github.com/go-python/gpython)
+
+</td>
+<td>
+
+```python
+import httpclient
+
+print(httpclient.Get('https://httpbin.org/anything'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/gpython/blob/f389d141e039d507c00610dd9230ddd23cd89faa/browser-and-deno/main.go#L48)
+
+</td>
+<td>
+
+[Some doc](https://github.com/go-python/gpython/tree/v0.2.0/examples/embedding#but-what-about-the-lack-of-python-modules)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/gpython/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/gpython)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/gpython/tree/f389d141e039d507c00610dd9230ddd23cd89faa/browser-and-deno#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/gpython/tree/f389d141e039d507c00610dd9230ddd23cd89faa/browser-and-deno#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/gpython/blob/f389d141e039d507c00610dd9230ddd23cd89faa/browser-and-deno/main.go#L65)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/gpython/blob/f389d141e039d507c00610dd9230ddd23cd89faa/browser-and-deno/main.go#L31-L39).
 
 </td>
 </tr>
