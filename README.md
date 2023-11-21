@@ -62,7 +62,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor](#golang)
+[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo](#golang)
 
 </td>
 <td>
@@ -783,6 +783,57 @@ print(resp.text())
 
 [Using](https://github.com/risor-io/risor/blob/v1.1.1/modules/fetch/fetch.go#L46)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/risor-io/risor/blob/v1.1.1/modules/fetch/fetch.go#L58).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[TengoHTTP](https://github.com/damiva/TengoHTTP) 
+
+<sub>for [Tengo](https://github.com/d5/tengo)</sub>
+
+</td>
+<td>
+
+```go
+fmt := import("fmt")
+http := import("httpclient")
+
+resp := http.request("https://httpbin.org/anything", "GET")
+fmt.print(is_error(resp) ? resp : resp.body)
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/damiva/TengoHTTP/blob/v0.5.0/README.md?plain=1#L31)
+* [Example](https://github.com/wasm-outbound-http-examples/tengo/blob/964f7a4d17449e3fccd7a908314513d932b10514/browser-and-deno-tengohttp/main.go#L15)
+
+</td>
+<td>
+
+[Readme](https://github.com/damiva/TengoHTTP/tree/v0.5.0#functions)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/tengo/tengohttp/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/tengo)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/tengo/tree/964f7a4d17449e3fccd7a908314513d932b10514/browser-and-deno-tengohttp#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/tengo/tree/964f7a4d17449e3fccd7a908314513d932b10514/browser-and-deno-tengohttp#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/damiva/TengoHTTP/blob/v0.5.0/request.go#L100) 
+Golang's [`"net/http"`](#go-net-http) via 
+[mapping](https://github.com/wasm-outbound-http-examples/tengo/blob/964f7a4d17449e3fccd7a908314513d932b10514/browser-and-deno-tengohttp/main.go#L25-L26).
 
 </td>
 </tr>
