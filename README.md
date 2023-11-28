@@ -11,6 +11,15 @@ Make HTTP request from inside WebAssembly
 <th>Standalone / server-side / WASI runtimes</th>
 </tr>
 <tr>
+<td>Ada</td>
+<td>
+
+[AdaWebPack](#ada)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>AssemblyScript</td>
 <td>
 
@@ -215,8 +224,74 @@ _Possible, but why?_
 </tr>
 </table>
 
-Browser WASM runtimes and V8-based runtimes like Node.js and Deno
------------------------------------------------------------------
+Browser WASM runtimes and V8-based runtimes like Node.js and Deno, also Bun
+---------------------------------------------------------------------------
+
+### Ada
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[AdaWebPack](https://github.com/godunko/adawebpack)
+
+</td>
+<td>
+
+```ada
+L   : aliased Listener;
+xhr : Web.XHR.Requests.XML_Http_Request;
+
+overriding procedure Handle_Event
+  (Self : in out Listener; Event : in out Web.DOM.Events.Event'Class)
+is
+  use type Web.XHR.Requests.State;
+begin
+  if xhr.Get_Ready_State = Web.XHR.Requests.DONE then
+    WASM.Console.Log (xhr.Get_Response_Text);
+  end if;
+end Handle_Event;
+
+procedure Initialize_Example is
+begin
+  xhr := Web.XHR.Requests.Constructors.New_XML_Http_Request;
+  xhr.Open ("GET", "https://httpbin.org/anything");
+  xhr.Send ("");
+  xhr.Add_Event_Listener ("readystatechange", L'Access);
+end Initialize_Example;
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/ada/blob/ab7150f3e05aae7d61a195fc7d59cd57e2fbed79/browser/example.adb#L30)
+
+</td>
+<td></td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/ada/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/ada)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Manual JS `XMLHttpRequest` interop by using the
+[wrapper](https://github.com/godunko/adawebpack/blob/22.1.0/source/xhr/web-xhr-requests.adb#L300)
+for [imported](https://github.com/godunko/adawebpack/blob/22.1.0/source/xhr/web-xhr-requests.adb#L321)
+JS-side [code](https://github.com/godunko/adawebpack/blob/22.1.0/source/adawebpack.mjs#L613).
+
+</td>
+</tr>
+</table>
 
 ### AssemblyScript
 <table>
@@ -3844,6 +3919,10 @@ Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa
 </tr>
 <tr><td>
 
+[reqwest_wasi](https://crates.io/crates/reqwest_wasi)
+
+as part of
+
 [WasmEdge Sockets](https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions#available-extensions)
 
 Any code based on WasmEdge's forks of [tokio-rs](https://github.com/WasmEdge/tokio)
@@ -3854,19 +3933,21 @@ is [expected to work in Wasmedge runtime](https://github.com/tokio-rs/tokio/issu
 <td>
 
 ```rust
-// using fork https://github.com/WasmEdge/reqwest , no SSL yet
-let res = reqwest::get("http://httpbin.org/anything").await?;
+let res = reqwest::get("https://httpbin.org/anything").await?;
+let body = res.text().await?;
+println!("text: {}", body);
 ```
 
 </td>
 <td>
 
-[Example](https://github.com/WasmEdge/wasmedge_reqwest_demo/blob/main/src/main.rs#L8)
+[Example](https://github.com/WasmEdge/wasmedge_reqwest_demo/blob/2f02f82028f78797352f729da648aff84b2a0fbc/src/https.rs#L8)
 
 </td>
 <td>
 
-[Doc](https://wasmedge.org/book/en/write_wasm/rust/networking.html)
+* [Doc](https://wasmedge.org/docs/develop/rust/socket_networking/client/)
+* [Doc](https://docs.rs/reqwest_wasi/)
 
 </td>
 <td></td>
@@ -3877,7 +3958,9 @@ let res = reqwest::get("http://httpbin.org/anything").await?;
 </td>
 <td>
 
-[WasmEdge's implementation of WASI Socket](https://github.com/second-state/wasmedge_wasi_socket)
+[Wrapping](https://github.com/WasmEdge/reqwest/blob/c4b9abea7f775c5fa2b9736a73e371073c8151d9/src/connect.rs#L338-L356)
+internal stream with [WasmEdgeTls](https://github.com/second-state/wasmedge_hyper_rustls), which is built on top of
+[WasmEdge's implementation of WASI Socket](https://github.com/second-state/wasmedge_wasi_socket).
 
 </td>
 </tr>
