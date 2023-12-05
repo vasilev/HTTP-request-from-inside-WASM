@@ -54,7 +54,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[httpclient_wasmedge_socket, wasi-experimental-http, wasi-http](#cpp-wasi)
+[Extism PDK for C, httpclient_wasmedge_socket, wasi-experimental-http, wasi-http](#cpp-wasi)
 
 </td>
 </tr>
@@ -1754,7 +1754,7 @@ Direct `fetch` interop using [javascript](https://github.com/soIu/rpython/blob/d
 <tr>
 <td>
 
-[webR](https://github.com/georgestagg/webR)
+[webR](https://github.com/r-wasm/webr)
 
 </td>
 <td>
@@ -1774,7 +1774,8 @@ print(df)
 </td>
 <td>
 
-[Playground](https://webr.gwstagg.co.uk/)
+* [Playground](https://webr.r-wasm.org/latest/)
+* [Old Playground](https://webr.gwstagg.co.uk/)
 
 </td>
 <td>Browser and Node</td>
@@ -2862,6 +2863,61 @@ code, which calls [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25
 <tr>
 <td>
 
+[Extism Plug-in Development Kit (PDK) for C](https://github.com/extism/c-pdk)
+
+</td>
+<td>
+
+```cpp
+#include "extism-pdk.h"
+#include <stdint.h>
+#include <string.h>
+
+int32_t EXTISM_EXPORTED_FUNCTION(httpget) {
+  const char *r = "{\"url\": \"https://httpbin.org/anything\"}";
+  ExtismPointer req = extism_alloc_string(r, strlen(r));
+  ExtismPointer res = extism_http_request(req, 0);
+
+  extism_output_set(res, extism_length(res));
+  return 0;
+}
+```
+</td>
+<td>
+
+* [Example](https://github.com/extism/c-pdk/blob/04c7f0502bdc6417a6e328fe945dc21d0594dd96/README.md?plain=1#L287)
+* [Example](https://github.com/wasm-outbound-http-examples/extism-c-pdk/blob/71df4f0bb2fc02a1b4d05be10331e13ddb7fb3cf/httpget.c#L9)
+
+</td>
+<td>
+
+[Doc](https://github.com/extism/c-pdk/blob/04c7f0502bdc6417a6e328fe945dc21d0594dd96/README.md#http)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/extism-c-pdk)
+
+</td>
+<td>
+
+* Extism [uses](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/Cargo.toml#L12) Wasmtime
+* Extism CLI [uses](https://github.com/extism/cli/blob/v0.3.4/go.mod#L10) Wazero
+
+</td>
+<td>
+
+Calling
+[C-level-imported](https://github.com/extism/c-pdk/blob/04c7f0502bdc6417a6e328fe945dc21d0594dd96/extism-pdk.h#L63)
+runtime's [host function](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/src/pdk.rs#L146)
+[exported](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/src/plugin.rs#L265) for plugins,
+which [makes](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/src/pdk.rs#L218) actual request using `ureq`.
+
+</td>
+</tr>
+<tr>
+<td>
+
 [httpclient_wasmedge_socket](https://github.com/hangedfish/httpclient_wasmedge_socket)
 
 </td>
@@ -3923,7 +3979,7 @@ Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa
 
 as part of
 
-[WasmEdge Sockets](https://wasmedge.org/docs/develop/wasmedge/extensions/unique_extensions#available-extensions)
+[WasmEdge Sockets](https://wasmedge.org/docs/start/wasmedge/extensions/unique_extensions#available-extensions)
 
 Any code based on WasmEdge's forks of [tokio-rs](https://github.com/WasmEdge/tokio)
 or [mio](https://github.com/WasmEdge/mio)
