@@ -116,6 +116,15 @@ _Possible, but why?_
 </td>
 </tr>
 <tr>
+<td>Kotlin</td>
+<td>
+
+[Kotlin/Wasm](#kotlin)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Lua</td>
 <td>
 
@@ -974,6 +983,69 @@ Browser, Node.js, and Deno
 Direct [`fetch`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/WindowOrWorkerGlobalScope.java#L22)  
 interop using [imported](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/Window.java#L23) 
 JS [`window`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/core/src/main/resources/wasmruntime.js#L637) object.
+
+</td>
+</tr>
+</table>
+
+### Kotlin
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Kotlin/Wasm](https://kotl.in/wasm)
+
+<sub>still Alpha</sub>
+
+</td>
+<td>
+
+```kotlin
+import kotlinx.browser.window
+
+window.fetch("https://httpbin.org/anything").then {
+  if (it.ok) {
+    it.text().then {
+      println(it)
+      null
+    }
+  }
+  null
+}
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/Kotlin/kotlin-wasm-examples/blob/ea1a989bbf179dfccbc970d73e41d128e1b965af/browser-example/src/wasmJsMain/kotlin/Simple.kt#L43)
+* [Example 2](https://github.com/wasm-outbound-http-examples/kotlin/blob/8081d3bfe0b4716a814499c3a6087ca8b12e4822/browser/src/wasmJsMain/kotlin/Main.kt#L4)
+
+</td>
+<td>
+
+[Readme](https://github.com/Kotlin/kotlin-wasm-examples/tree/ea1a989bbf179dfccbc970d73e41d128e1b965af/browser-example#kotlinwasm-browser-example)
+
+</td>
+<td>
+
+* [Playground](https://pl.kotl.in/TOU_L89rx)
+* [Demo 1](https://zal.im/wasm/example)
+* [Demo 2](https://wasm-outbound-http-examples.github.io/kotlin/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/kotlin)
+
+</td>
+<td>
+
+Browser with Wasm-GC and Wasm-Exception-Handling support enabled[^browser-with-wasm-gc]
+
+</td>
+<td>
+
+Direct `fetch` interop using [exposed](https://github.com/JetBrains/kotlin/blob/v1.9.21/libraries/stdlib/wasm/js/src/org.w3c/org.w3c.dom.kt#L3080) JS `window` object.
 
 </td>
 </tr>
@@ -4274,3 +4346,4 @@ The actual request is [here](https://github.com/deislabs/wasi-experimental-http/
 </table>
 
 
+[^browser-with-wasm-gc]: Firefox 120+, and all based on Chrome(ium) 119+.
