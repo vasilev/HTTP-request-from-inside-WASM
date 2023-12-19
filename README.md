@@ -3668,22 +3668,27 @@ Spin's [host function](https://github.com/fermyon/spin/blob/v0.8.0/crates/outbou
 <td>
 
 ```js
-// no SSL support yet
-let res = await fetch('http://httpbin.org/anything')
+import { fetch } from 'http'
+
+const res = await fetch('https://httpbin.org/anything')
+print(await res.text())
 ```
 
 </td>
 <td>
 
-[Example](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/example_js/wasi_http_fetch.js#L5)
+* [Example](https://github.com/second-state/wasmedge-quickjs/blob/4afed4460a0db22be1b16d2bbfc83d328e3cefae/example_js/wasi_https_fetch.js#L5)
+* [Example for http](https://github.com/second-state/wasmedge-quickjs/blob/4afed4460a0db22be1b16d2bbfc83d328e3cefae/example_js/wasi_http_fetch.js#L5)
 
 </td>
 <td>
 
-[Doc](https://wasmedge.org/book/en/write_wasm/js/networking.html#fetch-client)
+[Doc](https://wasmedge.org/docs/develop/javascript/networking/#fetch-client)
 
 </td>
 <td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/wasmedge-quickjs)
 
 </td>
 <td>
@@ -3693,11 +3698,16 @@ let res = await fetch('http://httpbin.org/anything')
 </td>
 <td>
 
-[Raw socket write](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/modules/http.js#L205)
-to [`WasiTcpConn`](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/internal_module/wasi_net_module.rs#L187)
-which is [`C` binding](https://github.com/second-state/wasmedge-quickjs/blob/v0.4.0-alpha/src/event_loop/wasi_sock.rs#L606)
+[Distinguished](https://github.com/second-state/wasmedge-quickjs/blob/f4a4f884ca4f2d1f2cce629f8d903b1d0020fa6d/modules/http.js#L204-L208) by URL scheme 
+[raw socket write](https://github.com/second-state/wasmedge-quickjs/blob/f4a4f884ca4f2d1f2cce629f8d903b1d0020fa6d/modules/http.js#L224)
 to
-Wasmedge's implementation of WASI Socket
+(1) [`WasiTcpConn`](https://github.com/second-state/wasmedge-quickjs/blob/f4a4f884ca4f2d1f2cce629f8d903b1d0020fa6d/src/internal_module/wasi_net_module.rs#L393)
+which is [wrapper](https://github.com/second-state/wasmedge-quickjs/blob/f4a4f884ca4f2d1f2cce629f8d903b1d0020fa6d/src/event_loop/mod.rs#L68)
+to Wasmedge's implementation of WASI Socket
+or
+(2) [`WasiTlsConn`](https://github.com/second-state/wasmedge-quickjs/blob/f4a4f884ca4f2d1f2cce629f8d903b1d0020fa6d/src/internal_module/wasi_net_module.rs#L190)
+which is [wrapper](https://github.com/second-state/wasmedge-quickjs/blob/f4a4f884ca4f2d1f2cce629f8d903b1d0020fa6d/src/event_loop/mod.rs#L122)
+to [`wasmedge_rustls_api`](https://github.com/second-state/wasmedge_rustls_api).
 
 </td>
 </tr>
@@ -3846,6 +3856,61 @@ Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[componentize-py](https://github.com/bytecodealliance/componentize-py)
+
+</td>
+<td>
+
+```python
+import poll_loop
+from proxy.imports.types import (
+  SchemeHttps, OutgoingRequest )
+
+req = OutgoingRequest(Fields.from_list([]))
+req.set_scheme(SchemeHttps())
+req.set_authority('httpbin.org')
+req.set_path_with_query('/anything')
+
+resp = await poll_loop.send(req)
+
+stream = poll_loop.Stream(resp.consume())
+buf = b''
+while True:
+  chunk = await stream.next()
+  if chunk is None:
+    break
+  else:
+    buf += chunk
+
+print(buf.decode('utf-8'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/bytecodealliance/componentize-py/blob/a7376083f9f34e6e6fa3d012ab184308529bfa4c/examples/http/app.py#L112)
+
+</td>
+<td>
+
+[Readme](https://github.com/bytecodealliance/componentize-py/blob/a7376083f9f34e6e6fa3d012ab184308529bfa4c/examples/http/README.md)
+
+</td>
+<td></td>
+<td>
+
+Wasmtime version 15.0, maybe incl. Spin.
+
+</td>
+<td>
+
+Genetaring Python bindings to wasi-http based on [wit files](https://github.com/bytecodealliance/componentize-py/blob/a7376083f9f34e6e6fa3d012ab184308529bfa4c/wit/deps/http/types.wit#L244) under the scenes during `componentize` process.
+
+</td>
+</tr>
 <tr>
 <td>
 
