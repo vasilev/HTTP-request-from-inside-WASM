@@ -160,7 +160,7 @@ _Possible, but why?_
 </td>
 <td>
 
-[Spin SDK for Python](#python-wasi)
+[componentize-py, Spin SDK for Python](#python-wasi)
 
 </td>
 </tr>
@@ -1022,7 +1022,8 @@ window.fetch("https://httpbin.org/anything").then {
 <td>
 
 * [Example 1](https://github.com/Kotlin/kotlin-wasm-examples/blob/ea1a989bbf179dfccbc970d73e41d128e1b965af/browser-example/src/wasmJsMain/kotlin/Simple.kt#L43)
-* [Example 2](https://github.com/wasm-outbound-http-examples/kotlin/blob/8081d3bfe0b4716a814499c3a6087ca8b12e4822/browser/src/wasmJsMain/kotlin/Main.kt#L4)
+* [Example 2](https://github.com/wasm-outbound-http-examples/kotlin/blob/893cc8c505839aabbbb2ecdcd69c419b8feb4a5a/browser/src/wasmJsMain/kotlin/Main.kt#L4)
+* [Node.js/Deno Example](https://github.com/wasm-outbound-http-examples/kotlin/blob/893cc8c505839aabbbb2ecdcd69c419b8feb4a5a/node-and-deno/src/wasmJsMain/kotlin/Main.kt#L7)
 
 </td>
 <td>
@@ -1040,12 +1041,13 @@ window.fetch("https://httpbin.org/anything").then {
 </td>
 <td>
 
-Browser with Wasm-GC and Wasm-Exception-Handling support enabled[^browser-with-wasm-gc]
+Browser with Wasm-GC and Wasm-Exception-Handling support enabled[^browser-with-wasm-gc], Node v21 and above, Deno v1.38 and above.
 
 </td>
 <td>
 
 Direct `fetch` interop using [exposed](https://github.com/JetBrains/kotlin/blob/v1.9.21/libraries/stdlib/wasm/js/src/org.w3c/org.w3c.dom.kt#L3080) JS `window` object.
+For Node/Deno, just [import](https://github.com/wasm-outbound-http-examples/kotlin/blob/893cc8c505839aabbbb2ecdcd69c419b8feb4a5a/node-and-deno/src/wasmJsMain/kotlin/Main.kt#L4).
 
 </td>
 </tr>
