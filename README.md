@@ -3927,7 +3927,7 @@ from spin_http import Request, http_send
 response = http_send(
   Request('GET', 
   'https://httpbin.org/anything', 
-  [], None))
+  {}, None))
 
 print(str(response.body, 'utf-8'))
 ```
@@ -3935,7 +3935,7 @@ print(str(response.body, 'utf-8'))
 </td>
 <td>
 
-[Example](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/examples/outbound_http/app.py#L6)
+[Example](https://github.com/fermyon/spin-python-sdk/blob/v0.3.2/examples/outbound_http/app.py#L7)
 
 </td>
 <td>
@@ -3953,10 +3953,10 @@ print(str(response.body, 'utf-8'))
 </td>
 <td>
 
-A Python [`spin_http` module](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/src/lib.rs#L191-L193)
-[calls](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/src/lib.rs#L158) [imported](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/src/lib.rs#L16)
-via [Rust Spin SDK](https://github.com/fermyon/spin-python-sdk/blob/v0.1.1/crates/spin-python-engine/Cargo.toml#L14) 
-Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+A Python [`spin_http` module](https://github.com/fermyon/spin-python-sdk/blob/v0.3.2/crates/spin-python-engine/src/lib.rs#L266-L272)
+[calls](https://github.com/fermyon/spin-python-sdk/blob/v0.3.2/crates/spin-python-engine/src/lib.rs#L233) [imported](https://github.com/fermyon/spin-python-sdk/blob/v0.3.2/crates/spin-python-engine/src/lib.rs#L16)
+via [Rust Spin SDK](https://github.com/fermyon/spin-python-sdk/blob/v0.3.2/crates/spin-python-engine/Cargo.toml#L14) 
+Spin's [host function](https://github.com/fermyon/spin/blob/v2.1.0/crates/outbound-http/src/host_impl.rs#L78).
 
 </td>
 </tr>
