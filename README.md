@@ -71,7 +71,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo](#golang)
+[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo, Yaegi](#golang)
 
 </td>
 <td>
@@ -776,6 +776,59 @@ Browser and maybe Node.js
 
 [Uses](https://github.com/Nigel2392/requester/blob/v1.0.0/client.go#L56)
 Golang's [`"net/http"`](#go-net-http)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Yaegi](https://github.com/traefik/yaegi)
+
+<sub>It's VM / interpreter</sub>
+
+</td>
+<td>
+
+```go
+import (
+  "fmt"; "io"; "net/http"
+)
+
+resp, _ := http.Get("https://httpbin.org/anything")
+defer resp.Body.Close()
+body, _ := io.ReadAll(resp.Body)
+fmt.Println(string(body))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/yaegi/blob/deecf7e8840e5c5b7e15921aec4c2c29d03838e6/browser-and-deno/main.go#L21)
+
+</td>
+<td>
+
+[Some doc](https://github.com/traefik/yaegi/tree/v0.15.1#usage)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/yaegi/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/yaegi)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/yaegi/blob/deecf7e8840e5c5b7e15921aec4c2c29d03838e6/browser-and-deno/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/yaegi/blob/deecf7e8840e5c5b7e15921aec4c2c29d03838e6/browser-and-deno/README.md#test-with-deno).
+
+</td>
+<td>
+
+Directly invoking 
+Golang's [`"net/http"`](#go-net-http) via
+[mapping](https://github.com/traefik/yaegi/blob/v0.15.1/stdlib/go1_20_net_http.go#L54).
 
 </td>
 </tr>
