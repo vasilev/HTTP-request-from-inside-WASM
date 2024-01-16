@@ -106,7 +106,7 @@ Make HTTP request from inside WebAssembly
 <td>JavaScript</td>
 <td>
 
-_Possible, but why?_
+[Otto](#javascript)
 
 </td>
 <td>
@@ -1036,6 +1036,68 @@ Browser, Node.js, and Deno
 Direct [`fetch`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/WindowOrWorkerGlobalScope.java#L22)  
 interop using [imported](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/classlib/bytecoder.web/src/main/java/de/mirkosertic/bytecoder/api/web/Window.java#L23) 
 JS [`window`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/core/src/main/resources/wasmruntime.js#L637) object.
+
+</td>
+</tr>
+</table>
+
+### JavaScript
+
+#### Using browser's own JavaScript VM
+
+_Possible, but why?_
+
+#### JavaScript VM or interpreter compiled to WASM
+
+##### JavaScript implemented in Golang
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Otto](https://github.com/robertkrimen/otto)
+
+</td>
+<td>
+
+```js
+const res = httpget('https://httpbin.org/anything');
+console.log(res);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/js-in-go/blob/3c6ca09b95a5fd33d02756bd3b6015f0e70793ac/browser-and-deno-otto/main.go#L25)
+
+</td>
+<td>
+
+[Some doc](https://github.com/robertkrimen/otto/blob/v0.3.0/README.md?plain=1#L77)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/js-in-go/otto/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/js-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/js-in-go/blob/3c6ca09b95a5fd33d02756bd3b6015f0e70793ac/browser-and-deno-otto/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/js-in-go/blob/3c6ca09b95a5fd33d02756bd3b6015f0e70793ac/browser-and-deno-otto/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/js-in-go/blob/3c6ca09b95a5fd33d02756bd3b6015f0e70793ac/browser-and-deno-otto/main.go#L14)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/js-in-go/blob/3c6ca09b95a5fd33d02756bd3b6015f0e70793ac/browser-and-deno-otto/main.go#L23)
+a custom function inside JS.
 
 </td>
 </tr>
