@@ -106,7 +106,7 @@ Make HTTP request from inside WebAssembly
 <td>JavaScript</td>
 <td>
 
-[Otto](#javascript)
+[Goja, Otto](#javascript)
 
 </td>
 <td>
@@ -1056,6 +1056,51 @@ _Possible, but why?_
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Goja](https://github.com/dop251/goja)
+
+</td>
+<td>
+
+```js
+const res = httpget('https://httpbin.org/anything');
+console.log(res);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa8dad2cb322a4dddab8df76a9194dfe8f/browser-and-deno-goja/main.go#L29)
+
+</td>
+<td>
+
+[Some doc](https://github.com/dop251/goja/blob/b396bb4c349df65109dea3df00fb60f6a044950d/README.md?plain=1#L288)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/js-in-go/goja/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/js-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa8dad2cb322a4dddab8df76a9194dfe8f/browser-and-deno-goja/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa8dad2cb322a4dddab8df76a9194dfe8f/browser-and-deno-goja/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa8dad2cb322a4dddab8df76a9194dfe8f/browser-and-deno-goja/main.go#L19)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa8dad2cb322a4dddab8df76a9194dfe8f/browser-and-deno-goja/main.go#L27)
+a custom function inside JS.
+
+</td>
+</tr>
 <tr>
 <td>
 
