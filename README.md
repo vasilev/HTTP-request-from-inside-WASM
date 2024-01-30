@@ -155,7 +155,7 @@ Make HTTP request from inside WebAssembly
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, GPython, JupyterLite, PyScript, Panel, RPython, Stlite, micropython-wasm](#python)
+[RustPython, Pyodide, pyodide-http, GPython, JupyterLite, PyScript, Panel, RPython, requests-wasm-polyfill, Stlite, micropython-wasm](#python)
 
 </td>
 <td>
@@ -1822,6 +1822,48 @@ print(res.text)
 <td>
 
 Employing [`pyodide-http`](#pyodide-http) and [Pyodide](https://github.com/jupyterlite/pyodide-kernel/blob/v0.1.0/jupyterlite_pyodide_kernel/constants.py#L32)'s own facilities.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[requests-wasm-polyfill](https://github.com/emscripten-forge/requests-wasm-polyfill)
+
+<sub>For [pyjs](https://github.com/emscripten-forge/pyjs)</sub>
+
+</td>
+<td>
+
+```python
+import requests
+
+r = requests.get('https://httpbin.org/anything')
+result = r.text
+print(result)
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/pyjs/blob/596d23d2dcd930ec7025eb734feaaffa478c13f5/requests-wasm-polyfill/script.js#L26)
+
+</td>
+<td></td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/pyjs/requests-wasm-polyfill/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/pyjs)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Direct [`XMLHttpRequest` interop](https://github.com/emscripten-forge/requests-wasm-polyfill/blob/0.3.0/requests/api.py#L27) in sync mode.
 
 </td>
 </tr>
