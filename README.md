@@ -33,6 +33,15 @@ Make HTTP request from inside WebAssembly
 </td>
 </tr>
 <tr>
+<td>BASIC</td>
+<td>
+
+[EndBASIC](#basic)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>C# / .Net</td>
 <td>
 
@@ -155,7 +164,8 @@ Make HTTP request from inside WebAssembly
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, GPython, JupyterLite, PyScript, Panel, RPython, requests-wasm-polyfill, Stlite, micropython-wasm](#python)
+[RustPython, Pyodide, pyodide-http, GPython, JupyterLite, PyScript, Panel, RPython, requests-wasm-polyfill, Stlite,
+ urllib3, micropython-wasm](#python)
 
 </td>
 <td>
@@ -348,6 +358,60 @@ fetch("https://httpbin.org/anything", {
 
 [JS `fetch` interop](https://github.com/JairusSW/as-fetch/blob/503cb7804d3aeaa9a5dd86b0f6ef3907ce6def1b/assembly/src/fetch.ts#L25)
 by [importing](https://github.com/JairusSW/as-fetch/blob/503cb7804d3aeaa9a5dd86b0f6ef3907ce6def1b/assembly/src/fetch.ts#L3) the function from runtime
+
+</td>
+</tr>
+</table>
+
+<a id="basic"></a>
+### BASIC
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[EndBASIC](https://github.com/endbasic/endbasic)
+
+</td>
+<td>
+
+```basic
+DIM res AS STRING
+' Custom function
+res = HTTPGET("https://httpbin.org/anything")
+PRINT res 
+```
+
+</td>
+<td>
+
+[Example for `LOGIN` command](https://github.com/endbasic/endbasic/blob/endbasic-0.10.0/client/src/cloud.rs#L178)
+
+</td>
+<td>
+
+[Some info](https://github.com/endbasic/endbasic/blob/endbasic-0.10.0/core/examples/dsl.rs#L158)
+
+</td>
+<td>
+
+[Playground](https://repl.endbasic.dev/)
+
+<sub>Type ` LOGIN "usr","pwd" ` there, and it will invoke a POST request</sub>
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+[Using](https://github.com/endbasic/endbasic/blob/endbasic-0.10.0/client/src/cloud.rs#L92) [reqwest](#reqwest) for API calls in REPL
 
 </td>
 </tr>
@@ -1648,6 +1712,66 @@ using Pyodide's [`js`](https://pyodide.org/en/stable/usage/api/python-api.html) 
 <tr>
 <td>
 
+[urllib3](https://github.com/urllib3/urllib3)
+
+<sub>Since [2.2.0](https://github.com/urllib3/urllib3/releases/tag/2.2.0)</sub>
+
+</td>
+<td>
+
+```python
+import micropip
+await micropip.install('urllib3')
+
+import urllib3
+res = urllib3.request('GET', 'https://httpbin.org/anything')
+print(res.data.decode('utf-8'))
+```
+
+```python
+# using requests
+import micropip
+await micropip.install('requests')
+
+import requests
+res = requests.get('https://httpbin.org/anything')
+print(res.text)
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/urllib3/urllib3/blob/2.2.0/docs/reference/contrib/emscripten.rst?plain=1#L42)
+* [requests Example](https://github.com/urllib3/urllib3/blob/2.2.0/docs/reference/contrib/emscripten.rst?plain=1#L56)
+
+</td>
+<td>
+
+[Doc](https://urllib3.readthedocs.io/en/2.2.0/reference/contrib/emscripten.html)
+
+</td>
+<td>
+
+[Playground](https://pyodide.org/en/stable/console.html)
+
+</td>
+<td>
+
+Browser [only (yet)](https://github.com/urllib3/urllib3/blob/2.2.0/docs/reference/contrib/emscripten.rst?plain=1#L19)
+
+</td>
+<td>
+
+JS [`fetch` interop](https://github.com/urllib3/urllib3/blob/2.2.0/src/urllib3/contrib/emscripten/emscripten_fetch_worker.js#L70)
+or
+[`XMLHttpRequest` interop](https://github.com/urllib3/urllib3/blob/2.2.0/src/urllib3/contrib/emscripten/fetch.py#L380) 
+if `fetch` [is not available](https://github.com/urllib3/urllib3/blob/2.2.0/docs/reference/contrib/emscripten.rst?plain=1#L8-L10).
+
+</td>
+</tr>
+<tr>
+<td>
+
 [GPython](https://github.com/go-python/gpython)
 
 </td>
@@ -1863,7 +1987,8 @@ Browser
 </td>
 <td>
 
-Direct [`XMLHttpRequest` interop](https://github.com/emscripten-forge/requests-wasm-polyfill/blob/0.3.0/requests/api.py#L27) in sync mode.
+Direct [`XMLHttpRequest` interop](https://github.com/emscripten-forge/requests-wasm-polyfill/blob/0.3.0/requests/api.py#L41) in 
+[sync](https://github.com/emscripten-forge/requests-wasm-polyfill/blob/0.3.0/requests/api.py#L27) mode.
 
 </td>
 </tr>
@@ -2384,6 +2509,7 @@ let resp = Request::get("https://httpbin.org/anything").send()
 </tr>
 <tr>
 <td>
+<a id="reqwest"></a>
 
 [reqwest](https://crates.io/crates/reqwest)
 
