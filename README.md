@@ -36,7 +36,7 @@ Make HTTP request from inside WebAssembly
 <td>BASIC</td>
 <td>
 
-[EndBASIC](#basic)
+[EndBASIC, gobasic](#basic)
 
 </td>
 <td></td>
@@ -85,7 +85,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Capsule, Extism PDK for Go, Spin SDK for Go, stealthrocket/net, wasi-experimental-http, wasi-http](#golang-wasi)
+[Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, stealthrocket/net, wasi-experimental-http, wasi-http](#golang-wasi)
 
 </td>
 </tr>
@@ -412,6 +412,54 @@ Browser
 <td>
 
 [Using](https://github.com/endbasic/endbasic/blob/endbasic-0.10.0/client/src/cloud.rs#L92) [reqwest](#reqwest) for API calls in REPL
+
+</td>
+</tr>
+<tr>
+<td>
+
+[gobasic](https://github.com/skx/gobasic)
+
+</td>
+<td>
+
+```basic
+REM Custom function
+res$ = HTTPGET ("https://httpbin.org/anything")
+PRINT res$
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/main.go#L16)
+
+</td>
+<td>
+
+[Readme](https://github.com/skx/gobasic/tree/release-2.2#70-print-embedding)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/basic-in-go/gobasic/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/basic-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Uses](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/main.go#L28)
+Golang's [`"net/http"`](#go-net-http) in
+a [custom function](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/main.go#L26)
+[injected](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/main.go#L37)
+into the language.
 
 </td>
 </tr>
@@ -3625,6 +3673,52 @@ Extism [uses](https://github.com/extism/extism/blob/v0.4.0/runtime/Cargo.toml#L1
 runtime's [host function](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L297)
 [exported](https://github.com/extism/extism/blob/v0.4.0/runtime/src/plugin.rs#L112) for plugins,
 which [makes](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L358) actual request using `ureq`.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[knqyf263/go-plugin](https://github.com/knqyf263/go-plugin)
+
+</td>
+<td>
+
+```go
+hostFunctions := protobufs.NewHostFunctions()
+
+resp, err := hostFunctions.HttpGet(ctx,
+  &protobufs.HttpGetRequest{Url: "https://httpbin.org/anything"})
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/knqyf263/go-plugin/blob/v0.8.0/examples/host-functions/plugin/plugin.go#L29)
+* [Example](https://github.com/wasm-outbound-http-examples/go-plugin/blob/29ec93663b5bb6feb1e21c340441614ad7dfcb1c/plugin/plugin.go#L22)
+* [Usage from host program](https://github.com/wasm-outbound-http-examples/go-plugin/blob/29ec93663b5bb6feb1e21c340441614ad7dfcb1c/main.go#L25-L27)
+
+</td>
+<td>
+
+[Readme](https://github.com/knqyf263/go-plugin/tree/v0.8.0#usage)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/go-plugin)
+
+</td>
+<td>
+
+go-plugin [uses](https://github.com/knqyf263/go-plugin/tree/v0.8.0#under-the-hood) wazero
+
+</td>
+<td>
+
+[Invoking](https://github.com/knqyf263/go-plugin/blob/v0.8.0/examples/host-functions/plugin/plugin.go#L29) the  
+[bound](https://github.com/knqyf263/go-plugin/blob/v0.8.0/examples/host-functions/main.go#L28) 
+[host function](https://github.com/knqyf263/go-plugin/blob/v0.8.0/examples/host-functions/main.go#L52).
 
 </td>
 </tr>
