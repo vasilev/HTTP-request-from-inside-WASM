@@ -196,7 +196,7 @@ Make HTTP request from inside WebAssembly
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, reqwasm, reqwest, seed, surf](#rust)
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, leptos, reqwasm, reqwest, seed, surf](#rust)
 
 </td>
 <td>
@@ -237,7 +237,7 @@ Make HTTP request from inside WebAssembly
 <td></td>
 <td>
 
-[Extism PDK for Zig, wasi-experimental-http](#zig-wasi)
+[Extism PDK for Zig, Spin SDK for Zig, wasi-experimental-http](#zig-wasi)
 
 </td>
 </tr>
@@ -2557,6 +2557,51 @@ let resp = Request::get("https://httpbin.org/anything").send()
 </tr>
 <tr>
 <td>
+
+[Leptos](https://crates.io/crates/leptos)
+
+</td>
+<td>
+
+```rust
+// uses reqwasm or gloo_net for CSR
+
+use leptos_dom::logging::console_log;
+
+let txt = reqwasm::http::Request::get(
+    "https://httpbin.org/anything")
+  .send().await?.text().await?;
+console_log(txt.as_str());
+```
+
+</td>
+<td>
+
+* [Example using reqwasm](https://github.com/leptos-rs/leptos/blob/v0.6.5/examples/fetch/src/lib.rs#L21)
+* [Example using gloo_net](https://github.com/leptos-rs/leptos/blob/v0.6.5/examples/hackernews_js_fetch/src/api.rs#L27)
+* [Example using reqwest for SSR](https://github.com/leptos-rs/leptos/blob/v0.6.5/examples/hackernews/src/api.rs#L45)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+Browser
+
+Also server-side rendering (SSR)
+
+</td>
+<td>
+
+Has no built-in solutions, just uses any suitable 3rd-party lib, such as:
+[reqwest](#reqwest),
+[gloo_net](#gloo_net),
+[reqwasm](#reqwasm).
+
+</td>
+</tr>
+<tr>
+<td>
 <a id="reqwest"></a>
 
 [reqwest](https://crates.io/crates/reqwest)
@@ -2598,6 +2643,7 @@ Also [native](https://github.com/seanmonstar/reqwest/blob/v0.11.14/src/async_imp
 </tr>
 <tr>
 <td>
+<a id="reqwasm"></a>
 
 [reqwasm](https://crates.io/crates/reqwasm)
 
@@ -4770,6 +4816,47 @@ Extism [uses](https://github.com/extism/extism/blob/v0.4.0/runtime/Cargo.toml#L1
 runtime's [host function](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L297)
 [exported](https://github.com/extism/extism/blob/v0.4.0/runtime/src/plugin.rs#L112) for plugins,
 which [makes](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L358) actual request using `ureq`.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Spin SDK for Zig](https://github.com/tensorush/zig-spin)
+
+<sub>Unofficial</sub>
+
+</td>
+<td>
+
+```zig
+const spin = @import("spin");
+
+const req = spin.http.Request{ .method = .GET, 
+  .url = "https://httpbin.org/anything" };
+const res = spin.http.send(req) catch unreachable;
+```
+
+</td>
+<td>
+
+[Example](https://github.com/tensorush/zig-spin/blob/v0.6.1/examples/http-out/main.zig#L14-L15)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
+
+</td>
+<td>
+
+[Calling](https://github.com/tensorush/zig-spin/blob/v0.6.1/src/http.zig#L160)
+to C-level [import](https://github.com/tensorush/zig-spin/blob/v0.6.1/include/wasi-outbound-http.h#L81)
+of 
+Spin's [host function](https://github.com/fermyon/spin/blob/v2.2.0/crates/outbound-http/src/host_impl.rs#L78).
 
 </td>
 </tr>
