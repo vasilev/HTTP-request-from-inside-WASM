@@ -85,7 +85,8 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, stealthrocket/net, wasi-experimental-http, wasi-http](#golang-wasi)
+[Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, stealthrocket/net, wasi-experimental-http, wasi-http,
+ Wasm Workers Server](#golang-wasi)
 
 </td>
 </tr>
@@ -120,7 +121,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[WasmEdge-QuickJs, Extism PDK for JS, Spin SDK for JS / TS](#javascript-wasi)
+[WasmEdge-QuickJs, Extism PDK for JS, Spin SDK for JS / TS, Wasm Workers Server](#javascript-wasi)
 
 </td>
 </tr>
@@ -196,12 +197,12 @@ Make HTTP request from inside WebAssembly
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, leptos, reqwasm, reqwest, seed, surf](#rust)
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, leptos, reqwasm, reqwest, sauron, seed, surf](#rust)
 
 </td>
 <td>
 
-[reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, wasi-experimental-http, wasi-http](#rust-wasi)
+[reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, wasi-experimental-http, wasi-http, Wasm Workers Server](#rust-wasi)
 
 </td>
 </tr>
@@ -2679,6 +2680,48 @@ let resp = Request::get("https://httpbin.org/anything").send()
 <tr>
 <td>
 
+[sauron](https://crates.io/crates/sauron)
+
+</td>
+<td>
+
+```rust
+use sauron::dom::{Http, spawn_local};
+
+spawn_local(async move {
+  let txt = Http::fetch_text(
+    "https://httpbin.org/anything").await.unwrap();
+  log::trace!("{}", txt);
+});
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/ivanceras/sauron/blob/8b079a7deb5b9a051ce069cfc76272c353820b24/examples/fetch-data/src/lib.rs#L63)
+* [Example for component](https://github.com/ivanceras/sauron/blob/f1d56fe18e435023d3a3110f30c6fb43fc14480d/examples/fetch-data-component/src/fetcher.rs#L56)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/sauron/0.60.7/sauron/prelude/dom/struct.Http.html#method.fetch_text)
+
+</td>
+<td></td>
+<td>
+Browser
+
+Also server-side rendering (SSR)
+</td>
+<td>
+
+[JS `fetch` interop](https://github.com/ivanceras/sauron/blob/f1d56fe18e435023d3a3110f30c6fb43fc14480d/crates/sauron-core/src/dom/http.rs#L38) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
+
 [Seed](https://seed-rs.org)
 
 </td>
@@ -3999,6 +4042,59 @@ and to [`syscall.Connect()`](https://github.com/stealthrocket/wasi-go/blob/v0.6.
 
 </td>
 </tr>
+<tr>
+<td>
+
+[VMware OCTO / Wasm Workers Server](https://workers.wasmlabs.dev)
+
+</td>
+<td>
+
+```go
+import (
+  "log"; "net/http"
+  "github.com/vmware-labs/wasm-workers-server/kits/go/worker"
+)
+
+req, _ := http.NewRequest(http.MethodGet,
+  "https://httpbin.org/anything", nil)
+res, _ := worker.SendHttpRequest(req)
+defer res.Body.Close()
+body, _ := io.ReadAll(res.Body)
+log.Println(string(body))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/examples/go-fetch/main.go#L29)
+
+</td>
+<td>
+
+[Doc](https://workers.wasmlabs.dev/docs/languages/go#send-an-http-request)
+
+</td>
+<td></td>
+<td>
+
+[Wasm Workers Server](https://github.com/vmware-labs/wasm-workers-server)
+[uses](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/docs/docs/get-started/how-it-works.md?plain=1#L24)
+[Wasmtime](https://wasmtime.dev/)
+
+</td>
+<td>
+
+[Calling](https://github.com/vmware-labs/wasm-workers-server/blob/main/kits/go/worker/worker.go#L241) to 
+[Go-wrapped](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/go/worker/bindings/bindings.go#L252), to
+[C-wrapped](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/go/worker/bindings/bindings.c#L176), to
+[C-level imported](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/go/worker/bindings/bindings.c#L4)
+[host function](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L56)
+which [makes](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L129)
+request using [reqwest](#reqwest).
+
+</td>
+</tr>
 </table>
 
 <a id="haskell-wasi"></a>
@@ -4314,6 +4410,50 @@ of [bound](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458
 which [calls](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/src/lib.rs#L130)
 via [Rust Spin SDK](https://github.com/fermyon/spin-js-sdk/blob/f8833c51ee734e7ad296f7458205b4ff11d1a156/crates/spin-js-engine/Cargo.toml#L19)
 Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[VMware OCTO / Wasm Workers Server](https://workers.wasmlabs.dev)
+
+</td>
+<td>
+
+```js
+const resp = await fetch('https://httpbin.org/anything');
+const txt = await resp.text();
+console.log(txt);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/examples/js-fetch/index.js#L17)
+
+</td>
+<td>
+
+[Doc](https://workers.wasmlabs.dev/docs/languages/javascript/#send-an-http-request-fetch)
+
+</td>
+<td></td>
+<td>
+
+[Wasm Workers Server](https://github.com/vmware-labs/wasm-workers-server)
+[uses](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/docs/docs/get-started/how-it-works.md?plain=1#L24)
+[Wasmtime](https://wasmtime.dev/)
+
+</td>
+<td>
+
+[Calling](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/javascript/shims/bindings.js#L27) 
+[bound to JS](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/javascript/src/bindings.rs#L23) 
+[`send_http_request()`](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/javascript/src/bindings.rs#L72) 
+the [host function](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L56)  
+which [makes](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L129) 
+request using [reqwest](#reqwest).
 
 </td>
 </tr>
@@ -4751,6 +4891,55 @@ calls imported
 
 2. Wazero's [host function](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
    which [performs](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[VMware OCTO / Wasm Workers Server](https://workers.wasmlabs.dev)
+
+</td>
+<td>
+
+```rust
+let req = Request::builder()
+  .uri("https://httpbin.org/anything")
+  .body(String::new()).unwrap();
+
+let res = bindings::send_http_request(req).unwrap();
+
+let data = res.body();
+let txt = String::from_utf8_lossy(&data);
+println!("text: {txt}");
+```
+
+</td>
+<td>
+
+[Example](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/examples/rust-fetch/src/main.rs#L26)
+
+</td>
+<td>
+
+[Doc](https://workers.wasmlabs.dev/docs/languages/rust#send-an-http-request)
+
+</td>
+<td></td>
+<td>
+
+[Wasm Workers Server](https://github.com/vmware-labs/wasm-workers-server) 
+[uses](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/docs/docs/get-started/how-it-works.md?plain=1#L24) 
+[Wasmtime](https://wasmtime.dev/)
+
+</td>
+<td>
+
+[Calling](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/rust/src/bindings.rs#L66) 
+[imported](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/kits/rust/src/bindings.rs#L7) 
+[host function](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L56) 
+which [makes](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L129) 
+request using [reqwest](#reqwest).
 
 </td>
 </tr>
