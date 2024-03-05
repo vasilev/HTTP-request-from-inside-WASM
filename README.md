@@ -219,7 +219,7 @@ Make HTTP request from inside WebAssembly
 <td>Tcl</td>
 <td>
 
-[Wacl](#tcl)
+[criTiCaL, Wacl](#tcl)
 
 </td>
 <td></td>
@@ -2862,6 +2862,53 @@ Direct `fetch` interop using [JavaScriptKit](https://github.com/swiftwasm/JavaSc
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[criTiCaL](https://github.com/skx/critical)
+
+</td>
+<td>
+
+```tcl
+# custom command
+puts [httpget "https://httpbin.org/anything"]
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/tcl-in-go/blob/8333daaf436b0ab8aa1d67724a09c800868507f2/browser-and-deno-critical/main.go#L13)
+
+</td>
+<td>
+
+[Readme](https://github.com/skx/critical/blob/44b41592cc897cf9f7aaa9e108df76fab848ebdc/README.md?plain=1#L65)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/tcl-in-go/critical/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/tcl-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/tcl-in-go/blob/8333daaf436b0ab8aa1d67724a09c800868507f2/browser-and-deno-critical/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/tcl-in-go/blob/8333daaf436b0ab8aa1d67724a09c800868507f2/browser-and-deno-critical/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Uses](https://github.com/wasm-outbound-http-examples/tcl-in-go/blob/8333daaf436b0ab8aa1d67724a09c800868507f2/browser-and-deno-critical/main.go#L23)
+Golang's [`"net/http"`](#go-net-http) in
+a [custom command](https://github.com/wasm-outbound-http-examples/tcl-in-go/blob/8333daaf436b0ab8aa1d67724a09c800868507f2/browser-and-deno-critical/main.go#L21)
+[injected](https://github.com/wasm-outbound-http-examples/tcl-in-go/blob/8333daaf436b0ab8aa1d67724a09c800868507f2/browser-and-deno-critical/main.go#L32)
+into the language.
+
+</td>
+</tr>
 <tr>
 <td>
 
