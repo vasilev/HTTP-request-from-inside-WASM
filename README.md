@@ -116,7 +116,7 @@ Make HTTP request from inside WebAssembly
 <td>JavaScript</td>
 <td>
 
-[Goja, Otto](#javascript)
+[Goja, gojax/fetch, Otto](#javascript)
 
 </td>
 <td>
@@ -1211,6 +1211,58 @@ and [Deno](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa
 [Using](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa8dad2cb322a4dddab8df76a9194dfe8f/browser-and-deno-goja/main.go#L19)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/js-in-go/blob/7ed91aaa8dad2cb322a4dddab8df76a9194dfe8f/browser-and-deno-goja/main.go#L27)
 a custom function inside JS.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[gojax/fetch](https://github.com/olebedev/gojax/tree/master/fetch)
+
+</td>
+<td>
+
+```js
+fetch('https://httpbin.org/anything')
+  .then(function(res) {
+    return res.text();
+  }).then(function(txt) {
+    console.log(txt);
+    exitloop();
+  });
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/olebedev/gojax/blob/bb153be84336f26925890502929cc363477df7ad/fetch/README.md?plain=1#L37)
+* [Test](https://github.com/olebedev/gojax/blob/bb153be84336f26925890502929cc363477df7ad/fetch/fetch_test.go#L82)
+* [Example](https://github.com/wasm-outbound-http-examples/js-in-go/blob/e175161fa6639b56fd6b2f59517d56e3d6112222/browser-and-deno-gojax-fetch/main.go#L30)
+
+</td>
+<td>
+
+[Readme](https://github.com/olebedev/gojax/blob/bb153be84336f26925890502929cc363477df7ad/fetch/README.md#usage)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/js-in-go/gojax-fetch/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/js-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/js-in-go/blob/e175161fa6639b56fd6b2f59517d56e3d6112222/browser-and-deno-gojax-fetch/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/js-in-go/blob/e175161fa6639b56fd6b2f59517d56e3d6112222/browser-and-deno-gojax-fetch/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Injecting](https://github.com/olebedev/gojax/blob/bb153be84336f26925890502929cc363477df7ad/fetch/fetch.go#L33) a custom function into JS.
+That func [uses](https://github.com/olebedev/gojax/blob/bb153be84336f26925890502929cc363477df7ad/fetch/fetch.go#L94) the goproxy as HTTP client,
+which is a [wrapper](https://github.com/elazarl/goproxy/blob/v1.1/README.md?plain=1#L14) for Golang's [`"net/http"`](#go-net-http).
 
 </td>
 </tr>
