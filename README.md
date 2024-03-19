@@ -197,7 +197,8 @@ Make HTTP request from inside WebAssembly
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, leptos, reqwasm, reqwest, sauron, seed, surf](#rust)
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, leptos, reqwasm, reqwest, sauron, seed, surf,
+sycamore](#rust)
 
 </td>
 <td>
@@ -205,6 +206,15 @@ Make HTTP request from inside WebAssembly
 [reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, wasi-experimental-http, wasi-http, Wasm Workers Server](#rust-wasi)
 
 </td>
+</tr>
+<tr>
+<td>Starlark</td>
+<td>
+
+[starlark-go](#starlark)
+
+</td>
+<td></td>
 </tr>
 <tr>
 <td>Swift</td>
@@ -2842,8 +2852,101 @@ Also [native](https://github.com/http-rs/surf/blob/v2.3.2/src/lib.rs#L83)
 
 </td>
 </tr>
+<tr>
+<td>
 
+[sycamore](https://crates.io/crates/sycamore)
 
+</td>
+<td>
+
+```rust
+// uses reqwasm
+use reqwasm::http::Request;
+
+let url = "https://httpbin.org/anything";
+let res = Request::get(&url).send().await?;
+
+let txt = res.text().await?;
+log::info!("{}", txt);
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/sycamore-rs/sycamore/blob/0.9.0-beta.2/examples/http-request/src/main.rs#L16)
+* [Example for Builder API](https://github.com/sycamore-rs/sycamore/blob/0.9.0-beta.2/examples/http-request-builder/src/main.rs#L18)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Has no built-in solutions, just uses any suitable 3rd-party lib, such as:
+[reqwasm](#reqwasm).
+
+</td>
+</tr>
+
+</table>
+
+### Starlark
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[starlark-go](https://github.com/google/starlark-go)
+
+</td>
+<td>
+
+```starlark
+# custom function
+print(httpget('https://httpbin.org/anything'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab9da9b5d1de8768f00f0a58bc782a0473a1bb82/browser-and-deno/main.go#L13)
+
+</td>
+<td>
+
+[Readme](https://github.com/google/starlark-go/blob/ee8ed142361c69d52fe8e9fb5e311d2a0a7c02de/README.md?plain=1#L94)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/starlark-in-go/starlark/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/starlark-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab9da9b5d1de8768f00f0a58bc782a0473a1bb82/browser-and-deno/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab9da9b5d1de8768f00f0a58bc782a0473a1bb82/browser-and-deno/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab9da9b5d1de8768f00f0a58bc782a0473a1bb82/browser-and-deno/main.go#L23)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab9da9b5d1de8768f00f0a58bc782a0473a1bb82/browser-and-deno/main.go#L32)
+a custom function inside Starlark.
+
+</td>
+</tr>
 </table>
 
 ### Swift
