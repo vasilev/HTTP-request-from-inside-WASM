@@ -211,7 +211,7 @@ sycamore](#rust)
 <td>Starlark</td>
 <td>
 
-[starlark-go](#starlark)
+[starlark-go, starlib](#starlark)
 
 </td>
 <td></td>
@@ -2944,6 +2944,55 @@ and [Deno](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab
 [Using](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab9da9b5d1de8768f00f0a58bc782a0473a1bb82/browser-and-deno/main.go#L23)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/ab9da9b5d1de8768f00f0a58bc782a0473a1bb82/browser-and-deno/main.go#L32)
 a custom function inside Starlark.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[qri-io/starlib](https://github.com/qri-io/starlib)
+
+<sub>_"Starlark's missing stdlib"_</sub>
+
+</td>
+<td>
+
+```starlark
+load('http.star', 'http')
+
+res = http.get('https://httpbin.org/anything')
+print(res.body())
+```
+
+</td>
+<td>
+
+* [Test](https://github.com/qri-io/starlib/blob/v0.5.0/http/testdata/test.star#L4)
+* [Example](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/fe339ccb1aaf552e5b62a33550b424a85ff5fbc0/browser-and-deno-starlib/main.go#L12)
+
+</td>
+<td>
+
+[Doc](https://github.com/qri-io/starlib/tree/v0.5.0/http#functions)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/starlark-in-go/starlib/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/starlark-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/starlark-in-go/tree/fe339ccb1aaf552e5b62a33550b424a85ff5fbc0/browser-and-deno-starlib#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/starlark-in-go/tree/fe339ccb1aaf552e5b62a33550b424a85ff5fbc0/browser-and-deno-starlib#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/qri-io/starlib/blob/7fb7ff9ec804789a6dd0c1470abc5f07ba4a0c46/http/http.go#L134)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/qri-io/starlib/blob/7fb7ff9ec804789a6dd0c1470abc5f07ba4a0c46/http/http.go#L78).
 
 </td>
 </tr>
