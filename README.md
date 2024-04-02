@@ -153,6 +153,15 @@ Make HTTP request from inside WebAssembly
 <td></td>
 </tr>
 <tr>
+<td>Pascal</td>
+<td>
+
+[Free Pascal](#pascal)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Perl</td>
 <td>
 
@@ -1625,6 +1634,57 @@ var_dump(vrzno_eval($js));
 <td>
 
 Manual JS `XMLHttpRequest` interop using [`vrzno`](https://github.com/seanmorris/vrzno/blob/228514316299f8d1dbc8abcff51523ed37929f1f/vrzno.c#L36) PHP extension.
+
+</td>
+</tr>
+</table>
+
+### Pascal
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Free Pascal](https://www.freepascal.org)
+
+</td>
+<td>
+
+```pascal
+function httpGet(url: ShortString; Var str_out:
+    ShortString): ShortString; external 'js';
+
+var out_str : ShortString;
+begin
+        out_str:= DupeString( ' ' , 255 );
+        httpGet('https://httpbin.org/get', out_str);
+        writeln(out_str);
+end.
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/freepascal/blob/daf03bf8a4f09307ad49076b11790d689716344d/browser-sync-xhr-shortstring/main.pp#L14)
+
+</td>
+<td></td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/freepascal/sync-xhr-shortstring/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/freepascal)
+
+</td>
+<td>Browser and maybe Node</td>
+<td>
+
+Direct [`XMLHttpRequest` interop](https://github.com/wasm-outbound-http-examples/freepascal/blob/daf03bf8a4f09307ad49076b11790d689716344d/browser-sync-xhr-shortstring/index.html#L31) in
+[sync](https://github.com/wasm-outbound-http-examples/freepascal/blob/daf03bf8a4f09307ad49076b11790d689716344d/browser-sync-xhr-shortstring/index.html#L30) mode 
+via [importing](https://github.com/wasm-outbound-http-examples/freepascal/blob/daf03bf8a4f09307ad49076b11790d689716344d/browser-sync-xhr-shortstring/main.pp#L6-L7) 
+the JS function into Pascal with [mapping](https://github.com/wasm-outbound-http-examples/freepascal/blob/daf03bf8a4f09307ad49076b11790d689716344d/browser-sync-xhr-shortstring/index.html#L42).
 
 </td>
 </tr>
