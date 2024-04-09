@@ -220,7 +220,7 @@ sycamore](#rust)
 <td>Starlark</td>
 <td>
 
-[starlark-go, starlib](#starlark)
+[starlark-go, starlib, starlight](#starlark)
 
 </td>
 <td></td>
@@ -1660,7 +1660,7 @@ function httpGet(url: ShortString; Var str_out:
 var out_str : ShortString;
 begin
         out_str:= DupeString( ' ' , 255 );
-        httpGet('https://httpbin.org/get', out_str);
+        httpGet('https://httpbin.org/anything', out_str);
         writeln(out_str);
 end.
 ```
@@ -3053,6 +3053,51 @@ and [Deno](https://github.com/wasm-outbound-http-examples/starlark-in-go/tree/fe
 
 [Using](https://github.com/qri-io/starlib/blob/7fb7ff9ec804789a6dd0c1470abc5f07ba4a0c46/http/http.go#L134)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/qri-io/starlib/blob/7fb7ff9ec804789a6dd0c1470abc5f07ba4a0c46/http/http.go#L78).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[starlight-go/starlight](https://github.com/starlight-go/starlight)
+
+</td>
+<td>
+
+```starlark
+# custom function
+print(httpget('https://httpbin.org/anything'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/8ac2f92995e40b29f97f716707b1f16cbc82277b/browser-and-deno-starlight/main.go#L27)
+
+</td>
+<td>
+
+[Readme](https://github.com/starlight-go/starlight/tree/b06f321544f32fa1ece751522f04f6629b15c3b6?tab=readme-ov-file#functions)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/starlark-in-go/starlight/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/starlark-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/8ac2f92995e40b29f97f716707b1f16cbc82277b/browser-and-deno-starlight/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/8ac2f92995e40b29f97f716707b1f16cbc82277b/browser-and-deno-starlight/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/8ac2f92995e40b29f97f716707b1f16cbc82277b/browser-and-deno-starlight/main.go#L12)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/starlark-in-go/blob/8ac2f92995e40b29f97f716707b1f16cbc82277b/browser-and-deno-starlight/main.go#L22)
+a custom function inside Starlark.
 
 </td>
 </tr>
