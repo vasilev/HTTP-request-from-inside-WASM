@@ -206,7 +206,7 @@ Make HTTP request from inside WebAssembly
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, leptos, reqwasm, reqwest, sauron, seed, surf,
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, iced, leptos, reqwasm, reqwest, sauron, seed, surf,
 sycamore](#rust)
 
 </td>
@@ -2675,6 +2675,45 @@ let resp = Request::get("https://httpbin.org/anything").send()
 <td>
 
 [JS `fetch` Interop](https://github.com/rustwasm/gloo/blob/6617d0ee0c552e3ba31e112591e33b98274739f6/crates/net/src/http/mod.rs#L261) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Iced](https://crates.io/crates/iced)
+
+</td>
+<td>
+
+```rust
+// uses reqwest
+
+let txt = reqwest::get("https://httpbin.org/anything")
+  .await?.text().await?;
+
+log::info!("text: {}", txt);
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/iced-rs/iced/blob/0.12/examples/download_progress/src/download.rs#L24)
+* [Example 2](https://github.com/iced-rs/iced/blob/0.12/examples/pokedex/src/main.rs#L162)
+* [Example 3](https://github.com/zupzup/rust-frontend-example-iced/blob/d94782952c21419f36d89e091df5790082600d08/src/data.rs#L24)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Has no built-in solutions, just uses any suitable 3rd-party lib, such as:
+[reqwest](#reqwest).
 
 </td>
 </tr>
