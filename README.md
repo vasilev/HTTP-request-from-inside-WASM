@@ -80,7 +80,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo, Yaegi](#golang)
+[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo, Vugu, Yaegi](#golang)
 
 </td>
 <td>
@@ -908,6 +908,51 @@ Browser and maybe Node.js
 
 [Uses](https://github.com/Nigel2392/requester/blob/v1.0.0/client.go#L56)
 Golang's [`"net/http"`](#go-net-http)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Vugu](https://github.com/vugu/vugu)
+
+<sub>UI library</sub>
+
+</td>
+<td>
+
+```go
+import "io"
+import "log"
+import "net/http"
+
+resp, _ := http.Get("https://httpbin.org/anything")
+defer resp.Body.Close()
+body, _ := io.ReadAll(resp.Body)
+log.Println(string(body))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/vugu/vugu/blob/v0.3.5/examples/fetch-and-display/root.vugu#L41)
+
+</td>
+<td></td>
+<td>
+
+Possible with
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/go)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Has no built-in solutions, just directly invoking Golang's [`"net/http"`](#go-net-http)
 
 </td>
 </tr>
@@ -2700,7 +2745,7 @@ log::info!("text: {}", txt);
 
 * [Example 1](https://github.com/iced-rs/iced/blob/0.12/examples/download_progress/src/download.rs#L24)
 * [Example 2](https://github.com/iced-rs/iced/blob/0.12/examples/pokedex/src/main.rs#L162)
-* [Example 3](https://github.com/zupzup/rust-frontend-example-iced/blob/d94782952c21419f36d89e091df5790082600d08/src/data.rs#L24)
+* [Example 3](https://github.com/zupzup/rust-frontend-example-iced/blob/d94782952c21419f36d89e091df5790082600d08/src/data.rs#L25)
 
 </td>
 <td></td>
