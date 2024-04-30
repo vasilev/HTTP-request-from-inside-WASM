@@ -116,7 +116,7 @@ Make HTTP request from inside WebAssembly
 <td>JavaScript</td>
 <td>
 
-[Goja, gojax/fetch, Otto](#javascript)
+[Goja, gojax/fetch, Otto, quickjs-emscripten](#javascript)
 
 </td>
 <td>
@@ -1225,6 +1225,63 @@ JS [`window`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/core/src/
 _Possible, but why?_
 
 #### JavaScript VM or interpreter compiled to WASM
+
+##### JavaScript built with Emscripten
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[quickjs-emscripten](https://github.com/justjake/quickjs-emscripten)
+
+</td>
+<td>
+
+```js
+// Host function
+const txt = await fetch('https://httpbin.org/anything');
+console.log(txt);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/httpget.mjs#L31)
+
+</td>
+<td>
+
+[Doc](https://github.com/justjake/quickjs-emscripten?tab=readme-ov-file#exposing-apis)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/quickjs-emscripten/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/quickjs-emscripten)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/README.md#test-with-bun),
+[Deno](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/README.md#test-with-deno),
+and [Node](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/README.md#test-with-nodejs).
+
+</td>
+<td>
+
+JS [`fetch` interop](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/httpget.mjs#L23) by
+[injecting](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/httpget.mjs#L28) 
+a custom [host function](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/httpget.mjs#L19) 
+into QuickJS's global namespace.
+
+</td>
+</tr>
+</table>
 
 ##### JavaScript implemented in Golang
 
