@@ -138,7 +138,7 @@ Make HTTP request from inside WebAssembly
 <td>Lua</td>
 <td>
 
-[Wasmoon, gluahttp, lmodhttpclient, gopher-lua-libs](#lua)
+[Wasmoon, gluahttp, lmodhttpclient, gopher-lua-libs, Pluto](#lua)
 
 </td>
 <td></td>
@@ -1684,6 +1684,61 @@ res:close()
 
 [Using](https://github.com/erdian718/lmodhttpclient/blob/d87d685c200b19b4e1c3753146d064288dbe112b/mod.go#L72)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/erdian718/lmodhttpclient/blob/d87d685c200b19b4e1c3753146d064288dbe112b/mod.go#L47-L48).
+
+</td>
+</tr>
+</table>
+
+#### Lua dialects
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Pluto](https://github.com/PlutoLang/Pluto)
+
+</td>
+<td>
+
+```lua
+local http = require 'pluto:http'
+
+http.request('https://httpbin.org/anything')
+|> print
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/PlutoLang/plutolang.github.io/blob/8fc3eaa1b0fe0d2fe38125f7f80d26af7b298106/docs/Runtime%20Environment/HTTP.md?plain=1#L36)
+* [Example 2](https://github.com/PlutoLang/plutolang.github.io/blob/8fc3eaa1b0fe0d2fe38125f7f80d26af7b298106/docs/New%20Operators.md?plain=1#L142)
+
+</td>
+<td>
+
+* [Doc](https://pluto-lang.org/docs/Runtime%20Environment/HTTP)
+* [Doc for pipe](https://pluto-lang.org/docs/New%20Operators#pipe-operator)
+
+</td>
+<td>
+
+* [JSON Demo](https://pluto-lang.org/web/#code=local%20%7B%20http%2C%20json%20%7D%20%3D%20require%20%22pluto%3A*%22%0D%0A%0D%0Ahttp.request(%22https%3A%2F%2Fhttpbin.org%2Fget%22)%0D%0A%7C%3E%20json.decode%0D%0A%7C%3E%20dumpvar%0D%0A%7C%3E%20print%0D%0A)
+* [Demo](https://pluto-lang.org/web/#code=local%20http%20%3D%20require%20%22pluto%3Ahttp%22%0D%0Alocal%20body%2C%20status_code%2C%20headers%2C%20status_text%20%3D%20http.request(%22https%3A%2F%2Fhttpbin.org%2Fanything%22)%0D%0Aprint(status_code..%22%20%22..status_text)%0D%0Aif%20os.platform%20!%3D%20%22wasm%22%20then%0D%0A%20%20%20%20print(dumpvar(headers))%0D%0Aend%0D%0Aprint(body))
+* [Demo](https://pluto-lang.org/web/#code=local%20http%20%3D%20require%20'pluto%3Ahttp'%0A%0Ahttp.request('https%3A%2F%2Fhttpbin.org%2Fanything')%0A%7C%3E%20print%0A)
+
+</td>
+<td>
+
+Browser and maybe Node.
+
+</td>
+<td>
+
+JS `XMLHttpRequest` interop by [invoking](https://github.com/PlutoLang/Pluto/blob/0.9.2/src/vendor/Soup/soup/HttpRequestTask.cpp#L260) `emscripten_fetch()`.
 
 </td>
 </tr>
