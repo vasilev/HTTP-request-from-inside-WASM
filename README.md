@@ -147,7 +147,7 @@ Make HTTP request from inside WebAssembly
 <td>PHP</td>
 <td>
 
-[PIB aka php-wasm](#php)
+[php-wasm](#php)
 
 </td>
 <td></td>
@@ -1752,45 +1752,58 @@ JS `XMLHttpRequest` interop by [invoking](https://github.com/PlutoLang/Pluto/blo
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
 <tr>
 <td>
+<a id="php-wasm"></a>
 
-[PIB: PHP in Browser aka php-wasm](https://github.com/seanmorris/php-wasm/)
+[php-wasm](https://github.com/seanmorris/php-wasm)
+
+<sub>Fork of [PIB](https://github.com/oraoto/pib)</sub>
 
 </td>
 <td>
 
 ```php
-$js=<<<JSCODE
-var xhr=new XMLHttpRequest();
-xhr.open('GET', 'https://httpbin.org/anything', 0);
-xhr.send();
+$url = 'https://httpbin.org/anything';
 
-xhr.responseText;
-JSCODE;
-
-var_dump(vrzno_eval($js));
+$window = new Vrzno();
+$window->fetch($url)
+->then(function($res) { return $res->text(); })
+->then(var_dump(...));
 ```
 
 </td>
 <td>
 
-[Example](https://github.com/WordPress/wordpress-playground/blob/bb148069e37d8b7f3314a3e675abb316f7749e4e/src/wordpress-playground/mu-plugins/includes/requests_transport_fetch.php#L68)
+* [Example](https://github.com/seanmorris/php-wasm/blob/v0.0.8/docs/scripts/fetch.php#L6)
+* [Example](https://github.com/wasm-outbound-http-examples/php/blob/1ab3f308dcd43f455d5ffa1cc6a569dec3d1ed72/browser-and-node-php-wasm/index.html#L22)
+* [Node.js / Deno / Bun example](https://github.com/wasm-outbound-http-examples/php/blob/1ab3f308dcd43f455d5ffa1cc6a569dec3d1ed72/browser-and-node-php-wasm/httpget.mjs#L14)
 
 </td>
 <td>
 
-[Doc](https://github.com/seanmorris/vrzno#usage)
+* [Doc](https://github.com/seanmorris/vrzno/blob/0e557d7138f51f4cda65fb338e35adb4f787acde/README.md#new-vrzno)
+* [CloudFlare note](https://github.com/seanmorris/vrzno/blob/0e557d7138f51f4cda65fb338e35adb4f787acde/README.md?plain=1#L25)
 
 </td>
 <td>
 
-* [Demo](https://seanmorris.github.io/php-wasm/?autorun=0&persist=0&single-expression=0&code=%253C%253Fphp%250A%2524js%253D%253C%253C%253CJSCODE%250Avar%2520xhr%253Dnew%2520XMLHttpRequest%28%29%253B%250Axhr.open%28%27GET%27%252C%2520%27https%253A%252F%252Fhttpbin.org%252Fanything%27%252C%25200%29%253B%250Axhr.send%28%29%253B%250A%250Axhr.responseText%253B%250AJSCODE%253B%250A%250Avar_dump%28vrzno_eval%28%2524js%29%29%253B%250A)
+* [Demo](https://wasm-outbound-http-examples.github.io/php/php-wasm/)
+* [Demo in playground](https://seanmorris.github.io/php-wasm/?code=%253C%253Fphp%2520%252F%252F%2520%257B%2522autorun%2522%253Atrue%252C%2520%2522persist%2522%253Atrue%252C%2520%2522single-expression%2522%253A%2520false%252C%2520%2522render-as%2522%253A%2520%2522text%2522%257D%250A%250A%2524url%2520%253D%2520%27https%253A%252F%252Fapi.weather.gov%252Fgridpoints%252FTOP%252F40%252C74%252Fforecast%27%253B%250A%250A%2524window%2520%253D%2520new%2520Vrzno%253B%250A%2524window-%253Efetch%28%2524url%29%250A-%253Ethen%28function%28%2524r%29%2520%257B%2520return%2520%2524r-%253Ejson%28%29%253B%2520%257D%29%250A-%253Ethen%28var_dump%28...%29%29%253B%250A%250Aecho%2520%2522Yeah%252C%2520its%2520async.%255Cn%255Cn%2522%253B%250A&autorun=1&persist=1&single-expression=0&render-as=text&demo=fetch.php)<sub>(80M download)</sub>
 * [Playground](https://seanmorris.github.io/php-wasm/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/php)
 
 </td>
-<td>Browser, Node.js, and maybe Deno</td>
 <td>
 
-Manual JS `XMLHttpRequest` interop using [`vrzno`](https://github.com/seanmorris/vrzno/blob/228514316299f8d1dbc8abcff51523ed37929f1f/vrzno.c#L36) PHP extension.
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/php/blob/1ab3f308dcd43f455d5ffa1cc6a569dec3d1ed72/browser-and-node-php-wasm/README.md#test-with-bun),
+[Deno](https://github.com/wasm-outbound-http-examples/php/blob/1ab3f308dcd43f455d5ffa1cc6a569dec3d1ed72/browser-and-node-php-wasm/README.md#test-with-deno),
+[Node](https://github.com/wasm-outbound-http-examples/php/blob/1ab3f308dcd43f455d5ffa1cc6a569dec3d1ed72/browser-and-node-php-wasm/README.md#test-with-nodejs),
+and [CloudFlare Workers](https://github.com/seanmorris/php-wasm/blob/v0.0.8/README.md?plain=1#L61).
+
+</td>
+<td>
+
+Manual JS `fetch` interop using [`vrzno`](https://github.com/seanmorris/vrzno/blob/0e557d7138f51f4cda65fb338e35adb4f787acde/vrzno_functions.c#L104-L107) PHP extension.
 
 </td>
 </tr>
