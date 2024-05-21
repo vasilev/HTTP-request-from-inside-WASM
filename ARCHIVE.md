@@ -39,11 +39,13 @@ Each item has hyperlink to up-to-date alternative in the [main list](README.md).
 <sub>
 
 > [!CAUTION]
-> This code do not work in php-wasm v0.0.8.
+
+This code does not work in php-wasm v0.0.8.
 
 
 > [!TIP]
-> Use [up-to-date method](README.md#php-wasm) instead.
+
+Use [up-to-date method](README.md#php-wasm) instead.
 
 </sub>
 

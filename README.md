@@ -77,6 +77,15 @@ Make HTTP request from inside WebAssembly
 <td></td>
 </tr>
 <tr>
+<td>Dart</td>
+<td>
+
+[package:http, package:web](#dart)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Golang / TinyGo</td>
 <td>
 
@@ -693,6 +702,108 @@ Browser, [Node.js](https://www.npmjs.com/package/xmlhttprequest-ssl), and [Deno]
 <td>
 
 [JS `XMLHttpRequest` Interop](https://github.com/nxxm/xxhr/blob/v1.0.2/xxhr/impl/session-emscripten.hpp#L273)
+
+</td>
+</tr>
+</table>
+
+### Dart
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[package:http](https://pub.dev/packages/http)
+
+</td>
+<td>
+
+```dart
+import 'package:http/http.dart' as http;
+
+final resp = await http.get(
+  Uri.parse('https://httpbin.org/anything'));
+print('${resp.body}');
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/dart-lang/http/blob/http-v1.2.1/pkgs/http/example/main.dart#L12)
+* [Example](https://github.com/dart-lang/site-www/blob/9bf986bc133ab07d216cba8d84a5072276d2f262/src/content/tutorials/server/fetch-data.md?plain=1#L276)
+* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/50a6e363e099f4e2e4c28cd459e1815e1805bf24/browser-package-http/web/main.dart#L4)
+
+</td>
+<td>
+
+[Doc](https://dart.dev/tutorials/server/fetch-data)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dart/package-http/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+
+</td>
+<td>
+
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+
+</td>
+<td>
+
+JS `XMLHttpRequest` [interop](https://github.com/dart-lang/http/blob/http-v1.2.1/pkgs/http/lib/src/browser_client.dart#L101)
+inside [`BrowserClient`](https://github.com/dart-lang/http/blob/http-v1.2.1/pkgs/http/lib/src/browser_client.dart#L29-L37) class.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[package:web](https://pub.dev/packages/web)
+
+</td>
+<td>
+
+```dart
+import 'package:web/web.dart' as web;
+
+final resp = await web.window.fetch(
+  'https://httpbin.org/anything'.toJS).toDart;
+final txt = await resp.text().toDart;
+print('${txt}');
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/dart/blob/50a6e363e099f4e2e4c28cd459e1815e1805bf24/browser-package-web/web/main.dart#L6)
+
+</td>
+<td>
+
+[Doc](https://dart.dev/interop/js-interop/package-web)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dart/package-web/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+
+</td>
+<td>
+
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+
+</td>
+<td>
+
+Direct `fetch` interop with [help](https://github.com/dart-lang/sdk/blob/3.4.0/sdk/lib/js_interop/js_interop.dart#L556)
+of [some extension types](https://github.com/dart-lang/web/blob/v0.5.1/lib/src/dom/fetch.dart#L385).
 
 </td>
 </tr>
