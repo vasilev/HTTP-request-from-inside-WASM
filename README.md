@@ -80,7 +80,7 @@ Make HTTP request from inside WebAssembly
 <td>Dart</td>
 <td>
 
-[package:http, package:web](#dart)
+[package:http, package:web, fetch_api, fetch_client](#dart)
 
 </td>
 <td></td>
@@ -707,6 +707,78 @@ Browser, [Node.js](https://www.npmjs.com/package/xmlhttprequest-ssl), and [Deno]
 </tr>
 </table>
 
+<a id="crystal"></a>
+### Crystal
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[lbguilherme/crystal-js](https://github.com/lbguilherme/crystal-js)
+
+</td>
+<td>
+
+```crystal
+require "js"
+
+class XMLHttpRequest < JS::Reference
+  @[JS::Method]
+  def self.new : self
+    <<-js
+      return new XMLHttpRequest();
+    js
+  end
+
+  js_getter responseText : String
+
+  js_method send
+  js_method open(method : String, url : String, async : Int32)
+end
+
+req = XMLHttpRequest.new
+req.open("GET", "https://httpbin.org/anything", 0)
+req.send
+JS.console.log req.response_text
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L245)
+* [Example 2](https://github.com/wasm-outbound-http-examples/crystal/blob/e9cd47aeb218d9e4986ce9cd79329abf9586effb/browser/src/httpget.cr#L18)
+
+</td>
+<td>
+
+[Readme](https://github.com/lbguilherme/crystal-js/blob/main/README.md#defining-raw-javascript-methods)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/crystal/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/crystal)
+
+</td>
+<td>
+
+Browser, Node.js, and Deno
+
+</td>
+<td>
+
+Manual JS `XMLHttpRequest` interop by creating the 
+[wrapper](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L220) 
+using [`crystal-js`](https://github.com/lbguilherme/crystal-js) shard.
+
+</td>
+</tr>
+</table>
+
 ### Dart
 
 <table>
@@ -714,6 +786,109 @@ Browser, [Node.js](https://www.npmjs.com/package/xmlhttprequest-ssl), and [Deno]
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+<a id="dart-package-fetch-api"></a>
+
+[package:fetch_api](https://pub.dev/packages/fetch_api)
+
+</td>
+<td>
+
+```dart
+import 'package:fetch_api/fetch_api.dart';
+
+final resp = await fetch(
+  'https://httpbin.org/anything');
+final txt = await resp.text();
+print('${txt}');
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/Zekfad/fetch_api/blob/2.2.0/example/fetch_api_example.dart#L6)
+* [Example using `Request`](https://github.com/Zekfad/fetch_api/blob/2.2.0/example/fetch_api_request.dart#L16)
+* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/b909658ea4ba7aa9e7dac4f42e71a15f45b2f7a0/browser-package-fetch-api/web/main.dart#L4)
+
+</td>
+<td>
+
+[Some doc](https://github.com/Zekfad/fetch_api/blob/2.2.0/README.md#some-notes-about-fetch-and-request)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dart/package-fetch-api/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+
+</td>
+<td>
+
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+
+</td>
+<td>
+
+JS `fetch` [interop](https://github.com/Zekfad/fetch_api/blob/2.2.0/lib/src/fetch.dart#L31)
+using [imported by `@JS`](https://github.com/Zekfad/fetch_api/blob/2.2.0/lib/src/fetch.dart#L7) function.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[package:fetch_client](https://pub.dev/packages/fetch_client)
+
+</td>
+<td>
+
+```dart
+import 'package:fetch_client/fetch_client.dart';
+
+final client = FetchClient(
+  mode: RequestMode.cors);
+final uri = Uri.parse(
+  'https://httpbin.org/anything');
+final resp = await client.get(uri);
+
+print('${resp.body}');
+client.close();
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/Zekfad/fetch_client/blob/1.1.2/example/fetch_client_example.dart#L10)
+* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/b909658ea4ba7aa9e7dac4f42e71a15f45b2f7a0/browser-package-fetch-client/web/main.dart#L6)
+
+</td>
+<td>
+
+[Some doc](https://github.com/Zekfad/fetch_client/blob/1.1.2/README.md#notes)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dart/package-fetch-client/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+
+</td>
+<td>
+
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+
+</td>
+<td>
+
+[Extends](https://github.com/Zekfad/fetch_client/blob/1.1.2/lib/src/fetch_client.dart#L31) the 
+[`BaseClient`](https://github.com/dart-lang/http/blob/http-v1.2.1/pkgs/http/lib/src/base_client.dart#L20)
+by [using](https://github.com/Zekfad/fetch_client/blob/1.1.2/lib/src/fetch_client.dart#L142)
+[imported](https://github.com/Zekfad/fetch_client/blob/1.1.2/lib/src/fetch_client.dart#L5)
+[package:fetch_api](#dart-package-fetch-api).
+
+</td>
+</tr>
 <tr>
 <td>
 
@@ -804,78 +979,6 @@ Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
 
 Direct `fetch` interop with [help](https://github.com/dart-lang/sdk/blob/3.4.0/sdk/lib/js_interop/js_interop.dart#L556)
 of [some extension types](https://github.com/dart-lang/web/blob/v0.5.1/lib/src/dom/fetch.dart#L385).
-
-</td>
-</tr>
-</table>
-
-<a id="crystal"></a>
-### Crystal
-
-<table>
-<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
-<th>Doc</th>
-<th>Online demo</th>
-<th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
-<tr>
-<td>
-
-[lbguilherme/crystal-js](https://github.com/lbguilherme/crystal-js)
-
-</td>
-<td>
-
-```crystal
-require "js"
-
-class XMLHttpRequest < JS::Reference
-  @[JS::Method]
-  def self.new : self
-    <<-js
-      return new XMLHttpRequest();
-    js
-  end
-
-  js_getter responseText : String
-
-  js_method send
-  js_method open(method : String, url : String, async : Int32)
-end
-
-req = XMLHttpRequest.new
-req.open("GET", "https://httpbin.org/anything", 0)
-req.send
-JS.console.log req.response_text
-```
-
-</td>
-<td>
-
-* [Example 1](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L245)
-* [Example 2](https://github.com/wasm-outbound-http-examples/crystal/blob/e9cd47aeb218d9e4986ce9cd79329abf9586effb/browser/src/httpget.cr#L18)
-
-</td>
-<td>
-
-[Readme](https://github.com/lbguilherme/crystal-js/blob/main/README.md#defining-raw-javascript-methods)
-
-</td>
-<td>
-
-* [Demo](https://wasm-outbound-http-examples.github.io/crystal/)
-* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/crystal)
-
-</td>
-<td>
-
-Browser, Node.js, and Deno
-
-</td>
-<td>
-
-Manual JS `XMLHttpRequest` interop by creating the 
-[wrapper](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L220) 
-using [`crystal-js`](https://github.com/lbguilherme/crystal-js) shard.
 
 </td>
 </tr>

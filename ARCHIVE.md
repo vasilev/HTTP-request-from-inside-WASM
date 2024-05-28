@@ -36,18 +36,12 @@ Each item has hyperlink to up-to-date alternative in the [main list](README.md).
 
 [PIB: PHP in Browser aka php-wasm](https://github.com/seanmorris/php-wasm/)
 
-<sub>
-
 > [!CAUTION]
-
-This code does not work in php-wasm v0.0.8.
+> <sub>This code does not work in php-wasm v0.0.8.</sub>
 
 
 > [!TIP]
-
-Use [up-to-date method](README.md#php-wasm) instead.
-
-</sub>
+> <sub>Use [up-to-date method](README.md#php-wasm) instead.</sub>
 
 </td>
 <td>
