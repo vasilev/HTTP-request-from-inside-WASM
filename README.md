@@ -144,6 +144,15 @@ Make HTTP request from inside WebAssembly
 <td></td>
 </tr>
 <tr>
+<td>Lisp</td>
+<td>
+
+[Janet](#lisp)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Lua</td>
 <td>
 
@@ -1708,6 +1717,60 @@ Browser with Wasm-GC and Wasm-Exception-Handling support enabled[^browser-with-w
 
 Direct `fetch` interop using [exposed](https://github.com/JetBrains/kotlin/blob/v1.9.21/libraries/stdlib/wasm/js/src/org.w3c/org.w3c.dom.kt#L3080) JS `window` object.
 For Node/Deno, just [import](https://github.com/wasm-outbound-http-examples/kotlin/blob/893cc8c505839aabbbb2ecdcd69c419b8feb4a5a/node-and-deno/src/wasmJsMain/kotlin/Main.kt#L4).
+
+</td>
+</tr>
+</table>
+
+### Lisp
+
+#### Clojure-like languages
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Janet](https://github.com/janet-lang/janet)
+
+</td>
+<td>
+
+```janet
+# custom function
+(print (httpget `https://httpbin.org/anything`))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/janet/blob/8608c9cfe1b2466deb645021e6130c2ca062b65f/browser-sync-xhr/main.c#L38)
+
+</td>
+<td>
+
+[Some doc](https://janet-lang.org/capi/writing-c-functions.html)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/janet/sync-xhr/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/janet)
+
+</td>
+<td>
+
+Browser and maybe Node
+
+</td>
+<td>
+
+JS `XMLHttpRequest` interop by [invoking](https://github.com/wasm-outbound-http-examples/janet/blob/8608c9cfe1b2466deb645021e6130c2ca062b65f/browser-sync-xhr/main.c#L15) `emscripten_fetch()`
+from a custom [host function](https://github.com/wasm-outbound-http-examples/janet/blob/8608c9cfe1b2466deb645021e6130c2ca062b65f/browser-sync-xhr/main.c#L6)
+[injected](https://github.com/wasm-outbound-http-examples/janet/blob/8608c9cfe1b2466deb645021e6130c2ca062b65f/browser-sync-xhr/main.c#L36) into Janet.
 
 </td>
 </tr>
