@@ -58,7 +58,7 @@ Make HTTP request from inside WebAssembly
 <td>C / C++</td>
 <td>
 
-[xxhr](#cpp)
+[Emscripten, xxhr](#cpp)
 
 </td>
 <td>
@@ -666,13 +666,74 @@ var content = await response.Content.ReadAsStringAsync();
 </table>
 
 <a id="cpp"></a>
-### C++
+### C / C++
 
 <table>
 <tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+
+[Emscripten](https://github.com/emscripten-core/emscripten)
+
+</td>
+<td>
+
+```c
+#include <emscripten/fetch.h>
+
+void requestOnSuccess(emscripten_fetch_t *fetch)
+{
+    char dat[fetch->numBytes + 1];
+    memcpy(dat, fetch->data, fetch->numBytes);
+    dat[fetch->numBytes] = '\0';
+    printf("data: %s \n", dat);
+    emscripten_fetch_close(fetch);
+}
+
+emscripten_fetch_attr_t attr;
+emscripten_fetch_attr_init(&attr);
+strcpy(attr.requestMethod, "GET");
+attr.attributes = EMSCRIPTEN_FETCH_LOAD_TO_MEMORY;
+attr.onsuccess = requestOnSuccess;
+emscripten_fetch(&attr, "https://httpbin.org/anything");
+```
+
+</td>
+<td>
+
+* [Example with callbacks](https://github.com/wasm-outbound-http-examples/emscripten/blob/0f0730aa9d3087bb6ec6c930970ac2556cad0114/browser-callbacks/main.c#L28)
+* [Example for sync XHR](https://github.com/wasm-outbound-http-examples/emscripten/blob/0f0730aa9d3087bb6ec6c930970ac2556cad0114/browser-sync-xhr/main.c#L11)
+
+</td>
+<td>
+
+[Doc](https://emscripten.org/docs/api_reference/fetch.html#introduction)
+
+</td>
+<td>
+
+* [Demo for callbacks](https://wasm-outbound-http-examples.github.io/emscripten/callbacks/)
+* [Demo for sync XHR](https://wasm-outbound-http-examples.github.io/emscripten/sync-xhr/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/emscripten)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+[JS `XMLHttpRequest` interop](https://github.com/emscripten-core/emscripten/blob/3.1.61/src/Fetch.js#L437) 
+[mapped](https://github.com/emscripten-core/emscripten/blob/3.1.61/src/library_fetch.js#L26) to be 
+[used](https://github.com/emscripten-core/emscripten/blob/3.1.61/system/lib/fetch/emscripten_fetch.c#L145) in
+[`emscripten_fetch()`](https://github.com/emscripten-core/emscripten/blob/3.1.61/system/lib/fetch/emscripten_fetch.c#L70).
+
+</td>
+</tr>
 <tr>
 <td>
 
