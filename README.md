@@ -279,6 +279,15 @@ sycamore](#rust)
 
 </td>
 </tr>
+<tr>
+<td>Misc langs</td>
+<td></td>
+<td>
+
+**MoonBit**: [Extism PDK for MoonBit](#moonbit-wasi)
+
+</td>
+</tr>
 </table>
 
 Browser WASM runtimes and V8-based runtimes like Node.js and Deno, also Bun
@@ -4403,6 +4412,8 @@ code, which calls [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25
 <td>
 
 ```cpp
+#define EXTISM_IMPLEMENTATION
+#define EXTISM_ENABLE_LOW_LEVEL_API
 #include "extism-pdk.h"
 #include <stdint.h>
 #include <string.h>
@@ -4419,13 +4430,13 @@ int32_t EXTISM_EXPORTED_FUNCTION(httpget) {
 </td>
 <td>
 
-* [Example](https://github.com/extism/c-pdk/blob/04c7f0502bdc6417a6e328fe945dc21d0594dd96/README.md?plain=1#L287)
-* [Example](https://github.com/wasm-outbound-http-examples/extism-c-pdk/blob/71df4f0bb2fc02a1b4d05be10331e13ddb7fb3cf/httpget.c#L9)
+* [Example](https://github.com/extism/c-pdk/blob/v1.0.1/README.md?plain=1#L294)
+* [Example](https://github.com/wasm-outbound-http-examples/extism-c-pdk/blob/2c0fae4d0fd97719db118214ae730f8fad67d8eb/httpget.c#L12)
 
 </td>
 <td>
 
-[Doc](https://github.com/extism/c-pdk/blob/04c7f0502bdc6417a6e328fe945dc21d0594dd96/README.md#http)
+[Doc](https://github.com/extism/c-pdk/blob/v1.0.1/README.md#http)
 
 </td>
 <td>
@@ -4435,17 +4446,17 @@ int32_t EXTISM_EXPORTED_FUNCTION(httpget) {
 </td>
 <td>
 
-* Extism [uses](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/Cargo.toml#L12) Wasmtime
-* Extism CLI [uses](https://github.com/extism/cli/blob/v0.3.4/go.mod#L10) Wazero
+* Extism [uses](https://github.com/extism/extism/blob/v1.4.1/runtime/Cargo.toml#L12) Wasmtime
+* Extism CLI [uses](https://github.com/extism/cli/blob/v1.5.2/go.mod#L15) Wazero
 
 </td>
 <td>
 
 Calling
-[C-level-imported](https://github.com/extism/c-pdk/blob/04c7f0502bdc6417a6e328fe945dc21d0594dd96/extism-pdk.h#L63)
-runtime's [host function](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/src/pdk.rs#L146)
-[exported](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/src/plugin.rs#L265) for plugins,
-which [makes](https://github.com/extism/extism/blob/v1.0.0-rc6/runtime/src/pdk.rs#L218) actual request using `ureq`.
+[C-level-imported](https://github.com/extism/c-pdk/blob/v1.0.1/extism-pdk.h#L47)
+runtime's [host function](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L156)
+[exported](https://github.com/extism/extism/blob/v1.4.1/runtime/src/plugin.rs#L228) for plugins,
+which [makes](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L235) actual request using `ureq`.
 
 </td>
 </tr>
@@ -5454,6 +5465,61 @@ request using [reqwest](#reqwest).
 </tr>
 </table>
 
+<a id="moonbit-wasi"></a>
+### MoonBit
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Extism Plug-in Development Kit (PDK) for MoonBit](https://github.com/extism/moonbit-pdk)
+
+<sub>Experimental</sub>
+
+</td>
+<td>
+
+```rust
+pub fn https_get() -> Int {
+  let req : Unit = @http.new_request(
+    @http.Method::GET,
+    "https://httpbin.org/anything",
+  )
+  let resp : Unit = req.send()
+  resp.output()
+  return 0
+}
+```
+
+</td>
+<td>
+
+[Example](https://github.com/extism/moonbit-pdk/blob/0a43ef6c5e4a27f1a78f65e1e4ab1ce671a85252/examples/http-get/http-get.mbt#L13)
+
+</td>
+<td></td>
+<td></td>
+<td>
+
+* Extism [uses](https://github.com/extism/extism/blob/v1.4.1/runtime/Cargo.toml#L12) Wasmtime
+* Extism CLI [uses](https://github.com/extism/cli/blob/v1.5.2/go.mod#L15) Wazero
+
+</td>
+<td>
+
+[Calling](https://github.com/extism/moonbit-pdk/blob/0a43ef6c5e4a27f1a78f65e1e4ab1ce671a85252/pdk/http/http.mbt#L37)
+[imported](https://github.com/extism/moonbit-pdk/blob/0a43ef6c5e4a27f1a78f65e1e4ab1ce671a85252/pdk/extism/env.mbt#L81)
+runtime's [host function](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L156)
+[exported](https://github.com/extism/extism/blob/v1.4.1/runtime/src/plugin.rs#L228) for plugins,
+which [makes](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L235) actual request using `ureq`.
+
+</td>
+</tr>
+</table>
+
 <a id="python-wasi"></a>
 ### Python
 <table>
@@ -5586,22 +5652,24 @@ Spin's [host function](https://github.com/fermyon/spin/blob/v2.1.0/crates/outbou
 use extism_pdk::*;
 
 #[plugin_fn]
-pub fn https_get(_:()) -> FnResult<HttpResponse> {
+pub fn https_get(_: ()) -> FnResult<Memory> {
   let req = HttpRequest::new("https://httpbin.org/anything");
   let resp = http::request::<()>(&req, None)?;
-  Ok(resp)
+  Ok(resp.into_memory())
 }
 ```
 
 </td>
 <td>
 
-[Example](https://github.com/extism/rust-pdk/blob/v0.3.3/examples/http.rs#L8)
+* [Example](https://github.com/extism/rust-pdk/blob/v1.2.0/examples/http.rs#L8)
+* [Example](https://github.com/extism/plugins/blob/v1.0.0/http/src/lib.rs#L5)
 
 </td>
 <td>
 
-[Doc](https://extism.org/docs/write-a-plugin/rust-pdk/#using-extism-built-in-http)
+* [Doc](https://github.com/extism/rust-pdk/blob/v1.2.0/README.md#http)
+* [Doc](https://docs.rs/extism-pdk/1.2.0/extism_pdk/struct.HttpRequest.html)
 
 </td>
 <td>
@@ -5612,16 +5680,17 @@ Possible with
 </td>
 <td>
 
-Extism [uses](https://github.com/extism/extism/blob/v0.4.0/runtime/Cargo.toml#L12) Wasmtime
+* Extism [uses](https://github.com/extism/extism/blob/v1.4.1/runtime/Cargo.toml#L12) Wasmtime
+* Extism CLI [uses](https://github.com/extism/cli/blob/v1.5.2/go.mod#L15) Wazero
 
 </td>
 <td>
 
-[Calling](https://github.com/extism/rust-pdk/blob/v0.3.3/src/http.rs#L46)
-[C-level-imported](https://github.com/extism/rust-pdk/blob/v0.3.3/src/bindings.rs#L17)
-runtime's [host function](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L297)
-[exported](https://github.com/extism/extism/blob/v0.4.0/runtime/src/plugin.rs#L112) for plugins,
-which [makes](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L358) actual request using `ureq`.
+[Calling](https://github.com/extism/rust-pdk/blob/v1.2.0/src/http.rs#L46)
+[C-level-imported](https://github.com/extism/rust-pdk/blob/v1.2.0/src/extism.rs#L19)
+runtime's [host function](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L156)
+[exported](https://github.com/extism/extism/blob/v1.4.1/runtime/src/plugin.rs#L228) for plugins,
+which [makes](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L235) actual request using `ureq`.
 
 </td>
 </tr>
