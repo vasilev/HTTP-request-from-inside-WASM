@@ -284,7 +284,8 @@ sycamore](#rust)
 <td></td>
 <td>
 
-**MoonBit**: [Extism PDK for MoonBit](#moonbit-wasi)
+MoonBit: [Extism PDK for MoonBit](#moonbit-wasi), 
+Virgil: [Extism PDK for Virgil](#virgil-wasi)
 
 </td>
 </tr>
@@ -6004,6 +6005,60 @@ println!("text: {txt}");
 [host function](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L56) 
 which [makes](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L129) 
 request using [reqwest](#reqwest).
+
+</td>
+</tr>
+</table>
+
+<a id="virgil-wasi"></a>
+### Virgil
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Extism Plug-in Development Kit (PDK) for Virgil](https://github.com/titzer/virgil/tree/master/lib/pdk)
+
+</td>
+<td>
+
+```python
+var req = Http.newRequest(Method.GET, 
+  "https://httpbin.org/anything");
+def res = req.send(null);
+
+res.output();
+```
+
+</td>
+<td>
+
+[Example](https://github.com/titzer/virgil/blob/ed46f7abecfaa55d7bea7b968bec3dc2a537f4bf/apps/Extism/http-get/HttpGet.v3#L7)
+
+</td>
+<td>
+
+[Readme](https://github.com/titzer/virgil/blob/master/apps/Extism/http-get/README.md)
+
+</td>
+<td></td>
+<td>
+
+* Extism [uses](https://github.com/extism/extism/blob/v1.4.1/runtime/Cargo.toml#L12) Wasmtime
+* Extism CLI [uses](https://github.com/extism/cli/blob/v1.5.2/go.mod#L15) Wazero
+
+</td>
+<td>
+
+[Calling](https://github.com/titzer/virgil/blob/ed46f7abecfaa55d7bea7b968bec3dc2a537f4bf/lib/pdk/Http.v3#L19)
+[C-level-imported](https://github.com/titzer/virgil/blob/ed46f7abecfaa55d7bea7b968bec3dc2a537f4bf/lib/pdk/Extism.v3#L83)
+runtime's [host function](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L156)
+[exported](https://github.com/extism/extism/blob/v1.4.1/runtime/src/plugin.rs#L228) for plugins,
+which [makes](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L235) actual request using `ureq`.
 
 </td>
 </tr>
