@@ -5498,10 +5498,16 @@ pub fn https_get() -> Int {
 </td>
 <td>
 
-[Example](https://github.com/extism/moonbit-pdk/blob/0a43ef6c5e4a27f1a78f65e1e4ab1ce671a85252/examples/http-get/http-get.mbt#L13)
+* [Example](https://github.com/extism/moonbit-pdk/blob/c7b2a166d7097bd61b3b7cfc32215ce63fdfb85e/examples/http-get/http-get.mbt#L13)
+* [Example](https://github.com/extism/moonbit-pdk/blob/c7b2a166d7097bd61b3b7cfc32215ce63fdfb85e/examples/kitchen-sink/kitchen-sink.mbt#L16-L17)
 
 </td>
-<td></td>
+<td>
+
+* [Doc](https://mooncakes.io/docs/#/extism/moonbit-pdk/pdk/http/members)
+* [Readme](https://github.com/extism/moonbit-pdk/blob/c7b2a166d7097bd61b3b7cfc32215ce63fdfb85e/README.md#http)
+
+</td>
 <td></td>
 <td>
 
@@ -6037,7 +6043,7 @@ res.output();
 </td>
 <td>
 
-[Example](https://github.com/titzer/virgil/blob/ed46f7abecfaa55d7bea7b968bec3dc2a537f4bf/apps/Extism/http-get/HttpGet.v3#L7)
+[Example](https://github.com/titzer/virgil/blob/ed46f7abecfaa55d7bea7b968bec3dc2a537f4bf/apps/Extism/http-get/HttpGet.v3#L11)
 
 </td>
 <td>
