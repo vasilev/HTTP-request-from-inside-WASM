@@ -125,7 +125,7 @@ Make HTTP request from inside WebAssembly
 <td>JavaScript</td>
 <td>
 
-[Goja, gojax/fetch, Otto, quickjs-emscripten](#javascript)
+[Goja, gojax/fetch, libcurl.js, Otto, quickjs-emscripten](#javascript)
 
 </td>
 <td>
@@ -1517,6 +1517,58 @@ JS [`window`](https://github.com/mirkosertic/Bytecoder/blob/2023-04-24/core/src/
 #### Using browser's own JavaScript VM
 
 _Possible, but why?_
+
+##### Libraries to use from JavaScript
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[libcurl.js](https://github.com/ading2210/libcurl.js)
+
+<sub>Requires server-side counterpart</sub>
+
+</td>
+<td>
+
+```js
+libcurl.set_websocket(
+  'wss://your-wisp-proxy.yoursite.tld/');
+let res = await libcurl.fetch(
+  'https://httpbin.org/anything');
+console.log(await res.text());
+```
+
+</td>
+<td>
+
+* [WebWorker Example](https://github.com/ading2210/libcurl.js/blob/4d64b27a8293de87d7e39b30685ca17ee9c324a3/client/worker.html#L10)
+* [Example](https://github.com/wasm-outbound-http-examples/libcurl-js/blob/261b08b14c3373900f3fb05e43f56c5cce78d9f7/index.html#L13)
+* [Test for POST](https://github.com/ading2210/libcurl.js/blob/4d64b27a8293de87d7e39b30685ca17ee9c324a3/client/tests/scripts/test_post.js#L3)
+
+</td>
+<td>
+
+[Doc](https://github.com/ading2210/libcurl.js/blob/4d64b27a8293de87d7e39b30685ca17ee9c324a3/README.md#making-http-requests)
+
+</td>
+<td>
+
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/libcurl-js)
+
+</td>
+<td>Browser</td>
+<td>
+
+[Tunneling](https://github.com/ading2210/libcurl.js/blob/4d64b27a8293de87d7e39b30685ca17ee9c324a3/client/javascript/http.js#L86) TCP to WebSocket using protocols "wisp" or "wsproxy" .
+
+</td>
+</tr>
+</table>
 
 #### JavaScript VM or interpreter compiled to WASM
 
