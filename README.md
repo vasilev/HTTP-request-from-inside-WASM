@@ -225,7 +225,7 @@ Make HTTP request from inside WebAssembly
 <td>
 
 [wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, iced, leptos, reqwasm, reqwest, sauron, seed, surf,
-sycamore](#rust)
+sycamore](#rust) Scripting: [Rune](#rust-scripting) 
 
 </td>
 <td>
@@ -3562,6 +3562,59 @@ Has no built-in solutions, just uses any suitable 3rd-party lib, such as:
 </td>
 </tr>
 
+</table>
+
+<a id="rust-scripting"></a>
+#### Scripting languages for Rust
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Rune](https://github.com/rune-rs/rune)
+
+</td>
+<td>
+
+```rust
+let req = http::get(
+  "https://httpbin.org/anything").await?;
+let txt = req.text().await?;
+println(txt);
+```
+
+</td>
+<td>
+
+* [Async example](https://github.com/rune-rs/rune/blob/0.13.4/scripts/book/async/async_blocks.rn#L3)
+* [Stream example](https://github.com/rune-rs/rune/blob/0.13.4/scripts/book/streams/basic_stream.rn#L5)
+* [Json example](https://github.com/rune-rs/rune/blob/0.13.4/scripts/book/objects/json.rn#L5-L6)
+
+</td>
+<td>
+
+[Some doc](https://github.com/rune-rs/rune/blob/0.13.4/book/src/async.md#async-functions)
+
+</td>
+<td>
+
+[Playground](https://rune-rs.github.io/play/?c=cHViIGFzeW5jIGZuIG1haW4oKXsKbGV0IHJlcXVlc3QgPSBodHRwOjpnZXQoImh0dHBzOi8vaHR0cGJpbi5vcmcvYW55dGhpbmciKS5hd2FpdD87CmxldCB0eHQgPSByZXF1ZXN0LnRleHQoKS5hd2FpdD87CnByaW50bG4odHh0KTsKfQ%3D%3D)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+[Uses](https://github.com/rune-rs/rune/blob/0.13.4/crates/rune-modules/src/http.rs#L269) [reqwest](#reqwest).
+
+</td>
+</tr>
 </table>
 
 ### Starlark
