@@ -4519,17 +4519,16 @@ code, which calls [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25
 
 ```cpp
 #define EXTISM_IMPLEMENTATION
-#define EXTISM_ENABLE_LOW_LEVEL_API
 #include "extism-pdk.h"
 #include <stdint.h>
 #include <string.h>
 
 int32_t EXTISM_EXPORTED_FUNCTION(httpget) {
   const char *r = "{\"url\": \"https://httpbin.org/anything\"}";
-  ExtismPointer req = extism_alloc_string(r, strlen(r));
-  ExtismPointer res = extism_http_request(req, 0);
+  ExtismHandle req = extism_alloc_buf_from_sz(r);
+  ExtismHandle res = extism_http_request(req, 0);
 
-  extism_output_set(res, extism_length(res));
+  extism_output_set_from_handle(res, 0, extism_length(res));
   return 0;
 }
 ```
@@ -4537,7 +4536,8 @@ int32_t EXTISM_EXPORTED_FUNCTION(httpget) {
 <td>
 
 * [Example](https://github.com/extism/c-pdk/blob/v1.0.1/README.md?plain=1#L294)
-* [Example](https://github.com/wasm-outbound-http-examples/extism-c-pdk/blob/2c0fae4d0fd97719db118214ae730f8fad67d8eb/httpget.c#L12)
+* [Example](https://github.com/wasm-outbound-http-examples/extism-c-pdk/blob/7cc9ca97de72922d7754834dc9cc383b6fcb4e8b/httpget.c#L11)
+* [Low-level API Example](https://github.com/wasm-outbound-http-examples/extism-c-pdk/blob/7cc9ca97de72922d7754834dc9cc383b6fcb4e8b/deprecated-extismpointer/httpget.c#L12)
 
 </td>
 <td>
@@ -4552,7 +4552,7 @@ int32_t EXTISM_EXPORTED_FUNCTION(httpget) {
 </td>
 <td>
 
-* Extism [uses](https://github.com/extism/extism/blob/v1.4.1/runtime/Cargo.toml#L12) Wasmtime
+* Extism [uses](https://github.com/extism/extism/blob/v1.5.0/runtime/Cargo.toml#L12) Wasmtime
 * Extism CLI [uses](https://github.com/extism/cli/blob/v1.5.2/go.mod#L15) Wazero
 
 </td>
@@ -4560,9 +4560,9 @@ int32_t EXTISM_EXPORTED_FUNCTION(httpget) {
 
 Calling
 [C-level-imported](https://github.com/extism/c-pdk/blob/v1.0.1/extism-pdk.h#L47)
-runtime's [host function](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L156)
-[exported](https://github.com/extism/extism/blob/v1.4.1/runtime/src/plugin.rs#L228) for plugins,
-which [makes](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L235) actual request using `ureq`.
+runtime's [host function](https://github.com/extism/extism/blob/v1.5.0/runtime/src/pdk.rs#L156)
+[exported](https://github.com/extism/extism/blob/v1.5.0/runtime/src/plugin.rs#L230) for plugins,
+which [makes](https://github.com/extism/extism/blob/v1.5.0/runtime/src/pdk.rs#L235) actual request using `ureq`.
 
 </td>
 </tr>
