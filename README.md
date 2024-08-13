@@ -125,7 +125,7 @@ Make HTTP request from inside WebAssembly
 <td>JavaScript</td>
 <td>
 
-[Goja, gojax/fetch, libcurl.js, Otto, quickjs-emscripten](#javascript)
+[Goja, gojax/fetch, libcurl.js, Otto, quickjs-emscripten, sebastianwessel/quickjs](#javascript)
 
 </td>
 <td>
@@ -1581,6 +1581,7 @@ console.log(await res.text());
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
 <tr>
 <td>
+<a id="quickjs-emscripten"></a>
 
 [quickjs-emscripten](https://github.com/justjake/quickjs-emscripten)
 
@@ -1624,6 +1625,57 @@ JS [`fetch` interop](https://github.com/wasm-outbound-http-examples/quickjs-emsc
 [injecting](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/httpget.mjs#L28) 
 a custom [host function](https://github.com/wasm-outbound-http-examples/quickjs-emscripten/blob/fbf9bb14272a1fa703991cf25e033515d77f3fb5/browser-and-node/httpget.mjs#L19) 
 into QuickJS's global namespace.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[sebastianwessel/quickjs]( https://github.com/sebastianwessel/quickjs)
+
+</td>
+<td>
+
+```js
+const fn = async () => {
+ // Host function   
+ const res = await fetch(
+   'https://httpbin.org/anything');
+
+ return res.text();
+}
+
+export default await fn();
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/sebastianwessel/quickjs/blob/v1.3.0/example/basic/index.ts#L26)
+* [Example](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/httpget.mjs#L12)
+
+</td>
+<td>
+
+[Doc](https://github.com/sebastianwessel/quickjs/blob/v1.3.0/docs/fetch.md)
+
+</td>
+<td>
+
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/sebastianwessel-quickjs)
+
+</td>
+<td>
+
+[Bun](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/README.md#test-with-bun),
+[Deno](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/README.md#test-with-deno),
+and [Node](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/README.md#test-with-nodejs).
+
+</td>
+<td>
+
+Wrapper over [quickjs-emscripten](#quickjs-emscripten),
+[uses](https://github.com/sebastianwessel/quickjs/blob/v1.3.0/src/adapter/fetch.ts#L154) host function `fetch()`. 
 
 </td>
 </tr>
