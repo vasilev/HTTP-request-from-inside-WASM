@@ -224,7 +224,7 @@ Make HTTP request from inside WebAssembly
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, iced, leptos, reqwasm, reqwest, sauron, seed, surf,
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, iced, leptos, localghost, reqwasm, reqwest, sauron, seed, surf,
 sycamore](#rust) Scripting: [Rune](#rust-scripting) 
 
 </td>
@@ -3381,6 +3381,47 @@ Has no built-in solutions, just uses any suitable 3rd-party lib, such as:
 [reqwest](#reqwest),
 [gloo_net](#gloo_net),
 [reqwasm](#reqwasm).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[localghost](https://crates.io/crates/localghost)
+
+</td>
+<td>
+
+```rust
+use localghost::prelude::*;
+use localghost::{log, net};
+
+let res = net::Request::get(
+  "https://httpbin.org/anything").send().await?;
+log::info!("text: {:?}", res.body_string().await?);
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/mild-times/localghost/blob/v0.3.0/examples/fetch/src/lib.rs#L9)
+* [Example](https://github.com/mild-times/localghost/blob/v0.3.0/src/lib.rs#L20)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/localghost/0.3.0/localghost/)
+
+</td>
+<td></td>
+<td>
+
+Browser and maybe Node
+
+</td>
+<td>
+
+[JS `fetch` Interop](https://github.com/mild-times/localghost/blob/v0.3.0/src/net/request.rs#L111) using [wasm-bindgen](#wasm-bindgen)
 
 </td>
 </tr>
