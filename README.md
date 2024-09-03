@@ -224,7 +224,9 @@ Make HTTP request from inside WebAssembly
 <td>Rust</td>
 <td>
 
-[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, iced, leptos, localghost, reqwasm, reqwest, sauron, seed, surf,
+[wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, 
+iced, leptos, localghost, MoonZoon, 
+reqwasm, reqwest, sauron, seed, surf,
 sycamore](#rust) Scripting: [Rune](#rust-scripting) 
 
 </td>
@@ -3422,6 +3424,45 @@ Browser and maybe Node
 <td>
 
 [JS `fetch` Interop](https://github.com/mild-times/localghost/blob/v0.3.0/src/net/request.rs#L111) using [wasm-bindgen](#wasm-bindgen)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[MoonZoon](https://github.com/MoonZoon/MoonZoon)
+
+</td>
+<td>
+
+```rust
+use zoon::{println, *};
+
+let txt = reqwest::get("https://httpbin.org/anything")
+  .await?
+  .error_for_status()?
+  .text()
+  .await?;
+println!("text: {}", txt);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/MoonZoon/MoonZoon/blob/fc73b0d90bf39be72e70fdcab4f319ea5b8e6cfc/examples/custom_http_client/frontend/src/main.rs#L18)
+
+</td>
+<td>
+
+[Doc](https://github.com/MoonZoon/MoonZoon#documentation)
+
+</td>
+<td></td>
+<td>Browser</td>
+<td>
+
+Has no built-in solutions, just uses any suitable 3rd-party lib, such as:
+[reqwest](#reqwest).
 
 </td>
 </tr>
