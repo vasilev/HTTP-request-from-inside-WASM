@@ -80,7 +80,7 @@ Make HTTP request from inside WebAssembly
 <td>Dart</td>
 <td>
 
-[package:http, package:web, fetch_api, fetch_client](#dart)
+[package:http, package:web, dio, fetch_api, fetch_client](#dart)
 
 </td>
 <td></td>
@@ -870,6 +870,54 @@ using [`crystal-js`](https://github.com/lbguilherme/crystal-js) shard.
 <th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
 <tr>
 <td>
+
+[package:dio](https://pub.dev/packages/dio)
+
+</td>
+<td>
+
+```dart
+import 'package:dio/dio.dart';
+
+final dio = Dio();
+Response response = await dio.get(
+  'https://httpbin.org/anything');
+print(response);
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/cfug/dio/blob/dio_v5.7.0/dio/example/dio.dart#L6)
+* [Example](https://github.com/cfug/dio/blob/dio_v5.7.0/example_dart/lib/dio.dart#L41)
+* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/3ff1759caa2a67de6cd1c37b5abab13e0edecbe5/browser-package-dio/web/main.dart#L5)
+
+</td>
+<td>
+
+[Readme](https://github.com/cfug/dio/blob/dio_v5.7.0/dio/README.md#examples)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dart/package-dio/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+
+</td>
+<td>
+
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+
+</td>
+<td>
+
+JS `XMLHttpRequest` [interop](https://github.com/cfug/dio/blob/dio_v5.7.0/plugins/web_adapter/lib/src/adapter.dart#L290)
+inside [`BrowserHttpClientAdapter`](https://github.com/cfug/dio/blob/dio_v5.7.0/plugins/web_adapter/lib/src/adapter.dart#L13-L14) class.
+
+</td>
+</tr>
+<tr>
+<td>
 <a id="dart-package-fetch-api"></a>
 
 [package:fetch_api](https://pub.dev/packages/fetch_api)
@@ -891,7 +939,7 @@ print('${txt}');
 
 * [Example](https://github.com/Zekfad/fetch_api/blob/2.2.0/example/fetch_api_example.dart#L6)
 * [Example using `Request`](https://github.com/Zekfad/fetch_api/blob/2.2.0/example/fetch_api_request.dart#L16)
-* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/b909658ea4ba7aa9e7dac4f42e71a15f45b2f7a0/browser-package-fetch-api/web/main.dart#L4)
+* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/3ff1759caa2a67de6cd1c37b5abab13e0edecbe5/browser-and-node-package-fetch-api/web/main.dart#L4)
 
 </td>
 <td>
@@ -907,7 +955,9 @@ print('${txt}');
 </td>
 <td>
 
-Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc],
+[Node.js](https://github.com/wasm-outbound-http-examples/dart/blob/3ff1759caa2a67de6cd1c37b5abab13e0edecbe5/browser-and-node-package-fetch-api/README.md#test-with-nodejs),
+and [Deno](https://github.com/wasm-outbound-http-examples/dart/blob/3ff1759caa2a67de6cd1c37b5abab13e0edecbe5/browser-and-node-package-fetch-api/README.md#test-with-deno).
 
 </td>
 <td>
@@ -942,7 +992,7 @@ client.close();
 <td>
 
 * [Example](https://github.com/Zekfad/fetch_client/blob/1.1.2/example/fetch_client_example.dart#L10)
-* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/b909658ea4ba7aa9e7dac4f42e71a15f45b2f7a0/browser-package-fetch-client/web/main.dart#L6)
+* [Example](https://github.com/wasm-outbound-http-examples/dart/blob/3ff1759caa2a67de6cd1c37b5abab13e0edecbe5/browser-and-node-package-fetch-client/web/main.dart#L6)
 
 </td>
 <td>
@@ -958,7 +1008,9 @@ client.close();
 </td>
 <td>
 
-Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc],
+[Node.js](https://github.com/wasm-outbound-http-examples/dart/blob/3ff1759caa2a67de6cd1c37b5abab13e0edecbe5/browser-and-node-package-fetch-client/README.md#test-with-nodejs),
+and [Deno](https://github.com/wasm-outbound-http-examples/dart/blob/3ff1759caa2a67de6cd1c37b5abab13e0edecbe5/browser-and-node-package-fetch-client/README.md#test-with-deno).
 
 </td>
 <td>
@@ -1004,6 +1056,7 @@ print('${resp.body}');
 
 * [Demo](https://wasm-outbound-http-examples.github.io/dart/package-http/)
 * [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+* [Playground](https://dart.dev/#try-dart)
 
 </td>
 <td>
@@ -1050,6 +1103,7 @@ print('${txt}');
 
 * [Demo](https://wasm-outbound-http-examples.github.io/dart/package-web/)
 * [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+* [Playground](https://dart.dev/#try-dart)
 
 </td>
 <td>
