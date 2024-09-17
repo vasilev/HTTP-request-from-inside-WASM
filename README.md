@@ -192,7 +192,7 @@ Make HTTP request from inside WebAssembly
 <td>Python</td>
 <td>
 
-[RustPython, Pyodide, pyodide-http, GPython, JupyterLite, PyScript, Panel, RPython, requests-wasm-polyfill, Stlite,
+[RustPython, Pyodide, pyodide-http, GPython, JupyterLite, PyScript, Panel, PocketPy, RPython, requests-wasm-polyfill, Stlite,
  urllib3, micropython-wasm](#python)
 
 </td>
@@ -687,6 +687,7 @@ var content = await response.Content.ReadAsStringAsync();
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
 <tr>
 <td>
+<a id="emscripten_fetch"></a>
 
 [Emscripten](https://github.com/emscripten-core/emscripten)
 
@@ -2928,6 +2929,49 @@ st.write(body)
 <td>
 
 [Uses](https://github.com/whitphx/stlite/blob/v0.38.0/packages/kernel/package.json#L30) [pyodide](#pyodide)'s [facilities](https://github.com/whitphx/stlite/blob/v0.38.0/README.md?plain=1#L271).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[PocketPy](https://github.com/pocketpy/pocketpy)
+
+<sub>lightweight Python 3.x</sub>
+
+</td>
+<td>
+
+```python
+# custom module
+import http
+
+print(http.get('https://httpbin.org/anything'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/pocketpy/blob/ba1cd1ab25c877f3d349384674f444e338be1874/browser-sync-xhr/main.c#L34)
+
+</td>
+<td>
+
+[Some doc](https://pocketpy.dev/bindings/)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/pocketpy/sync-xhr/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/pocketpy)
+
+</td>
+<td>Browser</td>
+<td>
+
+JS `XMLHttpRequest` interop by [invoking](https://github.com/wasm-outbound-http-examples/pocketpy/blob/ba1cd1ab25c877f3d349384674f444e338be1874/browser-sync-xhr/main.c#L17) [`emscripten_fetch()`](#emscripten_fetch)
+from a custom [host function](https://github.com/wasm-outbound-http-examples/pocketpy/blob/ba1cd1ab25c877f3d349384674f444e338be1874/browser-sync-xhr/main.c#L7)
+[injected](https://github.com/wasm-outbound-http-examples/pocketpy/blob/ba1cd1ab25c877f3d349384674f444e338be1874/browser-sync-xhr/main.c#L31-L32) as module function into Python.
 
 </td>
 </tr>
