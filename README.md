@@ -198,7 +198,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[componentize-py, Spin SDK for Python](#python-wasi)
+[componentize-py, Extism PDK for Python, Spin SDK for Python](#python-wasi)
 
 </td>
 </tr>
@@ -5923,6 +5923,57 @@ Wasmtime version 15.0, maybe incl. Spin.
 <td>
 
 Genetaring Python bindings to wasi-http based on [wit files](https://github.com/bytecodealliance/componentize-py/blob/a7376083f9f34e6e6fa3d012ab184308529bfa4c/wit/deps/http/types.wit#L244) under the scenes during `componentize` process.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Extism Plug-in Development Kit (PDK) for Python](https://github.com/extism/python-pdk)
+
+</td>
+<td>
+
+```python
+import extism
+
+@extism.plugin_fn
+def httpget():
+  res = extism.Http.request(
+    'https://httpbin.org/anything')
+  extism.output_str(res.data_str())
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/extism-python-pdk/blob/0912a23e235b76307dd677a3c8bd3d386f18698b/httpget.py#L5)
+
+</td>
+<td>
+
+[Readme](https://github.com/extism/python-pdk#exports)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/extism-python-pdk)
+
+</td>
+<td>
+
+* Extism [uses](https://github.com/extism/extism/blob/v1.7.0/runtime/Cargo.toml#L12) Wasmtime
+* Extism CLI [uses](https://github.com/extism/cli/blob/v1.5.4/go.mod#L15) Wazero
+
+</td>
+<td>
+
+`Http.request()` method [calls](https://github.com/extism/python-pdk/blob/v0.1.0/lib/src/prelude.py#L370)
+the [FFI function](https://github.com/extism/python-pdk/blob/v0.1.0/lib/src/py_module.rs#L139)
+[injected](https://github.com/extism/python-pdk/blob/v0.1.0/lib/src/py_module.rs#L346) into Python's "native" `ffi` module.
+It [calls](https://github.com/extism/python-pdk/blob/v0.1.0/lib/src/py_module.rs#L145) the
+[`http::request()`](https://github.com/extism/rust-pdk/blob/v1.2.1/src/http.rs#L35)
+from [Extism PDK for Rust](#extism-rust-pdk).
 
 </td>
 </tr>
