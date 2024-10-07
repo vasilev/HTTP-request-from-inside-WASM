@@ -86,6 +86,15 @@ Make HTTP request from inside WebAssembly
 <td></td>
 </tr>
 <tr>
+<td>Forth</td>
+<td>
+
+[WAForth](#forth)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>Golang / TinyGo</td>
 <td>
 
@@ -1116,6 +1125,66 @@ Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
 
 Direct `fetch` interop with [help](https://github.com/dart-lang/sdk/blob/3.4.0/sdk/lib/js_interop/js_interop.dart#L556)
 of [some extension types](https://github.com/dart-lang/web/blob/v0.5.1/lib/src/dom/fetch.dart#L385).
+
+</td>
+</tr>
+</table>
+
+### Forth
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[WAForth](https://github.com/remko/waforth)
+
+</td>
+<td>
+
+```forth
+: URL$  S" https://httpbin.org/anything" ;
+( custom word )
+URL$ HTTPGET
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/remko/waforth/blob/v0.20.1/src/web/examples/fetch/fetch.ts#L45)
+* [Example](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/index.html#L55)
+* [Example for NodeJS](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/httpget.mjs#L33)
+
+</td>
+<td>
+
+[Readme](https://github.com/remko/waforth/tree/v0.20.1?#asynchronous-bindings)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/waforth/bindAsync/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/waforth)
+
+</td>
+<td>
+
+Browser,
+[NodeJS](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/README.md#test-with-nodejs),
+[Bun](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/README.md#test-with-deno).
+
+</td>
+<td>
+
+JS [`fetch` interop](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/index.html#L35) by
+[invoking](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/index.html#L51)
+a custom host function, 
+[bound](https://github.com/wasm-outbound-http-examples/waforth/blob/4865721a5bf826c5644af092fe841d19f93b1d8e/browser-and-node/index.html#L32)
+info Forth's dictionary/namespace.
 
 </td>
 </tr>
