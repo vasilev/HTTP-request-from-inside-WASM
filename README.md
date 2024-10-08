@@ -98,7 +98,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo, Vugu, Yaegi](#golang)
+[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo, Vecty, Vugu, Yaegi](#golang)
 
 </td>
 <td>
@@ -1327,6 +1327,59 @@ Browser and maybe Node.js
 <td>
 
 [Uses](https://github.com/Nigel2392/requester/blob/v1.0.0/client.go#L56)
+Golang's [`"net/http"`](#go-net-http)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Vecty](https://github.com/hexops/vecty)
+
+<sub>UI library</sub>
+
+</td>
+<td>
+
+```go
+import "io"
+import "log"
+import "net/http"
+
+go func() {
+  resp, _ := http.Get(action.Url)
+  defer resp.Body.Close()
+  body, _ := io.ReadAll(resp.Body)
+  log.Println(string(body))
+}()
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/soypat/vecty-examples/blob/24a203ddc5116c32ee23389c0682924b3cef647a/basic-material-ui/views/components.go#L61)
+* [Example](https://github.com/wasm-outbound-http-examples/go/blob/f151a9ca1234ce3ba70997766c8ccc80f097f7cd/browser-vecty/views/body.go#L62)
+
+</td>
+<td>
+
+* [Use `go func()`](https://withblue.ink/2020/10/03/go-webassembly-http-requests-and-promises.html#making-http-requests-from-go-code)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/go/vecty/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/go)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Has no built-in solutions, just directly [invoking](https://github.com/wasm-outbound-http-examples/go/blob/f151a9ca1234ce3ba70997766c8ccc80f097f7cd/browser-vecty/store/store.go#L36)
 Golang's [`"net/http"`](#go-net-http)
 
 </td>
