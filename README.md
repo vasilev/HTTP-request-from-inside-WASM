@@ -292,7 +292,11 @@ sycamore](#rust) Scripting: [Rune](#rust-scripting)
 </tr>
 <tr>
 <td>Misc langs</td>
-<td></td>
+<td>
+
+Berry: [berry](#berry)
+
+</td>
 <td>
 
 MoonBit: [Extism PDK for MoonBit](#moonbit-wasi), 
@@ -519,6 +523,55 @@ Golang's [`"net/http"`](#go-net-http) in
 a [custom function](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/main.go#L26)
 [injected](https://github.com/wasm-outbound-http-examples/basic-in-go/blob/f5bd5ea140ae7567047fb6fae2a867ba05fe2d4b/browser-and-deno-gobasic/main.go#L37)
 into the language.
+
+</td>
+</tr>
+</table>
+
+### Berry
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Berry](https://github.com/berry-lang/berry)
+
+</td>
+<td>
+
+```berry
+# custom function
+print(httpget('https://httpbin.org/anything'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/berry/blob/4e6f6ecd2cfca5fbbd9b7f8539b69540aaf04a29/browser-sync-xhr/main.c#L44)
+
+</td>
+<td>
+
+* [Doc](https://github.com/berry-lang/berry_doc/blob/0e3c2938e04b1ba154cf70026bb344ce4643ed4e/docs/source/en/Chapter-9.rst#use-native-function)
+* [Doc](https://github.com/berry-lang/berry_doc/blob/0e3c2938e04b1ba154cf70026bb344ce4643ed4e/docs/source/en/FFI-Example.rst#making-a-native-function)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/berry/sync-xhr/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/berry)
+
+</td>
+<td>Browser</td>
+<td>
+
+JS `XMLHttpRequest` interop by [invoking](https://github.com/wasm-outbound-http-examples/berry/blob/4e6f6ecd2cfca5fbbd9b7f8539b69540aaf04a29/browser-sync-xhr/main.c#L20) [`emscripten_fetch()`](#emscripten_fetch)
+from a custom [host function](https://github.com/wasm-outbound-http-examples/berry/blob/4e6f6ecd2cfca5fbbd9b7f8539b69540aaf04a29/browser-sync-xhr/main.c#L8)
+[injected](https://github.com/wasm-outbound-http-examples/berry/blob/4e6f6ecd2cfca5fbbd9b7f8539b69540aaf04a29/browser-sync-xhr/main.c#L43) as native function into Berry.
 
 </td>
 </tr>
