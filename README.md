@@ -134,7 +134,7 @@ Make HTTP request from inside WebAssembly
 <td>JavaScript</td>
 <td>
 
-[Goja, gojax/fetch, libcurl.js, Otto, quickjs-emscripten, sebastianwessel/quickjs](#javascript)
+[Goja, gojax/fetch, Jint, libcurl.js, Otto, quickjs-emscripten, sebastianwessel/quickjs](#javascript)
 
 </td>
 <td>
@@ -636,6 +636,7 @@ Browser, also _native_ server-side
 </tr>
 <tr>
 <td>
+<a id="dotnet-system-net-http-httpclient"></a>
 
 [System.Net. Http.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
 
@@ -1908,6 +1909,58 @@ and [Node](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickj
 
 Wrapper over [quickjs-emscripten](#quickjs-emscripten),
 [uses](https://github.com/sebastianwessel/quickjs/blob/v1.3.0/src/adapter/fetch.ts#L154) host function `fetch()`. 
+
+</td>
+</tr>
+</table>
+
+##### JavaScript implemented in .NET
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Jint](https://github.com/sebastienros/jint)
+
+</td>
+<td>
+
+```js
+// custom object
+http.get('https://httpbin.org/anything');
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/js-in-dotnet/blob/0ce787266260bda0a3152ffc6826c7b2b16d8ad4/browser-and-node-Jint/Program.cs#L16)
+
+</td>
+<td>
+
+[Readme](https://github.com/sebastienros/jint/blob/v4.0.3/README.md#examples)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/js-in-dotnet/Jint/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/js-in-dotnet)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/js-in-dotnet/blob/0ce787266260bda0a3152ffc6826c7b2b16d8ad4/browser-and-node-Jint/Program.cs#L34)
+.NET's [`"Http.HttpClient"`](#dotnet-system-net-http-httpclient) via [mapping](https://github.com/wasm-outbound-http-examples/js-in-dotnet/blob/0ce787266260bda0a3152ffc6826c7b2b16d8ad4/browser-and-node-Jint/Program.cs#L12)
+a custom object inside JS.
 
 </td>
 </tr>
