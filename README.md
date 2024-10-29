@@ -98,7 +98,7 @@ Make HTTP request from inside WebAssembly
 <td>Golang / TinyGo</td>
 <td>
 
-[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo, Vecty, Vugu, Yaegi](#golang)
+[net/http, wasm-fetch, Nigel2392/requester, Anko, Risor, Tengo, Hogosuru, Vecty, Vugu, Yaegi](#golang)
 
 </td>
 <td>
@@ -1382,6 +1382,77 @@ Browser and maybe Node.js
 
 [Uses](https://github.com/Nigel2392/requester/blob/v1.0.0/client.go#L56)
 Golang's [`"net/http"`](#go-net-http)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Hogosuru](https://github.com/realPy/hogosuru)
+
+<sub>SPA framework</sub>
+
+</td>
+<td>
+
+```go
+import (
+"github.com/realPy/hogosuru"
+"github.com/realPy/hogosuru/base/fetch"
+"github.com/realPy/hogosuru/base/promise"
+"github.com/realPy/hogosuru/base/response"
+)
+
+f, err := fetch.New("https://httpbin.org/anything", nil)
+f.Then(func(r response.Response) *promise.Promise {
+  txtpromise, _ := f.Then(
+    func(r response.Response) *promise.Promise {
+      if prm, err := r.Text(); hogosuru.AssertErr(err) {
+        return &prm
+      }
+      return nil
+    }, nil)
+
+  txtpromise.Then(func(i interface{}) *promise.Promise {
+    fmt.Println(i.(string))
+    return nil
+  }, nil)
+return nil
+}, nil)
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/realPy/learn-hogosuru/blob/08bf39e0f7e2139445b4a09a8263682d703f9034/jsonfetch/main.go#L20)
+* [Example for POST](https://github.com/realPy/learn-hogosuru/blob/08bf39e0f7e2139445b4a09a8263682d703f9034/iofetch/front/main.go#L27)
+* [Example for Example for XHR and POST](https://github.com/realPy/learn-hogosuru/blob/08bf39e0f7e2139445b4a09a8263682d703f9034/ioxmlhttprequest/front/main.go#L39)
+* [Example](https://github.com/wasm-outbound-http-examples/go/blob/6b024c87340895fb8e7e45d2ff41b09834286b6a/browser-hogosuru/main.go#L44)
+
+</td>
+<td>
+
+* [Doc](https://hogosuru.v-ip.fr/guides/load-and-parse-a-json-data#example-with-a-json-file)
+* [Doc](https://hogosuru.v-ip.fr/guides/network-io-an-example-with-gofiber#fetch)
+* [Doc for XHR](https://hogosuru.v-ip.fr/guides/network-io-an-example-with-gofiber#xmlhttprequest)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/go/hogosuru/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/go)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Manual low-level JS `fetch` and `XMLHttpRequest` interop using [Go wrappers for Web API](https://github.com/realPy/hogosuru/tree/v1.5.1#how-it-work):
+[`fetch`](https://github.com/realPy/hogosuru/blob/v1.5.1/base/fetch/fetch.go#L30),
+[`XHR`](https://github.com/realPy/hogosuru/blob/v1.5.1/base/xmlhttprequest/xmlhttprequest.go#L43).
 
 </td>
 </tr>
