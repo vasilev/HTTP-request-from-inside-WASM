@@ -45,7 +45,7 @@ Make HTTP request from inside WebAssembly
 <td>C# / .Net</td>
 <td>
 
-[Blazor, System.Net.Http.HttpClient, Uno Platform](#csharp)
+[Blazor, OpenSilver, System.Net.Http.HttpClient, Uno Platform](#csharp)
 
 </td>
 <td>
@@ -631,6 +631,57 @@ Browser, also _native_ server-side
 [JS `fetch` interop](https://github.com/dotnet/runtime/blob/699acfac91ed44790e528cceae16377ba10a899c/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpHandler.cs#L224)
  by [calling](https://github.com/dotnet/runtime/blob/v7.0.2/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpInterop.cs#L51)
  to TS [wrapper](https://github.com/dotnet/runtime/blob/9e8d0a81a35f05eaa2c4d0ab258ed9a1f4e2ec76/src/mono/wasm/runtime/http.ts#L60)
+
+</td>
+</tr>
+<tr>
+<td>
+
+[OpenSilver](https://github.com/OpenSilver/OpenSilver)
+
+<sub>Silverlight / WPF revived in WASM form</sub>
+
+</td>
+<td>
+
+```csharp
+using System;
+using System.Net.Http;
+
+HttpClient client = new HttpClient();
+string uri = "https://httpbin.org/anything";
+string responseText = await client.GetStringAsync(uri);
+
+Console.WriteLine("text: " + responseText);
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/OpenSilver/OpenSilver.Samples.Showcase/blob/368fef402c6f8eb6a4a05797fcae14ab798f7e92/src/Samples/Client_Server/REST_WebClient/REST_WebClient_Demo.xaml.cs#L42)
+* [Example for POST](https://github.com/OpenSilver/OpenSilver.Samples.Showcase/blob/368fef402c6f8eb6a4a05797fcae14ab798f7e92/src/Samples/Client_Server/REST_WebClient/REST_WebClient_Demo.xaml.cs#L96)
+
+</td>
+<td>
+
+[Doc](https://github.com/OpenSilver/OpenSilver.Documentation/blob/d9b2baece1c540c41ba69db71d311de11cfee5e0/documentation/in-depth-topics/wcf-and-webclient.md)
+
+</td>
+<td>
+
+[Demo](https://opensilvershowcase.azurewebsites.net/#/Client_Server)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+* Recommended: just directly invoke .NET's [`"Http.HttpClient"`](#dotnet-system-net-http-httpclient).
+* In [`OpenSilver.Compatibility.WebClient` wrapper](https://github.com/OpenSilver/OpenSilver/blob/OpenSilver-2.2.0/src/Runtime/Runtime/System.Net/WebClient.cs#L39): 
+[JS `XMLHttpRequest` interop](https://github.com/OpenSilver/OpenSilver/blob/OpenSilver-2.2.0/src/Runtime/Runtime/Core/WebRequestHelper/INTERNAL_WebRequestHelper_JSOnly.cs#L350).
 
 </td>
 </tr>
