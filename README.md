@@ -234,7 +234,7 @@ Make HTTP request from inside WebAssembly
 <td>
 
 [wasm-bindgen, Cloudflare Workers SDK, ehttp, gloo_net, httpc, http-client, 
-iced, leptos, localghost, MoonZoon, 
+iced, leptos, localghost, MoonZoon, quad-net,
 reqwasm, reqwest, sauron, seed, surf,
 sycamore](#rust) Scripting: [Rune](#rust-scripting) 
 
@@ -3911,6 +3911,58 @@ println!("text: {}", txt);
 
 Has no built-in solutions, just uses any suitable 3rd-party lib, such as:
 [reqwest](#reqwest).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[quad-net](https://crates.io/crates/quad-net)
+
+<sub>Plugin for [miniquad](https://crates.io/crates/miniquad) and [macroquad](https://crates.io/crates/macroquad)</sub>
+
+</td>
+<td>
+
+```rust
+use quad_net::http_request::RequestBuilder;
+
+let mut request = RequestBuilder::new(
+  "https://httpbin.org/anything").send();
+loop {
+  if let Some(data) = request.try_recv() {
+    info!("Done! {}", data.unwrap());
+  }
+  next_frame().await;
+}
+```
+
+</td>
+<td>
+
+[Example](https://github.com/not-fl3/quad-net/blob/31796d4ed5c9cce57c7702d18b6140d5ffacfccf/examples/http_request.rs#L7)
+
+</td>
+<td>
+
+[Some Readme](https://github.com/not-fl3/quad-net/blob/31796d4ed5c9cce57c7702d18b6140d5ffacfccf/examples/web/README.md)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/rust/quad-net/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/rust)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+JS `XMLHttpRequest` [interop](https://github.com/not-fl3/quad-net/blob/31796d4ed5c9cce57c7702d18b6140d5ffacfccf/js/quad-net.js#L118) 
+in the [imported](https://github.com/not-fl3/quad-net/blob/31796d4ed5c9cce57c7702d18b6140d5ffacfccf/src/http_request.rs#L45) host function.
 
 </td>
 </tr>
