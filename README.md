@@ -295,6 +295,7 @@ sycamore](#rust) Scripting: [Rune](#rust-scripting)
 <td>
 
 Berry: [berry](#berry)
+, Rebol: [rye](#rebol)
 
 </td>
 <td>
@@ -3428,6 +3429,61 @@ print(df)
 Implemented [`xhr` transport](https://github.com/georgestagg/webR/blob/2ed96ed1db6a54209db6677b4358bb59c5d2f67a/patches/R-4.1.3/emscripten-xhr-download.diff#L102) which uses
 JS `XMLHttpRequest` interop by [calling](https://github.com/georgestagg/webR/blob/2ed96ed1db6a54209db6677b4358bb59c5d2f67a/patches/R-4.1.3/emscripten-xhr-download.diff#L184) [web worker](https://github.com/georgestagg/webR/blob/2ed96ed1db6a54209db6677b4358bb59c5d2f67a/src/webR/webr-worker.ts#L278) 
 using Emscripten APIs.
+
+</td>
+</tr>
+</table>
+
+### Rebol
+
+#### Rebol-like languages
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Rye](https://github.com/refaktor/rye)
+
+</td>
+<td>
+
+```clojure
+go does { get https://httpbin.org/anything |print }
+```
+
+</td>
+<td>
+
+ * [Example](https://github.com/refaktor/rye/blob/873f3096853cd85d2cb910c7d64c06bec5426574/examples/examples-wip/shopify2cebelca/main.rye#L20)
+ * [Example](https://github.com/refaktor/rye/blob/873f3096853cd85d2cb910c7d64c06bec5426574/examples/examples-wip/cgi/call_webhook_fns.ryego#L8)
+ * [Example](https://github.com/wasm-outbound-http-examples/rye/blob/b2c1728e220db1a6bfcb6f85fd7f676b244fa573/README.md?plain=1#L20)
+
+</td>
+<td>
+
+[Some doc for embedding](https://github.com/refaktor/rye-website/blob/1bea85013b9873168952683ef4472dc9bf836f18/content/cookbook/deployment/console.md?plain=1#L42)
+
+</td>
+<td>
+
+* [Playground](https://ryelang.org/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/rye)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+[Using](https://github.com/refaktor/rye/blob/v0.0.32/evaldo/builtins_io.go#L143)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/refaktor/rye/blob/v0.0.32/evaldo/builtins_io.go#L813)
+to a Rye *word*.
 
 </td>
 </tr>
