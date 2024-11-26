@@ -241,7 +241,8 @@ sycamore](#rust) Scripting: [Rune](#rust-scripting)
 </td>
 <td>
 
-[reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, wasi-experimental-http, wasi-http, Wasm Workers Server](#rust-wasi)
+[reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, waki,
+wasi-experimental-http, wasi-http, Wasm Workers Server](#rust-wasi)
 
 </td>
 </tr>
@@ -6687,6 +6688,57 @@ internal stream with [WasmEdgeTls](https://github.com/second-state/wasmedge_hype
 <tr>
 <td>
 
+[Waki](https://crates.io/crates/waki)
+
+<sub>new gen of [wasi-http-client](https://crates.io/crates/wasi-http-client)</sub>
+
+</td>
+<td>
+
+```rust
+use waki::Client;
+
+let res = Client::new()
+  .get("https://httpbin.org/anything")
+  .send().unwrap();
+let body = String::from_utf8(
+  res.body().unwrap()).unwrap();
+println!("body:{}", body);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wacker-dev/waki/blob/v0.5.0/examples/client/src/main.rs#L21)
+
+</td>
+<td>
+
+[Some doc](https://github.com/wacker-dev/waki/blob/v0.5.0/examples/client/README.md#http-client)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/rust)
+
+</td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/) version 
+[17 and above](https://github.com/rust-lang/rust/blob/1.83.0/src/doc/rustc/src/platform-support/wasm32-wasip2.md#platform-requirements)
+
+</td>
+<td>
+
+[Uses](https://github.com/wacker-dev/waki/blob/v0.5.0/waki/src/request.rs#L247)
+[imported](https://github.com/wacker-dev/waki/blob/v0.5.0/waki/Cargo.toml#L41)
+[wasmtime-wasi-http](#wasi-http).
+
+</td>
+</tr>
+<tr>
+<td>
+
 <a id="wasi-experimental-http"></a>
 [wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
 
@@ -6731,6 +6783,7 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 <tr>
 <td>
 
+<a id="wasi-http"></a>
 [wasi-http](https://github.com/WebAssembly/wasi-http)
 
 <sub>implementations:</sub>
