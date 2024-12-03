@@ -103,7 +103,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, stealthrocket/net, wasi-experimental-http, wasi-http,
+[Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, dispatchrun/net, wasi-experimental-http, wasi-http,
  Wasm Workers Server](#golang-wasi)
 
 </td>
@@ -4912,7 +4912,7 @@ Using [client lib](https://github.com/brendandburns/wasi-http-ts) which [calls](
 1. [wasmtime-wasi-http](https://crates.io/crates/wasmtime-wasi-http)
 
 
-2. [stealthrocket/wasi-go](https://github.com/stealthrocket/wasi-go)
+2. [dispatchrun/wasi-go](https://github.com/dispatchrun/wasi-go)
 
 </td>
 <td>
@@ -4950,7 +4950,7 @@ Console.log(response.Body);
 <td>
 
 1. [Wasmtime version 9.0](https://github.com/bytecodealliance/wasmtime/blob/v9.0.0/RELEASES.md?plain=1#L21) and above.
-2. Wazero in [wasi-go version 0.7](https://github.com/stealthrocket/wasi-go/pull/56#issuecomment-1615514341) and above
+2. Wazero in [wasi-go version 0.7](https://github.com/dispatchrun/wasi-go/pull/56#issuecomment-1615514341) and above
 
 </td>
 <td>
@@ -4963,8 +4963,8 @@ Console.log(response.Body);
    [`hyper`](https://github.com/hyperium/hyper): [https](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L130),
    [http](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L145).
 
-2. Wazero's [host function](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
-   which [performs](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+2. Wazero's [host function](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
+   which [performs](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
 
 </td>
 </tr>
@@ -5129,7 +5129,7 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 1. [wasmtime-wasi-http](https://crates.io/crates/wasmtime-wasi-http)
 
 
-2. [stealthrocket/wasi-go](https://github.com/stealthrocket/wasi-go)
+2. [dispatchrun/wasi-go](https://github.com/dispatchrun/wasi-go)
 
 </td>
 <td>
@@ -5164,7 +5164,7 @@ Console.WriteLine(content);
 <td>
 
 1. [Wasmtime version 9.0](https://github.com/bytecodealliance/wasmtime/blob/v9.0.0/RELEASES.md?plain=1#L21) and above.
-2. Wazero in [wasi-go version 0.7](https://github.com/stealthrocket/wasi-go/pull/56#issuecomment-1615514341) and above
+2. Wazero in [wasi-go version 0.7](https://github.com/dispatchrun/wasi-go/pull/56#issuecomment-1615514341) and above
 
 </td>
 <td>
@@ -5185,8 +5185,8 @@ code, which calls [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25
    [`hyper`](https://github.com/hyperium/hyper): [https](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L130),
    [http](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L145).
 
-2. Wazero's [host function](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
-   which [performs](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+2. Wazero's [host function](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
+   which [performs](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
 
 </td>
 </tr>
@@ -5362,7 +5362,7 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 1. [wasmtime-wasi-http](https://crates.io/crates/wasmtime-wasi-http)
 
 
-2. [stealthrocket/wasi-go](https://github.com/stealthrocket/wasi-go)
+2. [dispatchrun/wasi-go](https://github.com/dispatchrun/wasi-go)
 
 </td>
 <td>
@@ -5455,7 +5455,7 @@ int main() {
 <td>
 
 1. [Wasmtime version 9.0](https://github.com/bytecodealliance/wasmtime/blob/v9.0.0/RELEASES.md?plain=1#L21) and above.
-2. Wazero in [wasi-go version 0.7](https://github.com/stealthrocket/wasi-go/pull/56#issuecomment-1615514341) and above
+2. Wazero in [wasi-go version 0.7](https://github.com/dispatchrun/wasi-go/pull/56#issuecomment-1615514341) and above
 
 </td>
 <td>
@@ -5470,8 +5470,8 @@ which calls the
    [`hyper`](https://github.com/hyperium/hyper): [https](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L130),
    [http](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L145).
 
-2. Wazero's [host function](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
-   which [performs](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+2. Wazero's [host function](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
+   which [performs](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
 
 </td>
 </tr>
@@ -5715,7 +5715,7 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 1. [wasmtime-wasi-http](https://crates.io/crates/wasmtime-wasi-http)
 
 
-2. [stealthrocket/wasi-go](https://github.com/stealthrocket/wasi-go)
+2. [dispatchrun/wasi-go](https://github.com/dispatchrun/wasi-go)
 
 </td>
 <td>
@@ -5759,7 +5759,7 @@ if err == nil {
 <td>
 
 1. [Wasmtime version 9.0](https://github.com/bytecodealliance/wasmtime/blob/v9.0.0/RELEASES.md?plain=1#L21) and above.
-2. Wazero in [wasi-go version 0.7](https://github.com/stealthrocket/wasi-go/pull/56#issuecomment-1615514341) and above
+2. Wazero in [wasi-go version 0.7](https://github.com/dispatchrun/wasi-go/pull/56#issuecomment-1615514341) and above
 
 </td>
 <td>
@@ -5780,24 +5780,24 @@ the [imported](https://github.com/dev-wasm/dev-wasm-go/blob/9373e164f38a5e07f73f
    [`hyper`](https://github.com/hyperium/hyper): [https](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L130),
    [http](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L145).
 
-2. Wazero's [host function](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
-   which [performs](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+2. Wazero's [host function](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
+   which [performs](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
 
 </td>
 </tr>
 <tr>
 <td>
 
-[stealthrocket/net](https://github.com/stealthrocket/net)
+[dispatchrun/net](https://github.com/dispatchrun/net)
 
-<sub>Use `gotip` until [Go 1.21](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L18) is released.</sub> 
+<sub>f.k.a. stealthrocket/net</sub> 
 
 </td>
 <td>
 
 ```go
 import ( 	"fmt" ; "io" ; "net/http"
-  _ "github.com/stealthrocket/net/http"
+  _ "github.com/dispatchrun/net/http"
 )
 
 response, err := http.Get("http://httpbin.org/anything")
@@ -5815,14 +5815,14 @@ if err == nil {
 </td>
 <td>
 
-* [Test](https://github.com/stealthrocket/net/blob/v0.1.4/http/http_wasip1_test.go#L33)
+* [Test](https://github.com/dispatchrun/net/blob/v0.1.4/http/http_wasip1_test.go#L33)
 * [HTTP Example](https://github.com/wasm-outbound-http-examples/go/blob/c48072d362c953ef88498967fe20efb642959527/wasi-stealthrocket-net/httpget.go#L12)
 * [HTTPS Example](https://github.com/wasm-outbound-http-examples/go/blob/c48072d362c953ef88498967fe20efb642959527/wasi-stealthrocket-net/httpsget.go#L22)
 
 </td>
 <td>
 
-[Readme](https://github.com/stealthrocket/net/blob/v0.1.4/README.md#configuration)
+[Readme](https://github.com/dispatchrun/net/blob/v0.1.4/README.md#configuration)
 
 </td>
 <td>
@@ -5832,16 +5832,16 @@ if err == nil {
 </td>
 <td>
 
-[Wazero and WasmEdge](https://github.com/stealthrocket/net/blob/v0.1.4/README.md?plain=1#L10-L11)
+[Wazero and WasmEdge](https://github.com/dispatchrun/net/blob/v0.1.4/README.md?plain=1#L10-L11)
 
 </td>
 <td>
 
-[Hotpatching](https://github.com/stealthrocket/net/blob/v0.1.4/http/http_wasip1.go#L13) on module import `http.DefaultTransport` with
+[Hotpatching](https://github.com/dispatchrun/net/blob/v0.1.4/http/http_wasip1.go#L13) on module import `http.DefaultTransport` with
 `wasip1.DialContext`
 which refers to 
-[imported `sock_conn()`](https://github.com/stealthrocket/net/blob/v0.1.4/wasip1/syscall_wasmedge_wasip1.go#L143) in the case of WasmEdge
-and to [`syscall.Connect()`](https://github.com/stealthrocket/wasi-go/blob/v0.6.9/internal/sockets/dial.go#L24) in the case of Wazero.
+[imported `sock_conn()`](https://github.com/dispatchrun/net/blob/v0.1.4/wasip1/syscall_wasmedge_wasip1.go#L143) in the case of WasmEdge
+and to [`syscall.Connect()`](https://github.com/dispatchrun/wasi-go/blob/v0.6.9/internal/sockets/dial.go#L24) in the case of Wazero.
 
 </td>
 </tr>
@@ -6791,7 +6791,7 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 1. [wasmtime-wasi-http](https://crates.io/crates/wasmtime-wasi-http)
 
 
-2. [stealthrocket/wasi-go](https://github.com/stealthrocket/wasi-go)
+2. [dispatchrun/wasi-go](https://github.com/dispatchrun/wasi-go)
 
 </td>
 <td>
@@ -6832,7 +6832,7 @@ println!("body: {}", str::from_utf8(&body).unwrap());
 </td>
 <td>
 
-[Readme](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/README.md#wasi-http)
+[Readme](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/README.md#wasi-http)
 
 </td>
 <td>
@@ -6844,7 +6844,7 @@ Possible with
 <td>
 
 1. [Wasmtime version 9.0](https://github.com/bytecodealliance/wasmtime/blob/v9.0.0/RELEASES.md?plain=1#L21) and above.
-2. Wazero in [wasi-go version 0.7](https://github.com/stealthrocket/wasi-go/pull/56#issuecomment-1615514341) and above
+2. Wazero in [wasi-go version 0.7](https://github.com/dispatchrun/wasi-go/pull/56#issuecomment-1615514341) and above
 
 </td>
 <td>
@@ -6859,8 +6859,8 @@ calls imported
    [`hyper`](https://github.com/hyperium/hyper): [https](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L130),
    [http](https://github.com/bytecodealliance/wasmtime/blob/v10.0.1/crates/wasi-http/src/http_impl.rs#L145).
 
-2. Wazero's [host function](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
-   which [performs](https://github.com/stealthrocket/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+2. Wazero's [host function](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
+   which [performs](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
 
 </td>
 </tr>
