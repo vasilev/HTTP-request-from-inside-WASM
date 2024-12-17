@@ -104,7 +104,7 @@ Make HTTP request from inside WebAssembly
 <td>
 
 [Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, dispatchrun/net, wasi-experimental-http, wasi-http,
- Wasm Workers Server](#golang-wasi)
+wasi-http-go, Wasm Workers Server](#golang-wasi)
 
 </td>
 </tr>
@@ -5707,6 +5707,7 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 </tr>
 <tr>
 <td>
+<a id="golang-wasi-http"></a>
 
 [wasi-http](https://github.com/WebAssembly/wasi-http)
 
@@ -5782,6 +5783,52 @@ the [imported](https://github.com/dev-wasm/dev-wasm-go/blob/9373e164f38a5e07f73f
 
 2. Wazero's [host function](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
    which [performs](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[wasi-http-go](https://github.com/ydnar/wasi-http-go)
+
+</td>
+<td>
+
+```go
+import "io"; "log"; "net/http"
+import _ "github.com/ydnar/wasi-http-go/wasihttp"
+
+resp, _ := http.Get("https://httpbin.org/anything")
+defer resp.Body.Close()
+body, _ := io.ReadAll(resp.Body)
+log.Println(string(body))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/ydnar/wasi-http-go/blob/333b54c12051db648940280f9cb6ae9c604d6e4f/examples/proxy/proxy.go#L37)
+
+</td>
+<td>
+
+[How to run](https://github.com/ydnar/wasi-http-go/blob/333b54c12051db648940280f9cb6ae9c604d6e4f/examples/proxy/proxy.go#L3-L5)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/tinygo)
+
+</td>
+<td>
+
+Runtime supporting wasip2-http (only Wasmtime at the moment)
+
+</td>
+<td>
+
+[Wrapper](https://github.com/ydnar/wasi-http-go/blob/333b54c12051db648940280f9cb6ae9c604d6e4f/wasihttp/transport.go#L42) for
+[wasi-http](#golang-wasi-http) using [overrides](https://github.com/ydnar/wasi-http-go/blob/333b54c12051db648940280f9cb6ae9c604d6e4f/wasihttp/transport.go#L15-L19).
 
 </td>
 </tr>
