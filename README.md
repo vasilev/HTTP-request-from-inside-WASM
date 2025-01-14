@@ -198,6 +198,19 @@ wasi-http-go, Wasm Workers Server](#golang-wasi)
 <td></td>
 </tr>
 <tr>
+<td>Prolog</td>
+<td>
+
+[trealla-js](#prolog)
+
+</td>
+<td>
+
+
+
+</td>
+</tr>
+<tr>
 <td>Python</td>
 <td>
 
@@ -2768,6 +2781,54 @@ $xhr->send();
 <td>
 
 Manual JS `XMLHttpRequest` interop using [`WebPerl.pm`](https://github.com/haukex/emperl5/blob/webperl_v0.09-beta/ext/WebPerl/lib/WebPerl.pm#L74) module.
+
+</td>
+</tr>
+</table>
+
+### Prolog
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[trealla-js](https://github.com/guregu/trealla-js)
+
+</td>
+<td>
+
+```prolog
+js_eval("return fetch('https://httpbin.org/anything').then(r => r.text());", Txt).
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/guregu/trealla-js/blob/84e02da3abb755568e1450321c6262130a004681/README.md?plain=1#L165)
+* [Example](https://github.com/guregu/trealla-js/blob/84e02da3abb755568e1450321c6262130a004681/example/yield.js#L9)
+
+</td>
+<td>
+
+[Readme](https://github.com/guregu/trealla-js/blob/84e02da3abb755568e1450321c6262130a004681/README.md#evaluating-js-code-from-prolog)
+
+</td>
+<td>
+
+Example code works in [Playground](https://php.energy/trealla.html)
+
+</td>
+<td>
+
+Browser and [Node](https://github.com/guregu/trealla-js/blob/84e02da3abb755568e1450321c6262130a004681/example/node.mjs#L1)
+
+</td>
+<td>
+
+Manual invoking of JS `fetch` using [`js_eval`](https://github.com/guregu/trealla-js/blob/84e02da3abb755568e1450321c6262130a004681/src/interop.ts#L97) predicate.
 
 </td>
 </tr>
@@ -5795,10 +5856,14 @@ the [imported](https://github.com/dev-wasm/dev-wasm-go/blob/9373e164f38a5e07f73f
 <td>
 
 ```go
-import "io"; "log"; "net/http"
-import _ "github.com/ydnar/wasi-http-go/wasihttp"
+import ("io"; "log"; "net/http"
+ _ "github.com/ydnar/wasi-http-go/wasihttp"
+)
 
-resp, _ := http.Get("https://httpbin.org/anything")
+req, _ := http.NewRequest("GET",
+  "https://httpbin.org/anything", http.NoBody)
+
+resp, _ := http.DefaultClient.Do(req)
 defer resp.Body.Close()
 body, _ := io.ReadAll(resp.Body)
 log.Println(string(body))
