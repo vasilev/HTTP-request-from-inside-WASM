@@ -201,7 +201,7 @@ wasi-http-go, Wasm Workers Server](#golang-wasi)
 <td>Prolog</td>
 <td>
 
-[trealla-js](#prolog)
+[SWI-Prolog, trealla-js](#prolog)
 
 </td>
 <td>
@@ -2792,6 +2792,46 @@ Manual JS `XMLHttpRequest` interop using [`WebPerl.pm`](https://github.com/hauke
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[SWI-Prolog](https://github.com/SWI-Prolog/swipl-devel)
+
+</td>
+<td>
+
+```prolog
+fetch('https://httpbin.org/anything', text, Out).
+```
+
+</td>
+<td>
+
+&lt;--
+
+</td>
+<td>
+
+[Doc](https://www.swi-prolog.org/pldoc/man?predicate=fetch/3)
+
+</td>
+<td>
+
+* Example code works in [Playground](https://wasm.swi-prolog.org/wasm/shell)
+
+</td>
+<td>
+
+Browser and Node
+
+</td>
+<td>
+
+JS `fetch` [interop](https://github.com/SWI-Prolog/swipl-devel/blob/V9.3.19/src/wasm/prolog.js#L578) by declaring the
+[predicate](https://github.com/SWI-Prolog/swipl-devel/blob/V9.3.19/library/wasm.pl#L460).
+
+</td>
+</tr>
 <tr>
 <td>
 
