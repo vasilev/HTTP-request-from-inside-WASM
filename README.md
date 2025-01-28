@@ -201,7 +201,7 @@ wasi-http-go, Wasm Workers Server](#golang-wasi)
 <td>Prolog</td>
 <td>
 
-[SWI-Prolog, trealla-js](#prolog)
+[Scryer Prolog, SWI-Prolog, trealla-js](#prolog)
 
 </td>
 <td>
@@ -2792,6 +2792,50 @@ Manual JS `XMLHttpRequest` interop using [`WebPerl.pm`](https://github.com/hauke
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Scryer Prolog](https://github.com/mthom/scryer-prolog)
+
+</td>
+<td>
+
+```prolog
+:- use_module(library(wasm)).
+```
+
+```prolog
+?- js_eval("const xhr=new XMLHttpRequest(); xhr.open('GET','https://httpbin.org/anything',false); xhr.send(); xhr.responseText;", Txt), format("~s", [Txt]).
+```
+
+</td>
+<td>
+
+&lt;--
+
+</td>
+<td>
+
+* [Doc](https://www.scryer.pl/wasm)
+* [Readme](https://github.com/mthom/scryer-prolog/tree/v0.9.4#building-webassembly)
+
+</td>
+<td>
+
+* Example code works in [Playground](https://play.scryer.pl/)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Manual JS `XMLHttpRequest` interop using [`js_eval`](https://github.com/mthom/scryer-prolog/blob/v0.9.4/src/machine/system_calls.rs#L4907) predicate.
+
+</td>
+</tr>
 <tr>
 <td>
 
