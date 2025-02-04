@@ -206,7 +206,7 @@ wasi-http-go, Wasm Workers Server](#golang-wasi)
 </td>
 <td>
 
-
+[Spin SDK for Prolog](#prolog-wasi)
 
 </td>
 </tr>
@@ -6514,6 +6514,62 @@ pub fn https_get() -> Int {
 runtime's [host function](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L156)
 [exported](https://github.com/extism/extism/blob/v1.4.1/runtime/src/plugin.rs#L228) for plugins,
 which [makes](https://github.com/extism/extism/blob/v1.4.1/runtime/src/pdk.rs#L235) actual request using `ureq`.
+
+</td>
+</tr>
+</table>
+
+<a id="prolog-wasi"></a>
+### Prolog
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[trealla-spin](https://github.com/guregu/trealla-spin)
+
+<sub>Spin SDK for Prolog</sub>
+
+</td>
+<td>
+
+```prolog
+:- use_module(library(spin)).
+
+http_fetch("https://httpbin.org/anything", Resp, []),
+write(Resp), nl.
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/spin/blob/17a47bb177721b64f97eeed4c342dcc621721a37/trealla-spin/init.pl#L7)
+
+</td>
+<td>
+
+[Doc](https://developer.fermyon.com/wasm-languages/prolog)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/spin)
+
+</td>
+<td>
+
+[Spin](https://developer.fermyon.com/spin/)
+(uses [Wasmtime](https://wasmtime.dev/))
+
+</td>
+<td>
+
+[Invoking](https://github.com/guregu/trealla/blob/v0.27.22/src/wasm/wasi-outbound-http.c#L115) `wasi-outbound-http`
+by [binding](https://github.com/guregu/trealla/blob/v0.27.22/src/bif_contrib.c#L862) to 
+[`http_fetch`](https://github.com/guregu/trealla/blob/v0.27.22/library/spin.pl#L208-L210) predicate.
 
 </td>
 </tr>
