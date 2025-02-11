@@ -201,7 +201,7 @@ wasi-http-go, Wasm Workers Server](#golang-wasi)
 <td>Prolog</td>
 <td>
 
-[Scryer Prolog, SWI-Prolog, trealla-js](#prolog)
+[ichiban/prolog, Scryer Prolog, SWI-Prolog, trealla-js](#prolog)
 
 </td>
 <td>
@@ -2913,6 +2913,61 @@ Browser and [Node](https://github.com/guregu/trealla-js/blob/84e02da3abb755568e1
 <td>
 
 Manual invoking of JS `fetch` using [`js_eval`](https://github.com/guregu/trealla-js/blob/84e02da3abb755568e1450321c6262130a004681/src/interop.ts#L97) predicate.
+
+</td>
+</tr>
+</table>
+
+##### Prolog implemented in Golang
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[ichiban/prolog](https://github.com/ichiban/prolog)
+
+</td>
+<td>
+
+```prolog
+% custom predicate
+httpget("https://httpbin.org/anything", RespTxt).
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/ichiban/prolog/blob/v1.2.2/examples/call_go_from_prolog/main.go#L44)
+* [Example](https://github.com/wasm-outbound-http-examples/prolog-in-go/blob/42ffa56cd751befda7c925918763b3deac50918d/browser-and-deno-ichiban-prolog/main.go#L41)
+
+</td>
+<td>
+
+[Readme](https://github.com/ichiban/prolog/blob/v1.2.2/README.md#usage)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/prolog-in-go/ichiban-prolog/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/prolog-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/prolog-in-go/blob/42ffa56cd751befda7c925918763b3deac50918d/browser-and-deno-ichiban-prolog/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/prolog-in-go/blob/42ffa56cd751befda7c925918763b3deac50918d/browser-and-deno-ichiban-prolog/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/ichiban/prolog/blob/v1.2.2/examples/call_go_from_prolog/main.go#L23)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/ichiban/prolog/blob/v1.2.2/examples/call_go_from_prolog/main.go#L15)
+a custom predicate inside Prolog.
 
 </td>
 </tr>
