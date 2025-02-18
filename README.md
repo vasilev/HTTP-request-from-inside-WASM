@@ -309,6 +309,7 @@ wasi-experimental-http, wasi-http, Wasm Workers Server](#rust-wasi)
 <td>
 
 Berry: [berry](#berry)
+, Expression: [Expr](#expression)
 , Rebol: [rye](#rebol)
 
 </td>
@@ -1245,6 +1246,61 @@ Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
 
 Direct `fetch` interop with [help](https://github.com/dart-lang/sdk/blob/3.4.0/sdk/lib/js_interop/js_interop.dart#L556)
 of [some extension types](https://github.com/dart-lang/web/blob/v0.5.1/lib/src/dom/fetch.dart#L385).
+
+</td>
+</tr>
+</table>
+
+<a id="expression"></a>
+### Expression evaluation languages
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Expr](https://github.com/expr-lang/expr)
+
+</td>
+<td>
+
+```js
+// two custom functions
+println(httpget('https://httpbin.org/anything'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/expr-lang/blob/917f83ab18c1a36cc8b3612569bd755d2aa4086b/browser-and-deno/main.go#L25)
+
+</td>
+<td>
+
+[Doc](https://github.com/expr-lang/expr/blob/v1.16.9/docs/functions.md#functions)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/expr-lang/expr/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/expr-lang)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/expr-lang/tree/917f83ab18c1a36cc8b3612569bd755d2aa4086b/browser-and-deno#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/expr-lang/tree/917f83ab18c1a36cc8b3612569bd755d2aa4086b/browser-and-deno#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/expr-lang/blob/917f83ab18c1a36cc8b3612569bd755d2aa4086b/browser-and-deno/main.go#L14)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/expr-lang/blob/917f83ab18c1a36cc8b3612569bd755d2aa4086b/browser-and-deno/main.go#L13)
+a custom function into Expr-lang.
 
 </td>
 </tr>
