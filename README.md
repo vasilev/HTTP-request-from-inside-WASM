@@ -309,7 +309,7 @@ wasi-experimental-http, wasi-http, Wasm Workers Server](#rust-wasi)
 <td>
 
 Berry: [berry](#berry)
-, Expression: [Expr](#expression)
+, Expression: [Cel-go, Expr](#expression)
 , Rebol: [rye](#rebol)
 
 </td>
@@ -1259,6 +1259,53 @@ of [some extension types](https://github.com/dart-lang/web/blob/v0.5.1/lib/src/d
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Cel-go](https://github.com/google/cel-go)
+
+<sub>Common Expression Language</sub>
+
+</td>
+<td>
+
+```js
+// two custom functions
+println(httpget('https://httpbin.org/anything'))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/cel-go/blob/03d6888a314f21714423a7174c538b04077e436e/browser-and-deno/main.go#L59)
+
+</td>
+<td>
+
+[Doc](https://github.com/google/cel-go/blob/v0.23.2/examples/README.md#define-custom-global-function)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/cel-go/cel/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/cel-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/cel-go/blob/03d6888a314f21714423a7174c538b04077e436e/browser-and-deno/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/cel-go/blob/03d6888a314f21714423a7174c538b04077e436e/browser-and-deno/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/cel-go/blob/03d6888a314f21714423a7174c538b04077e436e/browser-and-deno/main.go#L25)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/cel-go/blob/03d6888a314f21714423a7174c538b04077e436e/browser-and-deno/main.go#L18)
+a custom function into Cel-go.
+
+</td>
+</tr>
 <tr>
 <td>
 
