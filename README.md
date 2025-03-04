@@ -45,7 +45,7 @@ Make HTTP request from inside WebAssembly
 <td>C# / .Net</td>
 <td>
 
-[Blazor, OpenSilver, System.Net.Http.HttpClient, Uno Platform](#csharp)
+[Blazor, OpenSilver, RestSharp, System.Net.Http.HttpClient, Uno Platform](#csharp)
 
 </td>
 <td>
@@ -703,6 +703,58 @@ Browser
 </tr>
 <tr>
 <td>
+
+[RestSharp](https://github.com/restsharp/RestSharp)
+
+</td>
+<td>
+
+```csharp
+using System;
+using RestSharp;
+
+var client = new RestClient();
+var req = new RestRequest("http://httpbin.org/anything");
+var res = await client.ExecuteGetAsync(req);
+
+Console.WriteLine("text: " + res.Content);
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/wasm-outbound-http-examples/dotnet/blob/f8587fdf9340925e1c829ec7aec31af3fcd7dd02/browser-and-node-RestSharp/Program.cs#L10)
+* [Test](https://github.com/restsharp/RestSharp/blob/112.1.0/test/RestSharp.Tests/Auth/AuthenticatorTests.cs#L18)
+
+</td>
+<td>
+
+[Doc](https://github.com/restsharp/RestSharp/blob/112.1.0/docs/docs/usage/request.md)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dotnet/restsharp/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dotnet)
+
+</td>
+<td>
+
+Browser,
+[Node](https://github.com/wasm-outbound-http-examples/dotnet/blob/f8587fdf9340925e1c829ec7aec31af3fcd7dd02/browser-and-node-RestSharp/node/README.md#test-with-nodejs),
+[Bun](https://github.com/wasm-outbound-http-examples/dotnet/blob/f8587fdf9340925e1c829ec7aec31af3fcd7dd02/browser-and-node-RestSharp/node/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/dotnet/blob/f8587fdf9340925e1c829ec7aec31af3fcd7dd02/browser-and-node-RestSharp/node/README.md#test-with-deno).
+
+</td>
+<td>
+
+[wrapper](https://github.com/restsharp/RestSharp/blob/112.1.0/README.md?plain=1#L5) [around](https://github.com/restsharp/RestSharp/blob/112.1.0/src/RestSharp/RestClient.cs#L48)
+.NET's [`"Http.HttpClient"`](#dotnet-system-net-http-httpclient).
+
+</td>
+</tr>
+<tr>
+<td>
 <a id="dotnet-system-net-http-httpclient"></a>
 
 [System.Net. Http.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
@@ -731,7 +783,8 @@ Console.WriteLine("body: " + responseText);
 </td>
 <td>
 
-[Doc](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
+* [Doc](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
+* [Doc](https://github.com/dotnet/runtime/blob/v9.0.2/src/mono/wasm/features.md#fetch---http-client)
 
 </td>
 <td>
@@ -743,16 +796,18 @@ Console.WriteLine("body: " + responseText);
 <td>
 
 Browser, 
-[Node](https://learn.microsoft.com/en-us/aspnet/core/client-side/dotnet-interop?view=aspnetcore-8.0#nodejs-console-app), 
+[Node](https://learn.microsoft.com/en-us/aspnet/core/client-side/dotnet-interop?view=aspnetcore-9.0#nodejs-console-app), 
 [Bun](https://github.com/wasm-outbound-http-examples/dotnet/blob/main/browser-and-node/node/README.md#test-with-bun), 
 and [Deno](https://github.com/wasm-outbound-http-examples/dotnet/blob/main/browser-and-node/node/README.md#test-with-deno).
 
 </td>
 <td>
 
-[JS `fetch` interop](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpHandler.cs#L219)
-by [calling](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpInterop.cs#L51)
-to TS [wrapper](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/mono/wasm/runtime/http.ts#L70)
+[JS `fetch` interop](https://github.com/dotnet/runtime/blob/v9.0.2/src/mono/browser/runtime/loader/polyfills.ts#L122)
+<sub>([for Node](https://github.com/dotnet/runtime/blob/v9.0.2/src/mono/browser/runtime/loader/polyfills.ts#L97))</sub>
+from [managed code](https://github.com/dotnet/runtime/blob/v9.0.2/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpHandler.cs#L275)
+by [importing](https://github.com/dotnet/runtime/blob/v9.0.2/src/libraries/System.Net.Http/src/System/Net/Http/BrowserHttpHandler/BrowserHttpInterop.cs#L71)
+a TS [wrapper](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/mono/wasm/runtime/http.ts#L70).
 
 </td>
 </tr>
@@ -2124,31 +2179,35 @@ export default await fn();
 </td>
 <td>
 
-* [Example](https://github.com/sebastianwessel/quickjs/blob/v1.3.0/example/basic/index.ts#L26)
-* [Example](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/httpget.mjs#L12)
+* [Example](https://github.com/sebastianwessel/quickjs/blob/v2.0.1/example/basic/index.ts#L25)
+* [Example for browser](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/e05dcb0c5b28b0bcd8fa17604e1877a56db0ac50/browser-and-node/index.html#L18)
+* [Example for Node](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/e05dcb0c5b28b0bcd8fa17604e1877a56db0ac50/browser-and-node/httpget.mjs#L13)
 
 </td>
 <td>
 
-[Doc](https://github.com/sebastianwessel/quickjs/blob/v1.3.0/docs/fetch.md)
+[Doc](https://github.com/sebastianwessel/quickjs/blob/v2.0.1/website/docs/fetch.md)
 
 </td>
 <td>
 
+* [Playground](https://sebastianwessel.github.io/quickjs/playground.html)
+* [Demo](https://wasm-outbound-http-examples.github.io/sebastianwessel-quickjs/)
 * [Dev Container](https://codespaces.new/wasm-outbound-http-examples/sebastianwessel-quickjs)
 
 </td>
 <td>
 
-[Bun](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/README.md#test-with-bun),
-[Deno](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/README.md#test-with-deno),
-and [Node](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/8472ed83b49cd7441fe814281e318c7ae6f5f0fa/node/README.md#test-with-nodejs).
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/e05dcb0c5b28b0bcd8fa17604e1877a56db0ac50/browser-and-node/README.md#test-with-bun),
+[Deno](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/e05dcb0c5b28b0bcd8fa17604e1877a56db0ac50/browser-and-node/README.md#test-with-deno),
+and [Node](https://github.com/wasm-outbound-http-examples/sebastianwessel-quickjs/blob/e05dcb0c5b28b0bcd8fa17604e1877a56db0ac50/browser-and-node/README.md#test-with-nodejs).
 
 </td>
 <td>
 
-Wrapper over [quickjs-emscripten](#quickjs-emscripten),
-[uses](https://github.com/sebastianwessel/quickjs/blob/v1.3.0/src/adapter/fetch.ts#L154) host function `fetch()`. 
+Wrapper over [quickjs-emscripten](#quickjs-emscripten).
+[Uses](https://github.com/sebastianwessel/quickjs/blob/v2.0.1/src/adapter/fetch.ts#L156) host function `fetch()`. 
 
 </td>
 </tr>
@@ -7445,9 +7504,10 @@ which [makes](https://github.com/extism/extism/blob/v0.4.0/runtime/src/pdk.rs#L3
 <tr>
 <td>
 
-[Spin SDK for Zig](https://github.com/tensorush/zig-spin)
+[Spin SDK for Zig](https://github.com/dasimmet/zig-spin)
 
-<sub>Unofficial</sub>
+* <sub>Unofficial</sub>
+* <sub>Fork of deleted [orig repo](https://github.com/tensorush/zig-spin)</sub>
 
 </td>
 <td>
@@ -7463,7 +7523,7 @@ const res = spin.http.send(req) catch unreachable;
 </td>
 <td>
 
-[Example](https://github.com/tensorush/zig-spin/blob/v0.6.1/examples/http-out/main.zig#L14-L15)
+[Example](https://github.com/dasimmet/zig-spin/blob/4c411236f94dd3e829d7e9f9a13115db1dcc082a/examples/http-out/main.zig#L14-L15)
 
 </td>
 <td></td>
@@ -7476,8 +7536,8 @@ const res = spin.http.send(req) catch unreachable;
 </td>
 <td>
 
-[Calling](https://github.com/tensorush/zig-spin/blob/v0.6.1/src/http.zig#L160)
-to C-level [import](https://github.com/tensorush/zig-spin/blob/v0.6.1/include/wasi-outbound-http.h#L81)
+[Calling](https://github.com/dasimmet/zig-spin/blob/4c411236f94dd3e829d7e9f9a13115db1dcc082a/src/http.zig#L160)
+to C-level [import](https://github.com/dasimmet/zig-spin/blob/4c411236f94dd3e829d7e9f9a13115db1dcc082a/include/wasi-outbound-http.h#L81)
 of 
 Spin's [host function](https://github.com/fermyon/spin/blob/v2.2.0/crates/outbound-http/src/host_impl.rs#L78).
 
