@@ -80,7 +80,7 @@ Make HTTP request from inside WebAssembly
 <td>Dart</td>
 <td>
 
-[package:http, package:web, dio, fetch_api, fetch_client](#dart)
+[package:http, package:web, dio, fetch_api, fetch_client, requests](#dart)
 
 </td>
 <td></td>
@@ -1211,6 +1211,7 @@ by [using](https://github.com/Zekfad/fetch_client/blob/1.1.2/lib/src/fetch_clien
 </tr>
 <tr>
 <td>
+<a id="dart-package-http"></a>
 
 [package:http](https://pub.dev/packages/http)
 
@@ -1254,6 +1255,50 @@ Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
 
 JS `XMLHttpRequest` [interop](https://github.com/dart-lang/http/blob/http-v1.2.1/pkgs/http/lib/src/browser_client.dart#L101)
 inside [`BrowserClient`](https://github.com/dart-lang/http/blob/http-v1.2.1/pkgs/http/lib/src/browser_client.dart#L29-L37) class.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[package:requests](https://github.com/jossef/requests)
+
+</td>
+<td>
+
+```dart
+import 'package:requests/requests.dart';
+
+final resp = await Requests.get(
+  'https://httpbin.org/anything');
+print('body: ${resp.content()}');
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/dart/blob/1d3d0a789b5518aa00a11dfa508caa040541cc21/browser-package-requests/web/main.dart#L4)
+
+</td>
+<td>
+
+[Readme](https://github.com/jossef/requests/tree/5.0.0#usage)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dart/package-requests/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+
+</td>
+<td>
+
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
+
+</td>
+<td>
+
+[Wrapper](https://github.com/jossef/requests/blob/5.0.0/lib/src/client/io_client.dart#L11) over [package:http](#dart-package-http).
 
 </td>
 </tr>
