@@ -80,7 +80,7 @@ Make HTTP request from inside WebAssembly
 <td>Dart</td>
 <td>
 
-[package:http, package:web, dio, fetch_api, fetch_client, requests](#dart)
+[package:http, package:web, dio, fetch_api, fetch_client, dart:js_interop, requests](#dart)
 
 </td>
 <td></td>
@@ -1346,6 +1346,65 @@ Browser with Wasm-GC support enabled[^browser-with-wasm-gc]
 
 Direct `fetch` interop with [help](https://github.com/dart-lang/sdk/blob/3.4.0/sdk/lib/js_interop/js_interop.dart#L556)
 of [some extension types](https://github.com/dart-lang/web/blob/v0.5.1/lib/src/dom/fetch.dart#L385).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[dart:js_interop](https://dart.dev/interop/js-interop)
+
+</td>
+<td>
+
+```dart
+import 'dart:js_interop';
+
+@JS()
+external JSPromise<Response> fetch(JSString resource);
+
+extension type Response(JSObject _)
+ implements JSObject {
+  @JS()
+  external JSPromise<JSString> text();
+}
+
+final Response resp = await fetch(
+  'https://httpbin.org/anything'.toJS).toDart;
+final txt = await resp.text().toDart;
+print('body: ${txt}');
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/web/main.dart#L12)
+
+</td>
+<td>
+
+[Doc](https://dart.dev/interop/js-interop/usage#interop-types)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/dart/js-interop-extension-type-fetch/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/dart)
+
+</td>
+<td>
+
+Browser with Wasm-GC support enabled[^browser-with-wasm-gc],
+[Node.js](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/README.md#test-with-nodejs),
+[Bun](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/README.md#test-with-deno).
+
+</td>
+<td>
+
+Direct JS `fetch` interop by [importing](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/web/main.dart#L3-L4) it
+and [wrapping](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/web/main.dart#L6-L9) its promise
+with an extension type.
 
 </td>
 </tr>
