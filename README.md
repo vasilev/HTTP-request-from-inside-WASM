@@ -80,7 +80,7 @@ Make HTTP request from inside WebAssembly
 <td>Dart</td>
 <td>
 
-[package:http, package:web, dio, fetch_api, fetch_client, dart:js_interop, requests](#dart)
+[package:http, package:web, dio, fetch_api, fetch_client, dart:js_interop, requests, Cloudflare Workers SDK](#dart)
 
 </td>
 <td></td>
@@ -1361,7 +1361,7 @@ of [some extension types](https://github.com/dart-lang/web/blob/v0.5.1/lib/src/d
 import 'dart:js_interop';
 
 @JS()
-external JSPromise<Response> fetch(JSString resource);
+external JSPromise<Response> fetch(JSString _);
 
 extension type Response(JSObject _)
  implements JSObject {
@@ -1405,6 +1405,55 @@ and [Deno](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d22
 Direct JS `fetch` interop by [importing](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/web/main.dart#L3-L4) it
 and [wrapping](https://github.com/wasm-outbound-http-examples/dart/blob/0265d9e11d2268ca1ac560027704f558df2dedd9/browser-and-node-js_interop-extension_type-fetch/web/main.dart#L6-L9) its promise
 with an extension type.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[SDK for writing Cloudflare Workers in Dart aka cf_workers.dart](https://github.com/a-skua/cf_workers.dart)
+
+</td>
+<td>
+
+```dart
+import 'package:http/http.dart';
+import 'package:cf_workers/cf_workers.dart';
+import 'package:cf_workers/http.dart';
+
+Future<void> main() {
+  return Workers((JSRequest req) async {
+    return fetch(Request('GET', Uri.parse(
+      'https://httpbin.org/anything')).toJS);
+  }).serve();
+}
+```
+
+</td>
+<td>
+
+[Example](https://github.com/a-skua/cf_workers.dart/blob/1.0.0-rc.2/example/example.dart#L9)
+
+</td>
+<td>
+
+[Readme](https://github.com/a-skua/cf_workers.dart/blob/1.0.0-rc.2/README.md#usage)
+
+</td>
+<td>
+
+* [Dev Container](https://github.com/codespaces/new/wasm-outbound-http-examples/dart?devcontainer_path=.devcontainer%2Fcf-workers%2Fdevcontainer.json)
+
+</td>
+<td>
+
+[workerd, Cloudflare's JavaScript/ Wasm Runtime](https://github.com/cloudflare/workerd)
+
+</td>
+<td>
+
+JS `fetch` interop [using](https://github.com/a-skua/cf_workers.dart/blob/1.0.0-rc.2/lib/src/http/extern.dart#L8) the `fetch()`
+[imported](https://github.com/a-skua/cf_workers.dart/blob/1.0.0-rc.2/lib/src/http/extern.dart#L4-L5) from CF Workers runtime.
 
 </td>
 </tr>
