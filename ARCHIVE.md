@@ -23,6 +23,15 @@ Each item has hyperlink to up-to-date alternative in the [main list](README.md).
 </td>
 <td></td>
 </tr>
+<tr>
+<td>Python</td>
+<td>
+
+[requests-wasm-polyfill](#python)
+
+</td>
+<td></td>
+</tr>
 </table>
 
 ### PHP
@@ -79,6 +88,66 @@ var_dump(vrzno_eval($js));
 <td>
 
 Manual JS `XMLHttpRequest` interop using [`vrzno`](https://github.com/seanmorris/vrzno/blob/228514316299f8d1dbc8abcff51523ed37929f1f/vrzno.c#L36) PHP extension.
+
+</td>
+</tr>
+</table>
+
+
+### Python
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[requests-wasm-polyfill](https://github.com/emscripten-forge/requests-wasm-polyfill)
+
+<sub>For [pyjs](https://github.com/emscripten-forge/pyjs)</sub>
+
+> [!CAUTION]
+> <sub>Repo was [archived](https://github.com/emscripten-forge/requests-wasm-polyfill/issues/7) and package was [dropped from recipes](https://github.com/emscripten-forge/recipes/pull/796) on Feb 6, 2024.</sub>
+
+
+> [!TIP]
+> <sub>[Use](https://github.com/emscripten-forge/requests-wasm-polyfill/blob/568560020f74704c183fe49f8e527942d19e276c/README.md?plain=1#L8) the official `requests` instead.</sub>
+
+</td>
+<td>
+
+```python
+import requests
+
+r = requests.get('https://httpbin.org/anything')
+result = r.text
+print(result)
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/pyjs/blob/596d23d2dcd930ec7025eb734feaaffa478c13f5/requests-wasm-polyfill/script.js#L26)
+
+</td>
+<td></td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/pyjs/requests-wasm-polyfill/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/pyjs)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Direct [`XMLHttpRequest` interop](https://github.com/emscripten-forge/requests-wasm-polyfill/blob/0.3.0/requests/api.py#L41) in
+[sync](https://github.com/emscripten-forge/requests-wasm-polyfill/blob/0.3.0/requests/api.py#L27) mode.
 
 </td>
 </tr>
