@@ -28,7 +28,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[wasi-experimental-http, wasi-http-ts, wasi-http](#assemblyscript-wasi)
+[wasi-http](#assemblyscript-wasi)
 
 </td>
 </tr>
@@ -255,7 +255,7 @@ sycamore](#rust) Scripting: [Rune](#rust-scripting)
 <td>
 
 [reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, waki,
-wasi-experimental-http, wasi-http, Wasm Workers Server](#rust-wasi)
+wasi-http, Wasm Workers Server](#rust-wasi)
 
 </td>
 </tr>
@@ -5266,117 +5266,7 @@ Standalone and server-side runtimes (mostly WASI and WASI-Socket-enabled), incl 
 <tr>
 <td>
 
-[wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
-
-</td>
-<td>
-
-```typescript
-import { 
-  Method, RequestBuilder, Response 
-} from "@deislabs/wasi-experimental-http";
-import { Console } from "as-wasi/assembly";
-
-let resp = new RequestBuilder("https://httpbin.org/anything")
-    .header("User-Agent", "wasm32-wasi-http")
-    .method(Method.GET)
-    .send();
-
-let text = String.UTF8.decode(resp.bodyReadAll().buffer);
-Console.log(text);
-```
-
-</td>
-<td>
-
-* [Example 1](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/main.ts#L15)
-* [Example 2](https://github.com/fermyon/spin-kitchensink/blob/c0d0f2b0487df0cb9f151b7dd8f7cd13f9ab1087/assemblyscript-outbound-http/index.ts#L11) _from [old](https://github.com/fermyon/spin/pull/699) Spin_
-
-</td>
-<td>
-
-[Readme](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/README.md#experimental-http-client-example)
-
-</td>
-<td>
-
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=656267188) _created by brendandburns_
-
-</td>
-<td>
-
-Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
-or [**old** Spin](https://github.com/fermyon/spin/pull/699)
-
-</td>
-<td>
-
-[Importing](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/package.json#L18)
-[npm package](https://www.npmjs.com/package/@deislabs/wasi-experimental-http) which [calls](https://github.com/deislabs/wasi-experimental-http/blob/v0.5.0/crates/as/index.ts#L202)
-[imported](https://github.com/deislabs/wasi-experimental-http/blob/v0.5.0/crates/as/raw.ts#L113)
-[host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http-wasmtime](https://github.com/deislabs/wasi-experimental-http/tree/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime) Wasmtime's WASI module.
-
-</td>
-</tr>
-<tr>
-<td>
-
-[brendandburns/wasi-http-ts](https://github.com/brendandburns/wasi-http-ts)
-
-</td>
-<td>
-
-```typescript
-// Identical to wasi-experimental-http currently
-// Needs `npm i https://github.com/brendandburns/wasi-http-ts`
-import { 
-  Method, RequestBuilder 
-} from "@brendandburns/wasi-http-ts";
-import { Console } from "as-wasi/assembly";
-
-let resp = new RequestBuilder("https://httpbin.org/anything")
-    .header("User-Agent", "wasm32-wasi-http")
-    .method(Method.GET)
-    .send();
-
-let text = String.UTF8.decode(resp.bodyReadAll().buffer);
-Console.log(text);
-```
-
-</td>
-<td>
-
-<--
-
-</td>
-<td>
-
-[Readme](https://github.com/dev-wasm/dev-wasm-ts/blob/a7eb8737aa12b87f55c60acd6d3dd8be0c9d8508/http/README.md#experimental-http-client-example)
-_from dev-wasm-ts_
-
-</td>
-<td>
-
-Possible with 
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=656267188) _created by brendandburns_
-
-</td>
-<td>
-
-Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
-
-</td>
-<td>
-
-Using [client lib](https://github.com/brendandburns/wasi-http-ts) which [calls](https://github.com/brendandburns/wasi-http-ts/blob/1f8c7d7e48a79575df080a77fe589cf5cf2309ac/index.ts#L202)
-[imported](https://github.com/brendandburns/wasi-http-ts/blob/1f8c7d7e48a79575df080a77fe589cf5cf2309ac/raw.ts#L113)
-[host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http-wasmtime](https://github.com/deislabs/wasi-experimental-http/tree/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime) Wasmtime's WASI module.
-
-</td>
-</tr>
-<tr>
-<td>
-
+<a id="assemblyscript-wasi-http"></a>
 [wasi-http](https://github.com/WebAssembly/wasi-http)
 
 <sub>implementations:</sub>
@@ -7312,50 +7202,6 @@ println!("body:{}", body);
 [Uses](https://github.com/wacker-dev/waki/blob/v0.5.0/waki/src/request.rs#L247)
 [imported](https://github.com/wacker-dev/waki/blob/v0.5.0/waki/Cargo.toml#L41)
 [wasmtime-wasi-http](#wasi-http).
-
-</td>
-</tr>
-<tr>
-<td>
-
-<a id="wasi-experimental-http"></a>
-[wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
-
-</td>
-<td>
-
-```rust
-use http;
-use wasi_experimental_http;
-
-let req = http::request::Builder::new()
-  .uri("https://httpbin.org/anything").body(None).unwrap();
-let resp = wasi_experimental_http::request(req);
-let data = std::str::from_utf8(&resp.body_read_all().unwrap())
-  .unwrap().to_string();
-println!("{}", data);
-```
-
-</td>
-<td>
-
-[Test](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/tests/rust/src/lib.rs#L7)
-
-</td>
-<td>
-
-[Doc](https://docs.rs/wasi-experimental-http/0.10.0/wasi_experimental_http/)
-
-</td>
-<td></td>
-<td>
-
-Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
-
-</td>
-<td>
-
-[Calling](https://github.com/deislabs/wasi-experimental-http/blob/v0.5.0/crates/wasi-experimental-http/src/raw.rs#L180) [imported](https://github.com/deislabs/wasi-experimental-http/blob/v0.5.0/crates/wasi-experimental-http/src/raw.rs#L163-L165) Wasmtime's [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238). The actual request is [here](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L516).
 
 </td>
 </tr>
