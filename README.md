@@ -50,7 +50,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Extism PDK for .NET, Spin SDK for .NET, wasi-experimental-http, wasi-http](#csharp-wasi)
+[Extism PDK for .NET, Spin SDK for .NET, wasi-http](#csharp-wasi)
 
 </td>
 </tr>
@@ -103,7 +103,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, dispatchrun/net, wasi-experimental-http, wasi-http,
+[Capsule, Extism PDK for Go, go-plugin, Spin SDK for Go, dispatchrun/net, wasi-http,
 wasi-http-go, Wasm Workers Server](#golang-wasi)
 
 </td>
@@ -5438,52 +5438,7 @@ Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa
 <tr>
 <td>
 
-[wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
-
-</td>
-<td>
-
-```csharp
-using Wasi.Http;
-
-var client = new HttpClient(new WasiHttpHandler());
-var result = await client.GetAsync("https://httpbin.org/anything", 
- System.Threading.CancellationToken.None);
-var content = await result.Content.ReadAsStringAsync();
-Console.WriteLine(content);
-```
-
-</td>
-<td>
-
-[Example](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/Program.cs#L34)
-
-</td>
-<td>
-
-[Readme](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/README.md#experimental-http-client-example)
-
-</td>
-<td>
-
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=650329121) _created by brendandburns_
-
-</td>
-<td>
-
-Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
-
-</td>
-<td>
-
-[Calling](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/WasiHttpHandler.cs#L158) [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/WasiHttpExperimental.cs#L25) via [C level](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/req.h#L26)
-[bindings](https://github.com/dev-wasm/dev-wasm-dotnet/blob/a08955929b18352c1ff4916a3ecd5aca9237539c/http/wasi_http.c#L93) the [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http-wasmtime](https://github.com/deislabs/wasi-experimental-http/tree/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime) Wasmtime's WASI module.
-
-</td>
-</tr>
-<tr>
-<td>
-
+<a id="csharp-wasi-http"></a>
 [wasi-http](https://github.com/WebAssembly/wasi-http)
 
 <sub>implementations:</sub>
@@ -6017,53 +5972,6 @@ resp, err := spinhttp.Get("https://httpbin.org/anything")
 [C level](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/sdk/go/http/outbound_internals.go#L66) 
 [binding](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/sdk/go/http/wasi-outbound-http.c#L95) to  
 Spin's [host function](https://github.com/fermyon/spin/blob/6cf7447036b7c9238cfa6383cf769b4500e29a38/crates/outbound-http/src/lib.rs#L57).
-
-</td>
-</tr>
-<tr>
-<td>
-
-[wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
-
-</td>
-<td>
-
-```go
-response, err := Request(
-  "https://httpbin.org/anything", "GET",
-  "User-agent: wasm32-wasi-http", "")
-defer response.Close()
-
-body, err := response.Body()
-if err == nil {
-  println(string(body))
-}
-```
-
-</td>
-<td>
-
-[Example](https://github.com/dev-wasm/dev-wasm-go/blob/d7482362e292598bdb04493a6b664272a60e9c71/http/main.go#L8)
-
-</td>
-<td>
-
-[Readme](https://github.com/dev-wasm/dev-wasm-go/blob/d7482362e292598bdb04493a6b664272a60e9c71/http/README.md#experimental-http-client-example)
-
-</td>
-<td>
-
-[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=648324699) _created by brendandburns_
-
-</td>
-<td>
-
-Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
-
-</td>
-<td>
-
-[Calling](https://github.com/dev-wasm/dev-wasm-go/blob/d7482362e292598bdb04493a6b664272a60e9c71/http/req.go#L64) [imported](https://github.com/dev-wasm/dev-wasm-go/blob/d7482362e292598bdb04493a6b664272a60e9c71/http/req.go#L36-L38) [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http-wasmtime](https://github.com/deislabs/wasi-experimental-http/tree/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime) Wasmtime's WASI module.
 
 </td>
 </tr>
