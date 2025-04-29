@@ -37,6 +37,19 @@ Each item has hyperlink to up-to-date alternative in the [main list](README.md).
 </td>
 </tr>
 <tr>
+<td>C / C++</td>
+<td>
+
+
+
+</td>
+<td>
+
+[wasi-experimental-http](#cpp-wasi)
+
+</td>
+</tr>
+<tr>
 <td>Golang / TinyGo</td>
 <td></td>
 <td>
@@ -410,6 +423,83 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 </table>
 
 
+<a id="cpp-wasi"></a>
+### C / C++
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[wasi-experimental-http](https://crates.io/crates/wasi-experimental-http)
+
+> [!CAUTION]
+> <sub>[Repo](https://github.com/deislabs/wasi-experimental-http) was archived on Feb 22, 2024.</sub>
+
+
+> [!TIP]
+> <sub>Use [wasi-http](README.md#cpp-wasi-http) instead.</sub>
+
+</td>
+<td>
+
+```C
+#include "req.h"
+#include <string.h>
+#include <stdio.h>
+
+const char* url =  "https://httpbin.org/anything";
+const char* headers = "User-agent: wasm32-wasi-http";
+size_t length = 1024 * 1024;
+char* buffer = (char*) malloc(length);
+uint16_t code;
+ResponseHandle handle;
+
+HttpError err = req(url, strlen(url), "GET", 3, headers, 
+  strlen(headers), "", 0, &code, &handle);
+
+size_t written;
+err = bodyRead(handle, buffer, length, &written);
+close(handle);
+
+printf("%s\n", buffer);
+
+free(buffer);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/dev-wasm/dev-wasm-c/blob/37e5fcc2cad204ed2534762e81bbceaa32399952/http/main.c#L14)
+
+</td>
+<td>
+
+[Readme](https://github.com/dev-wasm/dev-wasm-c/blob/37e5fcc2cad204ed2534762e81bbceaa32399952/http/README.md#experimental-http-client-example)
+
+</td>
+<td>
+
+[Dev Container](https://github.com/codespaces/new?hide_repo_select=true&ref=wasi-experimental-http&repo=648389246) _created by brendandburns_
+
+</td>
+<td>
+
+Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's fork](https://github.com/brendandburns/wasmtime/commit/e2a567c4ca38190a74a7eca62cf65892547f2f3b)
+
+</td>
+<td>
+
+[Calling](https://github.com/dev-wasm/dev-wasm-c/blob/37e5fcc2cad204ed2534762e81bbceaa32399952/http/main.c#L14) [imported](https://github.com/dev-wasm/dev-wasm-c/blob/37e5fcc2cad204ed2534762e81bbceaa32399952/http/req.h#L26) [host function](https://github.com/deislabs/wasi-experimental-http/blob/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime/src/lib.rs#L238) implemented in [wasi-experimental-http-wasmtime](https://github.com/deislabs/wasi-experimental-http/tree/8291baece45cc51e18e69d7d5ad39ca20744e9f9/crates/wasi-experimental-http-wasmtime) Wasmtime's WASI module.
+
+</td>
+</tr>
+</table>
+
+
 <a id="golang-wasi"></a>
 ### Golang (Tinygo)
 
@@ -555,9 +645,8 @@ Wasmtime with integrated `wasi-experimental-http` crate, e.g. [brendandburns's f
 > <sub>[Repo](https://github.com/deislabs/wasi-experimental-http) was archived on Feb 22, 2024.</sub>
 
 
-[//]: # (> [!TIP])
-
-[//]: # (> <sub>Use [wasi-http]&#40;README.md#zig-wasi-http&#41; instead.</sub>)
+> [!TIP]
+> <sub>Use wasi-http instead.</sub>
 
 </td>
 <td>
