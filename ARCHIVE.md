@@ -27,7 +27,7 @@ Each item has hyperlink to up-to-date alternative in the [main list](README.md).
 <td>C# / .Net</td>
 <td>
 
-
+[Uno Platform](#csharp)
 
 </td>
 <td>
@@ -98,6 +98,72 @@ Each item has hyperlink to up-to-date alternative in the [main list](README.md).
 
 Browser WASM runtimes and standalone JS runtimes like Node.js and Deno (and other V8-based), also Bun
 -----------------------------------------------------------------------------------------------------
+
+<a id="csharp"></a>
+### C#
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Uno Platform](https://platform.uno/)
+
+> [!CAUTION]
+> <sub>`Uno.UI.Wasm. WasmHttpHandler` deprecated since .NET 6</sub>
+
+
+> [!TIP]
+> <sub>[Use](README.md#uno-platform) `System.Net. Http.HttpClient` instead.</sub>
+
+</td>
+<td>
+
+```csharp
+// Uno Platform's own way
+// Deprecated since .NET 6,
+// use 'System.Net.Http.HttpClient' and 'HttpHandler' instead
+// See https://github.com/unoplatform/uno/issues/9665
+using System.Net.Http;
+
+using (var handler = new Uno.UI.Wasm.WasmHttpHandler())
+using (var client = new HttpClient(handler))
+{
+var request = new HttpRequestMessage(HttpMethod.Get,
+  new Uri("https://httpbin.org/anything"));
+var response = await client.SendAsync(request);
+var content = await response.Content.ReadAsStringAsync();
+}
+```
+
+</td>
+<td>
+
+[Test](https://github.com/unoplatform/uno/blob/4.7.37/src/SamplesApp/SamplesApp.Shared/Samples/UnitTests/HttpUnitTests.xaml.cs#L33)
+
+</td>
+<td>
+
+[Tutorial](https://platform.uno/docs/articles/howto-consume-webservices.html)
+
+</td>
+<td>
+
+[Playground](https://playground.platform.uno/)
+
+</td>
+<td>Browser</td>
+<td>
+
+[JS Interop](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI.Runtime.WebAssembly/WasmHttpHandler.cs#L62) invokes the TS
+[wrapper](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI/ts/HttpClient.ts#L27) for `fetch`
+
+</td>
+</tr>
+</table>
 
 ### PHP
 <table>

@@ -813,6 +813,7 @@ a TS [wrapper](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/mo
 </tr>
 <tr>
 <td>
+<a id="uno-platform"></a>
 
 [Uno Platform](https://platform.uno/)
 
@@ -820,26 +821,20 @@ a TS [wrapper](https://github.com/dotnet/runtime/blob/v8.0.0-rc.2.23479.6/src/mo
 <td>
 
 ```csharp
-// Uno Platform's own way
-// Deprecated since .NET 6,
-// use 'System.Net.Http.HttpClient' and 'HttpHandler' instead
-// See https://github.com/unoplatform/uno/issues/9665
+using System;
 using System.Net.Http;
 
-using (var handler = new Uno.UI.Wasm.WasmHttpHandler())
-using (var client = new HttpClient(handler))
-{
-var request = new HttpRequestMessage(HttpMethod.Get,
-  new Uri("https://httpbin.org/anything"));
-var response = await client.SendAsync(request);
-var content = await response.Content.ReadAsStringAsync();
-}
+HttpClient client = new HttpClient();
+string uri = "https://httpbin.org/anything";
+string txt = await client.GetStringAsync(uri);
+
+Console.WriteLine("text: " + txt);
 ```
 
 </td>
 <td>
 
-[Test](https://github.com/unoplatform/uno/blob/4.7.37/src/SamplesApp/SamplesApp.Shared/Samples/UnitTests/HttpUnitTests.xaml.cs#L33)
+[Example](https://github.com/unoplatform/Uno.Samples/blob/master/UI/TheCatApiClient/TheCatApiClient/TheCatApiClient.Shared/WebServices/WebApiBase.cs#L46)
 
 </td>
 <td>
@@ -849,14 +844,14 @@ var content = await response.Content.ReadAsStringAsync();
 </td>
 <td>
 
-[Playground](https://playground.platform.uno/)
+
 
 </td>
 <td>Browser</td>
 <td>
 
-[JS Interop](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI.Runtime.WebAssembly/WasmHttpHandler.cs#L62) invokes the TS
- [wrapper](https://github.com/unoplatform/uno/blob/4.7.37/src/Uno.UI/ts/HttpClient.ts#L27) for `fetch`
+[Using](https://github.com/unoplatform/Uno.Samples/blob/master/UI/TheCatApiClient/TheCatApiClient/TheCatApiClient.Shared/WebServices/WebApiBase.cs#L24)
+.NET's [`"Http.HttpClient"`](#dotnet-system-net-http-httpclient).
 
 </td>
 </tr>
