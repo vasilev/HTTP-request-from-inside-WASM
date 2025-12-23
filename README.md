@@ -33,6 +33,15 @@ Make HTTP request from inside WebAssembly
 </td>
 </tr>
 <tr>
+<td>AWK</td>
+<td>
+
+[GoAWK](#awk)
+
+</td>
+<td></td>
+</tr>
+<tr>
 <td>BASIC</td>
 <td>
 
@@ -437,6 +446,63 @@ fetch("https://httpbin.org/anything", {
 
 [JS `fetch` interop](https://github.com/JairusSW/as-fetch/blob/503cb7804d3aeaa9a5dd86b0f6ef3907ce6def1b/assembly/src/fetch.ts#L25)
 by [importing](https://github.com/JairusSW/as-fetch/blob/503cb7804d3aeaa9a5dd86b0f6ef3907ce6def1b/assembly/src/fetch.ts#L3) the function from runtime
+
+</td>
+</tr>
+</table>
+
+<a id="awk"></a>
+### AWK
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[GoAWK](https://github.com/benhoyt/goawk)
+
+</td>
+<td>
+
+```awk
+# custom function
+BEGIN { print httpget('https://httpbin.org/anything') }
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/awk-in-go/blob/fb9d86a6a0384dc16c819b5bdda0f18bdd5bca98/browser-and-deno-goawk/main.go#L13)
+
+</td>
+<td>
+
+samples:
+
+* [Custom func](https://github.com/benhoyt/goawk/blob/v1.30.1/interp/example_test.go#L65)
+* [Embedding](https://github.com/benhoyt/goawk/blob/v1.30.1/interp/interp_test.go#L2188-L2200)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/awk-in-go/goawk/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/awk-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/awk-in-go/blob/fb9d86a6a0384dc16c819b5bdda0f18bdd5bca98/browser-and-deno-goawk/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/awk-in-go/blob/fb9d86a6a0384dc16c819b5bdda0f18bdd5bca98/browser-and-deno-goawk/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/awk-in-go/blob/fb9d86a6a0384dc16c819b5bdda0f18bdd5bca98/browser-and-deno-goawk/main.go#L18)
+Golang's [`"net/http"`](#go-net-http) in mapped [custom function](https://github.com/wasm-outbound-http-examples/awk-in-go/blob/fb9d86a6a0384dc16c819b5bdda0f18bdd5bca98/browser-and-deno-goawk/main.go#L17).
 
 </td>
 </tr>
@@ -3096,7 +3162,7 @@ Manual JS `XMLHttpRequest` interop using [`WebPerl.pm`](https://github.com/hauke
 </tr>
 </table>
 
-### Prolog
+### `Prolog`
 <table>
 <tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
 <th>Doc</th>
