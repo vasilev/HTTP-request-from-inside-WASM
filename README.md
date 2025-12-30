@@ -246,7 +246,7 @@ wasi-http-go, Wasm Workers Server](#golang-wasi)
 <td>Ruby</td>
 <td>
 
-[ruby.wasm](#ruby)
+[ruby.wasm, Goby](#ruby)
 
 </td>
 <td></td>
@@ -3162,7 +3162,7 @@ Manual JS `XMLHttpRequest` interop using [`WebPerl.pm`](https://github.com/hauke
 </tr>
 </table>
 
-### `Prolog`
+### Prolog
 <table>
 <tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
 <th>Doc</th>
@@ -4073,6 +4073,64 @@ puts resp.text.await
 <td>
 
 Direct [JS `fetch` Interop](https://github.com/ruby/ruby.wasm/blob/293e7c20ff2a1db51cd1de3c88feb627b37dd95e/ext/js/lib/js.rb#L141)
+
+</td>
+</tr>
+</table>
+
+#### Ruby and Ruby-like languages implemented in Golang
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Goby](https://github.com/goby-lang/goby)
+
+<sub>f.k.a. Rooby</sub>
+
+</td>
+<td>
+
+```ruby
+require "net/http"
+
+puts Net::HTTP.get('https://httpbin.org/anything')
+```
+
+</td>
+<td>
+
+* [Example](https://github.com/goby-lang/goby/blob/v0.1.13/samples/http.gb#L3)
+* [Example](https://github.com/wasm-outbound-http-examples/ruby-in-go/blob/837e92bd2aa31d6343021cc426d78873ff768715/browser-and-deno-goby/main.go#L13)
+
+</td>
+<td>
+
+* [Readme](https://github.com/goby-lang/goby/tree/v0.1.13#sample-codes)
+* [Embedding sample](https://github.com/goby-lang/goby/blob/v0.1.13/goby.go#L107-L124)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/ruby-in-go/goby/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/ruby-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/ruby-in-go/blob/837e92bd2aa31d6343021cc426d78873ff768715/browser-and-deno-goby/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/ruby-in-go/blob/837e92bd2aa31d6343021cc426d78873ff768715/browser-and-deno-goby/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/goby-lang/goby/blob/v0.1.13/vm/http.go#L52)
+Golang's [`"net/http"`](#go-net-http) by [mapping](https://github.com/goby-lang/goby/blob/v0.1.13/vm/http.go#L193) the class into "Ruby" VM.
 
 </td>
 </tr>
