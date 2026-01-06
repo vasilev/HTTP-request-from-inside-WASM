@@ -318,7 +318,7 @@ wasi-http, Wasm Workers Server](#rust-wasi)
 <td>
 
 Berry: [berry](#berry)
-, Expression: [Cel-go, Expr](#expression)
+, Expression: [Cel-go, Expr, go-jsonnet](#expression)
 , Rebol: [rye](#rebol)
 
 </td>
@@ -1617,6 +1617,55 @@ and [Deno](https://github.com/wasm-outbound-http-examples/expr-lang/tree/917f83a
 [Using](https://github.com/wasm-outbound-http-examples/expr-lang/blob/917f83ab18c1a36cc8b3612569bd755d2aa4086b/browser-and-deno/main.go#L14)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/expr-lang/blob/917f83ab18c1a36cc8b3612569bd755d2aa4086b/browser-and-deno/main.go#L13)
 a custom function into Expr-lang.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[go-jsonnet](https://github.com/google/go-jsonnet)
+
+<sub>as expression lang</sub>
+
+</td>
+<td>
+
+```js
+local httpget = std.native("httpget");
+local res = httpget("https://httpbin.org/anything");
+{resp: std.parseJson(res)}
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35be9e297cec6aa96fea8fc422d2e0d2ba773f53/browser-and-deno/main.go#L41)
+
+</td>
+<td>
+
+* [Doc](https://github.com/google/jsonnet/blob/v0.21.0/doc/ref/spec.html#L2854)
+* [Native func sample](https://github.com/google/go-jsonnet/blob/v0.21.0/main_test.go#L144)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/jsonnet-in-go/go-jsonnet/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/jsonnet-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35be9e297cec6aa96fea8fc422d2e0d2ba773f53/browser-and-deno/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35be9e297cec6aa96fea8fc422d2e0d2ba773f53/browser-and-deno/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35be9e297cec6aa96fea8fc422d2e0d2ba773f53/browser-and-deno/main.go#L25)
+Golang's [`"net/http"`](#go-net-http) via [adding](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35be9e297cec6aa96fea8fc422d2e0d2ba773f53/browser-and-deno/main.go#L38)
+a custom native function into Jsonnet.
 
 </td>
 </tr>
