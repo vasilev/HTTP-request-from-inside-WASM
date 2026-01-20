@@ -318,7 +318,7 @@ wasi-http, Wasm Workers Server](#rust-wasi)
 <td>
 
 Berry: [berry](#berry)
-, Expression: [Cel-go, Expr, go-jsonnet](#expression)
+, Expression: [Cel-go, Expr, go-jsonnet, Gval](#expression)
 , Rebol: [rye](#rebol)
 
 </td>
@@ -1666,6 +1666,50 @@ and [Deno](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35b
 [Using](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35be9e297cec6aa96fea8fc422d2e0d2ba773f53/browser-and-deno/main.go#L25)
 Golang's [`"net/http"`](#go-net-http) via [adding](https://github.com/wasm-outbound-http-examples/jsonnet-in-go/blob/35be9e297cec6aa96fea8fc422d2e0d2ba773f53/browser-and-deno/main.go#L38)
 a custom native function into Jsonnet.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Gval](https://github.com/PaesslerAG/gval)
+
+</td>
+<td>
+
+```js
+println(httpget("https://httpbin.org/anything"))
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/gval/blob/main/browser-and-deno/main.go#L13)
+
+</td>
+<td>
+
+* [Custom func sample](https://github.com/PaesslerAG/gval/blob/v1.2.4/example_test.go#L194)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/gval/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/gval)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/gval/blob/f19100ff29d4c3d01a4c21d4bf77640a46be4a77/browser-and-deno/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/gval/blob/f19100ff29d4c3d01a4c21d4bf77640a46be4a77/browser-and-deno/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/gval/blob/f19100ff29d4c3d01a4c21d4bf77640a46be4a77/browser-and-deno/main.go#L23)
+Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/wasm-outbound-http-examples/gval/blob/f19100ff29d4c3d01a4c21d4bf77640a46be4a77/browser-and-deno/main.go#L15)
+a custom function into Gval.
 
 </td>
 </tr>
