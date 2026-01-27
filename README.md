@@ -264,7 +264,7 @@ sycamore](#rust) Scripting: [Rune](#rust-scripting)
 <td>
 
 [reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, waki,
-wasi-http, Wasm Workers Server](#rust-wasi)
+wasi-http, Wasm Workers Server, wstd](#rust-wasi)
 
 </td>
 </tr>
@@ -7397,6 +7397,68 @@ println!("text: {txt}");
 [host function](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L56) 
 which [makes](https://github.com/vmware-labs/wasm-workers-server/blob/v1.7.0/crates/worker/src/bindings/http.rs#L129) 
 request using [reqwest](#reqwest).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[wstd](https://crates.io/crates/wstd)
+
+<sub>A "temporary" wasip2 "stdlib"</sub>
+
+</td>
+<td>
+
+```rust
+use bytes::Bytes;
+use wstd::http::body::util::Collected;
+use wstd::http::{BodyExt, Client, Request, Uri};
+use wstd::io::AsyncWrite;
+
+let uri = Uri::builder()
+  .scheme("https")
+  .authority("httpbin.org")
+  .path_and_query("/anything")
+  .build()?;
+let req = Request::get(uri).body(())?;
+let resp = Client::new().send(req).await?;
+let body: Collected<Bytes> = resp.into_body()
+  .into_boxed_body().collect().await?;
+wstd::io::stdout()
+  .write_all(body.to_bytes().as_ref())
+  .await?;
+```
+
+</td>
+<td>
+
+* [Example 1](https://github.com/bytecodealliance/wstd/blob/v0.6.5/examples/http_client.rs#L89)
+* [Example 2](https://github.com/bytecodealliance/wstd/blob/v0.6.5/examples/complex_http_client.rs#L104)
+* [Example 3](https://github.com/pchickey/wasi-http-demos/blob/b522d39439befca227738baa109c1b02d36701ff/weather/src/main.rs#L166)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/wstd/0.6.5/wstd/)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/rust)
+
+</td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/) version
+[17 and above](https://github.com/rust-lang/rust/blob/1.93.0/src/doc/rustc/src/platform-support/wasm32-wasip2.md#platform-requirements)
+
+</td>
+<td>
+
+[Uses](https://github.com/bytecodealliance/wstd/blob/v0.6.5/src/http/client.rs#L33)
+[imported](https://github.com/bytecodealliance/wstd/blob/v0.6.5/Cargo.toml#L102)
+[wasip2](https://crates.io/crates/wasip2).
 
 </td>
 </tr>
