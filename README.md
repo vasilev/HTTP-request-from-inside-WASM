@@ -59,7 +59,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Extism PDK for .NET, Spin SDK for .NET, wasi-http](#csharp-wasi)
+[Extism PDK for .NET, Spin SDK for .NET, System.Net.Http.HttpClient, wasi-http](#csharp-wasi)
 
 </td>
 </tr>
@@ -5552,6 +5552,57 @@ Console.log(response.Body);
 <th>Doc</th>
 <th>Online demo</th>
 <th>WASM Runtime</th><th>Internals: method to do real request </th></tr>
+<tr>
+<td>
+<a id="csharp-wasi-dotnet-system-net-http-httpclient"></a>
+
+[System.Net. Http.HttpClient](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
+
+<sub>Standard library</sub>
+
+</td>
+<td>
+
+```csharp
+using System.Net.Http;
+
+using HttpClient client = new();
+var uri = "https://httpbin.org/anything";
+var txt = await client.GetStringAsync(uri);
+Console.WriteLine("body: " + txt);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/dotnet/runtime/blob/v10.0.2/src/mono/sample/wasi/http-p2/Program.cs#L66)
+
+</td>
+<td>
+
+[Doc](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/dotnet)
+
+</td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/) version 17 and above.
+
+</td>
+<td>
+
+[Using](https://github.com/dotnet/runtime/blob/v10.0.2/src/libraries/System.Net.Http/src/System/Net/Http/WasiHttpHandler/WasiHttpHandler.cs#L51) 
+[imported](https://github.com/dotnet/runtime/blob/v10.0.2/src/libraries/System.Net.Http/src/System/Net/Http/WasiHttpHandler/WasiHttpWorld.wit.imports.wasi.http.v0_2_0.OutgoingHandlerInterop.cs#L20)  
+`wasi:http/outgoing-handler`, 
+which [uses](https://github.com/bytecodealliance/wasmtime/blob/v41.0.1/crates/wasi-http/src/types.rs#L475) 
+[`hyper`](https://github.com/hyperium/hyper/blob/v1.8.1/src/client/conn/http1.rs#L191).
+
+</td>
+</tr>
 <tr>
 <td>
 
