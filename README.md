@@ -59,7 +59,7 @@ Make HTTP request from inside WebAssembly
 </td>
 <td>
 
-[Extism PDK for .NET, Spin SDK for .NET, System.Net.Http.HttpClient, wasi-http](#csharp-wasi)
+[Extism PDK for .NET, Spin SDK for .NET, System.Net.Http.HttpClient, wasi-http, raw wasip2 sockets](#csharp-wasi)
 
 </td>
 </tr>
@@ -5560,6 +5560,8 @@ Console.log(response.Body);
 
 <sub>Standard library</sub>
 
+<sub>**wasip2-http**</sub>
+
 </td>
 <td>
 
@@ -5767,6 +5769,70 @@ code, which calls [imported](https://github.com/dev-wasm/dev-wasm-dotnet/blob/25
 
 2. Wazero's [host function](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/default_http/request.go#L18),
    which [performs](https://github.com/dispatchrun/wasi-go/blob/v0.7.3/imports/wasi_http/types/request.go#L67) a request using `"net/http"`.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[System.Net.Sockets](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket)
+
+<sub>Standard library</sub>
+
+<sub>**wasip2-sockets**</sub>
+
+</td>
+<td>
+
+```csharp
+TcpClient tcpClient = new(AddressFamily.InterNetwork);
+await tcpClient.ConnectAsync("httpbin.org", 80);
+NetworkStream netStream = tcpClient.GetStream();
+const string req = @"GET /anything HTTP/1.1
+Host: httpbin.org
+
+";
+var reqBytes = Encoding.UTF8.GetBytes(req);
+await netStream.WriteAsync(reqBytes, 0, reqBytes.Length);
+
+var buf = new byte[1024];
+var count = await netStream.ReadAsync(buf, 0, buf.Length);
+var response = Encoding.UTF8.GetString(buf, 0, count);
+Console.WriteLine(response);
+
+netStream.Close();
+tcpClient.Close();
+```
+
+</td>
+<td>
+
+* [Example for `Socket`](https://github.com/dotnet/runtime/blob/v10.0.2/src/mono/sample/wasi/sockets-p2/Program.cs#L37)
+* [Example for `TcpClient`](https://github.com/wasm-outbound-http-examples/dotnet/blob/21bb8a11b0d2f4bb536e52f4279bacb2bd651c71/wasip2-sockets-TcpClient/Program.cs#L20)
+
+</td>
+<td>
+
+* [Doc](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket)
+* [`wasiconsole` "doc"](https://github.com/dotnet/runtime/blob/v10.0.2/src/mono/wasi/README.md)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/dotnet)
+
+</td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/) version 17 and above.
+
+</td>
+<td>
+
+Uses [imported](https://github.com/dotnet/runtime/blob/v10.0.2/src/libraries/Common/src/Interop/Unix/System.Native/Interop.Send.cs#L12) 
+[`send()`](https://github.com/dotnet/runtime/blob/v10.0.2/src/native/libs/System.Native/pal_networking.c#L1647) from 
+[`wasi-libc`](https://github.com/dotnet/runtime/blob/v10.0.2/src/libraries/System.Net.Sockets/src/System/Net/Sockets/SocketAsyncEngine.Wasi.cs#L43C70-L43C79) 
+via [`WasiEventLoop`](https://github.com/dotnet/runtime/blob/v10.0.2/src/libraries/System.Private.CoreLib/src/System/Threading/Wasi/WasiEventLoop.cs#L52).
 
 </td>
 </tr>
