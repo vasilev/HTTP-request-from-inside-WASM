@@ -264,7 +264,7 @@ sycamore](#rust) Scripting: [Rune](#rust-scripting)
 <td>
 
 [reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, waki,
-wasi-http, Wasm Workers Server, wstd](#rust-wasi)
+wasi-http, Wasm Workers Server, wstd, raw wasip2 sockets](#rust-wasi)
 
 </td>
 </tr>
@@ -7524,6 +7524,8 @@ request using [reqwest](#reqwest).
 
 <sub>A "temporary" wasip2 "stdlib"</sub>
 
+<sub>**wasip2-http**</sub>
+
 </td>
 <td>
 
@@ -7574,6 +7576,69 @@ wstd::io::stdout()
 <td>
 
 [Uses](https://github.com/bytecodealliance/wstd/blob/v0.6.5/src/http/client.rs#L33)
+[imported](https://github.com/bytecodealliance/wstd/blob/v0.6.5/Cargo.toml#L102)
+[wasip2](https://crates.io/crates/wasip2).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[wstd::net:: TcpStream](https://crates.io/crates/wstd)
+
+<sub>A "temporary" wasip2 "stdlib"</sub>
+
+<sub>**wasip2-sockets**</sub>
+
+</td>
+<td>
+
+```rust
+use wstd::io::{self, AsyncRead, AsyncWrite};
+use wstd::net::TcpStream;
+
+let mut stream = TcpStream::connect(
+  "httpbin.org:80").await?;
+stream.write_all(
+    br"GET /anything HTTP/1.1
+Host: httpbin.org
+Connection: close
+
+").await?;
+
+let mut reply = Vec::new();
+stream.read_to_end(&mut reply).await?;
+
+let st: String = String::from_utf8(reply)
+  .expect("Invalid utf bytes");
+println!("resp: {}", st);
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/rust/blob/e34b70c74773ff052dc55383c5d13075e568d667/wasip2-sockets-wstd/tcp_stream_http_client.rs#L9)
+
+</td>
+<td>
+
+[Doc](https://docs.rs/wstd/0.6.5/wstd/net/struct.TcpStream.html)
+
+</td>
+<td>
+
+[Dev Container](https://codespaces.new/wasm-outbound-http-examples/rust)
+
+</td>
+<td>
+
+[Wasmtime](https://wasmtime.dev/) version
+[17 and above](https://github.com/rust-lang/rust/blob/1.93.0/src/doc/rustc/src/platform-support/wasm32-wasip2.md#platform-requirements)
+
+</td>
+<td>
+
+[Uses](https://github.com/bytecodealliance/wstd/blob/v0.6.5/src/net/tcp_stream.rs#L76)
 [imported](https://github.com/bytecodealliance/wstd/blob/v0.6.5/Cargo.toml#L102)
 [wasip2](https://crates.io/crates/wasip2).
 
