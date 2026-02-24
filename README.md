@@ -318,6 +318,7 @@ wasi-http, Wasm Workers Server, wstd, raw wasip2 sockets](#rust-wasi)
 <td>
 
 Berry: [berry](#berry)
+, CyberScript: [Cyber](#cyberscript)
 , Expression: [Cel-go, Expr, go-jsonnet, Gval](#expression)
 , Rebol: [rye](#rebol)
 
@@ -1103,6 +1104,56 @@ Browser, Node.js, and Deno
 Manual JS `XMLHttpRequest` interop by creating the 
 [wrapper](https://github.com/lbguilherme/crystal-js/blob/6fb85504c5393d4fdcd7f080dc0bd6bbb5fbd7a3/README.md?plain=1#L220) 
 using [`crystal-js`](https://github.com/lbguilherme/crystal-js) shard.
+
+</td>
+</tr>
+</table>
+
+<a id="cyberscript"></a>
+### Cyber
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Cyber](https://github.com/fubark/cyber)
+
+</td>
+<td>
+
+```python
+use web
+
+var body = await web.eval("jsFetch('https://httpbin.org/anything')")
+print body
+```
+
+</td>
+<td>
+
+&lt;--
+
+</td>
+<td></td>
+<td>
+
+* Example code works in [Playground](https://cyberscript.dev/play.html)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/cyber)
+
+</td>
+<td>
+
+Browser
+
+</td>
+<td>
+
+Manual JS `fetch` interop by calling the `jsFetch()` function on the host's side 
+using [`web.eval()`](https://github.com/fubark/cyber/blob/c853fcc2b79da014ac40e9418db7c4cebea63177/src/web.zig#L50-L53) facility.
 
 </td>
 </tr>
