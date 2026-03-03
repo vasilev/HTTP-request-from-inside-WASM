@@ -320,7 +320,7 @@ wasi-http, Wasm Workers Server, wstd, raw wasip2 sockets](#rust-wasi)
 Berry: [berry](#berry)
 , CyberScript: [Cyber](#cyberscript)
 , Expression: [Cel-go, Expr, go-jsonnet, Gval](#expression)
-, Rebol: [rye](#rebol)
+, Rebol: [Rye, picorye](#rebol)
 
 </td>
 <td>
@@ -4162,6 +4162,47 @@ Browser
 [Using](https://github.com/refaktor/rye/blob/v0.0.32/evaldo/builtins_io.go#L143)
 Golang's [`"net/http"`](#go-net-http) via [mapping](https://github.com/refaktor/rye/blob/v0.0.32/evaldo/builtins_io.go#L813)
 to a Rye *word*.
+
+</td>
+</tr>
+<tr>
+<td>
+
+[PicoRye](https://github.com/refaktor/picorye)
+
+</td>
+<td>
+
+```clojure
+; Custom builtins
+"https://httpbin.org/anything" .httpget .print
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/rye/blob/4bc2dd54826c7e325df78c702124a49c1311059a/browser-and-deno-picorye/httpget.go#L22)
+
+</td>
+<td></td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/rye/picorye/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/rye)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/rye/blob/4bc2dd54826c7e325df78c702124a49c1311059a/browser-and-deno-picorye/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/rye/blob/4bc2dd54826c7e325df78c702124a49c1311059a/browser-and-deno-picorye/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/rye/blob/4bc2dd54826c7e325df78c702124a49c1311059a/browser-and-deno-picorye/httpget.go#L56) 
+Golang's [`"net/http"`](#go-net-http) via [injecting](https://github.com/wasm-outbound-http-examples/rye/blob/4bc2dd54826c7e325df78c702124a49c1311059a/browser-and-deno-picorye/httpget.go#L52) 
+a custom *builtin* into language.
 
 </td>
 </tr>
