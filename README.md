@@ -264,7 +264,7 @@ sycamore](#rust) Scripting: [Rune](#rust-scripting)
 <td>
 
 [reqwest, http_req, Extism PDK for Rust, Spin SDK for Rust, waki,
-wasi-http, Wasm Workers Server, wstd, raw wasip2 sockets](#rust-wasi)
+wasi-http, Wasm Workers Server, wstd, raw wasip2 sockets, Zed editor extension](#rust-wasi)
 
 </td>
 </tr>
@@ -7733,6 +7733,70 @@ println!("resp: {}", st);
 [Uses](https://github.com/bytecodealliance/wstd/blob/v0.6.5/src/net/tcp_stream.rs#L76)
 [imported](https://github.com/bytecodealliance/wstd/blob/v0.6.5/Cargo.toml#L102)
 [wasip2](https://crates.io/crates/wasip2).
+
+</td>
+</tr>
+<tr>
+<td>
+
+[Extensions for Zed editor](https://crates.io/crates/zed_extension_api)
+
+</td>
+<td>
+
+```rust
+use zed_extension_api::{ http_client };
+
+let resp = http_client::fetch(
+  &http_client::HttpRequest::builder()
+    .method(http_client::HttpMethod::Get)
+    .url("https://httpbin.org/anything")
+    .build()?,
+)?;
+let body = String::from_utf8(resp.body)
+  .expect("Invalid utf bytes");
+println!("body = {}", &body);
+```
+
+</td>
+<td>
+
+* [Example for `fetch()`](https://github.com/zed-extensions/csharp/blob/v1.0.4/src/language_servers/nuget.rs#L23)
+* [Example for `fetch_stream()`](https://github.com/zed-extensions/perplexity/blob/b3454b930dce587822ebfc63d1682dd289e68c8e/src/perplexity.rs#L64)
+* [Example for `download_file()`](https://github.com/zed-industries/zed/blob/v0.224.10/extensions/test-extension/src/test_extension.rs#L111)
+* [Example for `latest_github_ release()`](https://github.com/zed-extensions/java/blob/v6.8.12/src/jdk.rs#L92)
+* [Example for `fetch()`](https://github.com/wasm-outbound-http-examples/zed-extension/blob/1cfaf57a8524f4ec69c31135ccf94a2adae46058/src/lib.rs#L20)
+
+</td>
+<td>
+
+* [`http_client` doc](https://docs.rs/zed_extension_api/0.7.0/zed_extension_api/http_client/)
+* [`download_file()` doc](https://docs.rs/zed_extension_api/0.7.0/zed_extension_api/fn.download_file.html)
+* [`latest_github_release()` doc](https://docs.rs/zed_extension_api/0.7.0/zed_extension_api/fn.latest_github_release.html)
+
+</td>
+<td>
+
+[Demo project](https://github.com/wasm-outbound-http-examples/zed-extension/)
+
+</td>
+<td>
+
+Zed [uses](https://github.com/zed-industries/zed/blob/v0.225.10/Cargo.toml#L736-L745) Wasmtime
+
+</td>
+<td>
+
+Invokes ( 
+[1](https://github.com/zed-industries/zed/blob/v0.225.10/crates/extension_host/src/wasm_host/wit/since_v0_8_0.rs#L608),
+[2](https://github.com/zed-industries/zed/blob/v0.225.10/crates/extension_host/src/wasm_host/wit/since_v0_8_0.rs#L1057)
+)
+[bound](https://github.com/zed-industries/zed/blob/v0.225.10/crates/zed/src/main.rs#L459)
+[host function](https://github.com/zed-industries/zed/blob/v0.225.10/crates/reqwest_client/src/reqwest_client.rs#L226).
+
+[Uses](https://github.com/zed-industries/zed/blob/v0.225.10/crates/reqwest_client/src/reqwest_client.rs#L254) 
+[`reqwest`](https://github.com/zed-industries/zed/blob/v0.225.10/crates/reqwest_client/src/reqwest_client.rs#L254)
+on the host side.
 
 </td>
 </tr>
