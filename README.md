@@ -166,6 +166,7 @@ wasi-http-go, Wasm Workers Server](#golang-wasi)
 <td>
 
 [Janet](#lisp)
+Scheme: [Wile](#scheme)
 
 </td>
 <td></td>
@@ -2888,6 +2889,65 @@ Browser and maybe Node
 JS `XMLHttpRequest` interop by [invoking](https://github.com/wasm-outbound-http-examples/janet/blob/8608c9cfe1b2466deb645021e6130c2ca062b65f/browser-sync-xhr/main.c#L15) `emscripten_fetch()`
 from a custom [host function](https://github.com/wasm-outbound-http-examples/janet/blob/8608c9cfe1b2466deb645021e6130c2ca062b65f/browser-sync-xhr/main.c#L6)
 [injected](https://github.com/wasm-outbound-http-examples/janet/blob/8608c9cfe1b2466deb645021e6130c2ca062b65f/browser-sync-xhr/main.c#L36) into Janet.
+
+</td>
+</tr>
+</table>
+
+#### Scheme
+
+<table>
+<tr><th>Product / Implementation</th><th>TLDR: Usage</th><th>TLDR: Example code</th>
+<th>Doc</th>
+<th>Online demo</th>
+<th>WASM Runtime</th><th>Internals: method to do real request</th></tr>
+<tr>
+<td>
+
+[Wile](https://github.com/aalpar)
+
+<sub>Pure Go R7RS Scheme</sub>
+
+</td>
+<td>
+
+```scheme
+(display
+  ; custom primitive
+  (httpget "https://httpbin.org/anything"
+))
+(newline)
+```
+
+</td>
+<td>
+
+[Example](https://github.com/wasm-outbound-http-examples/lisp-in-go/blob/34462a00231fdf570266f24e481c746a1d3775a6/browser-and-deno-wile/main.go#L41)
+
+</td>
+<td>
+
+[custom _primitive_ doc](https://github.com/aalpar/wile/tree/v1.6.1?tab=readme-ov-file#bridging-go-and-scheme)
+
+</td>
+<td>
+
+* [Demo](https://wasm-outbound-http-examples.github.io/lisp-in-go/wile/)
+* [Dev Container](https://codespaces.new/wasm-outbound-http-examples/lisp-in-go)
+
+</td>
+<td>
+
+Browser,
+[Bun](https://github.com/wasm-outbound-http-examples/lisp-in-go/blob/34462a00231fdf570266f24e481c746a1d3775a6/browser-and-deno-wile/README.md#test-with-bun),
+and [Deno](https://github.com/wasm-outbound-http-examples/lisp-in-go/blob/34462a00231fdf570266f24e481c746a1d3775a6/browser-and-deno-wile/README.md#test-with-deno).
+
+</td>
+<td>
+
+[Using](https://github.com/wasm-outbound-http-examples/lisp-in-go/blob/34462a00231fdf570266f24e481c746a1d3775a6/browser-and-deno-wile/main.go#L27)
+Golang's [`"net/http"`](#go-net-http) by [mapping](https://github.com/wasm-outbound-http-examples/lisp-in-go/blob/34462a00231fdf570266f24e481c746a1d3775a6/browser-and-deno-wile/main.go#L21) 
+the custom primitive into Scheme VM.
 
 </td>
 </tr>
@@ -7795,7 +7855,7 @@ Invokes (
 [host function](https://github.com/zed-industries/zed/blob/v0.225.10/crates/reqwest_client/src/reqwest_client.rs#L226).
 
 [Uses](https://github.com/zed-industries/zed/blob/v0.225.10/crates/reqwest_client/src/reqwest_client.rs#L254) 
-[`reqwest`](https://github.com/zed-industries/zed/blob/v0.225.10/crates/reqwest_client/src/reqwest_client.rs#L254)
+[`reqwest`](https://github.com/zed-industries/zed/blob/v0.225.10/crates/reqwest_client/src/reqwest_client.rs#L29-L40)
 on the host side.
 
 </td>
